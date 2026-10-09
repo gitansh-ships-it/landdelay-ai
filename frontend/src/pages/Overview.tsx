@@ -45,13 +45,17 @@ export const Overview: React.FC = () => {
         if (v) cleanedFilters[k] = v;
       });
 
-      const [summaryRes, chartsRes] = await Promise.all([
+      const [summarySettled, chartsSettled] = await Promise.allSettled([
         api.getDashboardSummary(cleanedFilters),
         api.getDashboardCharts(cleanedFilters)
       ]);
 
-      setSummary(summaryRes);
-      setCharts(chartsRes);
+      if (summarySettled.status === 'fulfilled') {
+        setSummary(summarySettled.value);
+      }
+      if (chartsSettled.status === 'fulfilled') {
+        setCharts(chartsSettled.value);
+      }
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     } finally {

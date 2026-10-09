@@ -142,17 +142,25 @@ def get_dashboard_charts(
     monthly = []
     today = date.today()
     for m_offset in range(5, -1, -1):
-        target_month_dt = today.replace(day=1) - timedelta(days=m_offset * 30)
-        m_name = target_month_dt.strftime("%b %Y")
+        total_months = today.year * 12 + today.month - 1 - m_offset
+        y = total_months // 12
+        m = total_months % 12 + 1
+        start_dt = date(y, m, 1)
+        next_dt = date(y + 1, 1, 1) if m == 12 else date(y, m + 1, 1)
+        m_name = start_dt.strftime("%b %Y")
+
         started = filtered.filter(
-            func.strftime("%Y-%m", AcquisitionCase.stage_entry_date) == target_month_dt.strftime("%Y-%m")
+            AcquisitionCase.stage_entry_date >= start_dt,
+            AcquisitionCase.stage_entry_date < next_dt
         ).count()
         completed = filtered.filter(
-            func.strftime("%Y-%m", AcquisitionCase.actual_stage_date) == target_month_dt.strftime("%Y-%m")
+            AcquisitionCase.actual_stage_date >= start_dt,
+            AcquisitionCase.actual_stage_date < next_dt
         ).count()
         delayed = filtered.filter(
             AcquisitionCase.delayed == True,
-            func.strftime("%Y-%m", AcquisitionCase.stage_entry_date) == target_month_dt.strftime("%Y-%m")
+            AcquisitionCase.stage_entry_date >= start_dt,
+            AcquisitionCase.stage_entry_date < next_dt
         ).count()
         monthly.append(MonthlyProgressionItem(
             month=m_name,
