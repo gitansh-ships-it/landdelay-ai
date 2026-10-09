@@ -6,7 +6,9 @@ import {
   CheckCircle2,
   Menu,
   Sun,
-  Moon
+  Moon,
+  ChevronUp,
+  ChevronDown
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
@@ -29,6 +31,22 @@ export const Header: React.FC<HeaderProps> = ({
   const { theme, toggleTheme } = useTheme();
   const [isResetting, setIsResetting] = useState(false);
   const [resetMsg, setResetMsg] = useState<string | null>(null);
+
+  // Desktop header collapse state (persisted in localStorage)
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('landdelay_header_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleCollapse = (collapsed: boolean) => {
+    setIsCollapsed(collapsed);
+    try {
+      localStorage.setItem('landdelay_header_collapsed', String(collapsed));
+    } catch {}
+  };
 
   const handleReset = async () => {
     const key = window.prompt(
@@ -55,78 +73,146 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="h-16 bg-white/65 dark:bg-slate-900/60 backdrop-blur-glass border-b border-white/60 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-glass dark:shadow-glass-dark transition-colors duration-300">
-      <div className="flex items-center gap-3">
-        {onToggleSidebar && (
-          <button
-            onClick={onToggleSidebar}
-            className="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
-            title="Toggle Menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-        )}
-        <div>
-          <h2 className="text-sm sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-          {subtitle && <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-400 font-medium">{subtitle}</p>}
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Reset Feedback Notification */}
-        {resetMsg && (
-          <div className="hidden md:flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-xl animate-fade-in backdrop-blur-xs">
-            <CheckCircle2 className="h-3.5 w-3.5" />
-            <span>{resetMsg}</span>
-          </div>
-        )}
-
-        {/* Data Provenance Pill */}
-        {isSyntheticActive ? (
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/25 text-amber-800 dark:text-amber-300 rounded-full text-[11px] sm:text-xs font-semibold backdrop-blur-xs">
-            <AlertCircle className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
-            <span className="hidden sm:inline">SYNTHETIC DEMO MODE</span>
-            <span className="sm:hidden">DEMO</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/25 text-emerald-800 dark:text-emerald-300 rounded-full text-[11px] sm:text-xs font-semibold backdrop-blur-xs">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-            <span className="hidden sm:inline">VERIFIED PUBLIC DATA</span>
-            <span className="sm:hidden">VERIFIED</span>
-          </div>
-        )}
-
-        {/* System Online Status */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 rounded-xl text-xs font-mono backdrop-blur-xs">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>API v1.0</span>
-        </div>
-
-        {/* Dark/Light Mode Toggle */}
-        <button
-          onClick={toggleTheme}
-          title={theme === 'dark' ? 'Switch to Serene Light Mode' : 'Switch to Deep Navy Dark Mode'}
-          className="p-2 bg-white/60 dark:bg-slate-800/60 hover:bg-white/90 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 rounded-xl text-slate-700 dark:text-slate-200 transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95"
-        >
-          {theme === 'dark' ? (
-            <Sun className="h-4 w-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
-          ) : (
-            <Moon className="h-4 w-4 text-sky-600 transition-transform duration-300 rotate-0 hover:-rotate-12" />
+    <>
+      <header
+        className={`bg-white/65 dark:bg-slate-900/60 backdrop-blur-glass border-b border-white/60 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-glass dark:shadow-glass-dark transition-all duration-300 ${
+          isCollapsed
+            ? 'h-16 lg:h-0 lg:min-h-0 lg:py-0 lg:opacity-0 lg:overflow-hidden lg:border-b-0 lg:pointer-events-none'
+            : 'h-16'
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          {onToggleSidebar && (
+            <button
+              onClick={onToggleSidebar}
+              className="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
+              title="Toggle Menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           )}
-        </button>
+          <div>
+            <h2 className="text-sm sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+            {subtitle && <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-400 font-medium">{subtitle}</p>}
+          </div>
+        </div>
 
-        {/* Quick Reseed / Reset Button */}
-        <button
-          onClick={handleReset}
-          disabled={isResetting}
-          title="Reset and reseed 250 deterministic demonstration cases"
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/90 dark:bg-slate-800/90 hover:bg-slate-900 dark:hover:bg-slate-700 text-white text-[11px] sm:text-xs font-medium rounded-xl transition-all shadow-xs disabled:opacity-50 border border-white/10 active:scale-95"
-        >
-          <RefreshCw className={`h-3.5 w-3.5 ${isResetting ? 'animate-spin' : ''}`} />
-          <span className="hidden sm:inline">{isResetting ? 'Resetting...' : 'Reseed Demo'}</span>
-          <span className="sm:hidden">Reset</span>
-        </button>
-      </div>
-    </header>
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Reset Feedback Notification */}
+          {resetMsg && (
+            <div className="hidden md:flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-xl animate-fade-in backdrop-blur-xs">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              <span>{resetMsg}</span>
+            </div>
+          )}
+
+          {/* Data Provenance Pill */}
+          {isSyntheticActive ? (
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/25 text-amber-800 dark:text-amber-300 rounded-full text-[11px] sm:text-xs font-semibold backdrop-blur-xs">
+              <AlertCircle className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span className="hidden sm:inline">SYNTHETIC DEMO MODE</span>
+              <span className="sm:hidden">DEMO</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/25 text-emerald-800 dark:text-emerald-300 rounded-full text-[11px] sm:text-xs font-semibold backdrop-blur-xs">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span className="hidden sm:inline">VERIFIED PUBLIC DATA</span>
+              <span className="sm:hidden">VERIFIED</span>
+            </div>
+          )}
+
+          {/* System Online Status */}
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 rounded-xl text-xs font-mono backdrop-blur-xs">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>API v1.0</span>
+          </div>
+
+          {/* Dark/Light Mode Toggle */}
+          <button
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Switch to Serene Light Mode' : 'Switch to Deep Navy Dark Mode'}
+            className="p-2 bg-white/60 dark:bg-slate-800/60 hover:bg-white/90 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 rounded-xl text-slate-700 dark:text-slate-200 transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95"
+          >
+            {theme === 'dark' ? (
+              <Sun className="h-4 w-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
+            ) : (
+              <Moon className="h-4 w-4 text-sky-600 transition-transform duration-300 rotate-0 hover:-rotate-12" />
+            )}
+          </button>
+
+          {/* Quick Reseed / Reset Button */}
+          <button
+            onClick={handleReset}
+            disabled={isResetting}
+            title="Reset and reseed 250 deterministic demonstration cases"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/90 dark:bg-slate-800/90 hover:bg-slate-900 dark:hover:bg-slate-700 text-white text-[11px] sm:text-xs font-medium rounded-xl transition-all shadow-xs disabled:opacity-50 border border-white/10 active:scale-95"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isResetting ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">{isResetting ? 'Resetting...' : 'Reseed Demo'}</span>
+            <span className="sm:hidden">Reset</span>
+          </button>
+
+          {/* Collapse Header Button (Desktop View) */}
+          <button
+            onClick={() => toggleCollapse(true)}
+            title="Collapse Header (Maximize Workspace View)"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-white/60 dark:bg-slate-800/60 hover:bg-white/90 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ChevronUp className="h-3.5 w-3.5 text-sky-500" />
+            <span>Collapse</span>
+          </button>
+        </div>
+      </header>
+
+      {/* Floating Collapsed Header Island (Desktop View) */}
+      {isCollapsed && (
+        <div className="fixed top-3 right-6 z-40 hidden lg:flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-glass border border-white/70 dark:border-white/10 shadow-glass-lg text-xs animate-fadeIn transition-all">
+          <div className="flex items-center gap-2 pr-3 border-r border-slate-200/80 dark:border-slate-700/80">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-bold text-slate-900 dark:text-white max-w-[200px] truncate">
+              {title}
+            </span>
+          </div>
+
+          {/* Provenance Indicator */}
+          <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-400/20">
+            <span>{isSyntheticActive ? 'DEMO' : 'LIVE'}</span>
+          </div>
+
+          {/* Theme Switcher */}
+          <button
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            className="p-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
+          >
+            {theme === 'dark' ? (
+              <Sun className="h-3.5 w-3.5 text-amber-400" />
+            ) : (
+              <Moon className="h-3.5 w-3.5 text-sky-600" />
+            )}
+          </button>
+
+          {/* Quick Reseed */}
+          <button
+            onClick={handleReset}
+            disabled={isResetting}
+            title="Reset and reseed demo cases"
+            className="p-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isResetting ? 'animate-spin' : ''}`} />
+          </button>
+
+          {/* Expand Header Action */}
+          <button
+            onClick={() => toggleCollapse(false)}
+            title="Expand Header"
+            className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white rounded-xl font-semibold shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ChevronDown className="h-3.5 w-3.5" />
+            <span>Expand</span>
+          </button>
+        </div>
+      )}
+    </>
   );
 };
