@@ -261,25 +261,25 @@ export const Cases: React.FC = () => {
       </div>
 
       {/* Cases Registry Table */}
-      <div className="glass-panel overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-xs">
+      <div className="w-full min-w-0 glass-panel overflow-hidden">
+        <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
+          <table className="w-full min-w-[860px] text-left border-collapse text-xs">
             <thead>
               <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 uppercase font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
                 <th
                   onClick={() => handleSort('case_id')}
-                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
+                  className="py-3 px-4 min-w-[120px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Case ID</span>
                     <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
-                <th className="py-3 px-4">Project & Location</th>
-                <th className="py-3 px-4">Stage</th>
+                <th className="py-3 px-4 min-w-[180px]">Project & Location</th>
+                <th className="py-3 px-4 min-w-[150px]">Stage</th>
                 <th
                   onClick={() => handleSort('land_required_hectares')}
-                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
+                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Land (ha)</span>
@@ -288,25 +288,25 @@ export const Cases: React.FC = () => {
                 </th>
                 <th
                   onClick={() => handleSort('delay_days')}
-                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
+                  className="py-3 px-4 min-w-[90px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Delay</span>
                     <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
-                <th className="py-3 px-4">Indicators</th>
+                <th className="py-3 px-4 min-w-[110px]">Indicators</th>
                 <th
                   onClick={() => handleSort('risk_score')}
-                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
+                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Risk Level</span>
                     <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
-                <th className="py-3 px-4">Data Source</th>
-                <th className="py-3 px-4 text-right">Action</th>
+                <th className="py-3 px-4 min-w-[110px]">Data Source</th>
+                <th className="py-3 px-4 min-w-[70px] text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
@@ -424,8 +424,8 @@ export const Cases: React.FC = () => {
         </div>
 
         {/* Pagination Footer */}
-        <div className="p-4 border-t border-sky-100/60 dark:border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/30 dark:bg-slate-800/20">
-          <div className="flex items-center gap-3">
+        <div className="p-4 border-t border-sky-100/60 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/30 dark:bg-slate-800/20">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3">
             <span>
               Showing {(data.page - 1) * data.page_size + 1} to{' '}
               {Math.min(data.page * data.page_size, data.total)} of {data.total} records
@@ -491,7 +491,7 @@ export const Cases: React.FC = () => {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Case ID *</label>
                   <input
@@ -530,7 +530,7 @@ export const Cases: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">State</label>
                   <input
@@ -553,7 +553,7 @@ export const Cases: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Land Required (Hectares)</label>
                   <input

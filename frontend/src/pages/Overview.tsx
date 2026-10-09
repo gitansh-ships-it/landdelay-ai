@@ -332,7 +332,7 @@ export const Overview: React.FC = () => {
                   <h4 className="text-sm font-bold text-[#18344D] dark:text-white mb-0.5">Monthly Case Progression</h4>
                   <p className="text-xs text-[#607D95] dark:text-slate-400">Milestone velocity: initiated, delayed, and completed</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-[#1687E8]/10 text-[#1264B3] dark:text-sky-300 border border-[#1687E8]/20">
                     Initiated: {totalStarted}
                   </span>
@@ -439,16 +439,16 @@ export const Overview: React.FC = () => {
               </button>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
+            <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
+              <table className="w-full min-w-[680px] text-left border-collapse text-xs">
                 <thead>
                   <tr className="bg-[#EAF6FF]/80 dark:bg-slate-800/60 text-[#607D95] dark:text-slate-300 uppercase font-semibold text-[11px] border-b border-[#DDEFFF] dark:border-white/10">
-                    <th className="py-3 px-4">Case ID</th>
-                    <th className="py-3 px-4">Project & Location</th>
-                    <th className="py-3 px-4">Current Stage</th>
-                    <th className="py-3 px-4">Primary Risk Trigger</th>
-                    <th className="py-3 px-4">Risk Level</th>
-                    <th className="py-3 px-4 text-right">Action</th>
+                    <th className="py-3 px-4 min-w-[120px] whitespace-nowrap">Case ID</th>
+                    <th className="py-3 px-4 min-w-[180px]">Project & Location</th>
+                    <th className="py-3 px-4 min-w-[160px]">Current Stage</th>
+                    <th className="py-3 px-4 min-w-[160px]">Primary Risk Trigger</th>
+                    <th className="py-3 px-4 min-w-[100px]">Risk Level</th>
+                    <th className="py-3 px-4 text-right min-w-[80px]">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#DDEFFF]/60 dark:divide-white/5">

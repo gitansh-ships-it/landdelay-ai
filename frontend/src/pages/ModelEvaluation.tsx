@@ -114,7 +114,7 @@ export const ModelEvaluation: React.FC = () => {
       ) : (
         <>
           {/* Metadata Card */}
-          <div className="glass-panel p-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+          <div className="glass-panel p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 text-xs">
             <div>
               <p className="text-slate-400 dark:text-slate-500 font-medium">Target Definition</p>
               <p className="font-bold text-slate-800 dark:text-slate-200 mt-0.5">Stage Deadline Slippage (delayed = 1)</p>
@@ -136,72 +136,77 @@ export const ModelEvaluation: React.FC = () => {
           </div>
 
           {/* Model Comparison Table */}
-          <div className="glass-panel overflow-hidden">
-            <div className="p-5 border-b border-sky-100/60 dark:border-white/10">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <BarChart3 className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-                <span>Supervised Classifier Performance Metrics</span>
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Baseline Logistic Regression with L2 regularization vs Decision Tree / Ensemble comparison
-              </p>
+          <div className="w-full min-w-0 glass-panel overflow-hidden">
+            <div className="p-4 sm:p-5 border-b border-sky-100/60 dark:border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+              <div>
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <BarChart3 className="h-4 w-4 text-sky-600 dark:text-sky-400 shrink-0" />
+                  <span>Supervised Classifier Performance Metrics</span>
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Baseline Logistic Regression with L2 regularization vs Decision Tree / Ensemble comparison
+                </p>
+              </div>
+              <div className="sm:hidden text-[11px] text-sky-600 dark:text-sky-400 font-medium flex items-center gap-1 pt-0.5">
+                <span>← Scroll horizontally for full comparison →</span>
+              </div>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
+            <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
+              <table className="w-full min-w-[720px] text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 uppercase font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
-                    <th className="py-3 px-4">Evaluation Metric</th>
-                    <th className="py-3 px-4 text-sky-600 dark:text-sky-400 font-bold">Baseline: Logistic Regression</th>
-                    <th className="py-3 px-4 text-slate-700 dark:text-slate-300 font-bold">Comparison: Tree Ensemble</th>
-                    <th className="py-3 px-4 text-slate-500 dark:text-slate-400 font-normal">Ideal Value / Purpose</th>
+                    <th className="py-3 px-4 min-w-[190px]">Evaluation Metric</th>
+                    <th className="py-3 px-4 min-w-[160px] text-sky-600 dark:text-sky-400 font-bold whitespace-nowrap">Baseline: Logistic Regression</th>
+                    <th className="py-3 px-4 min-w-[160px] text-slate-700 dark:text-slate-300 font-bold whitespace-nowrap">Comparison: Tree Ensemble</th>
+                    <th className="py-3 px-4 min-w-[210px] text-slate-500 dark:text-slate-400 font-normal">Ideal Value / Purpose</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
                   <tr className="hover:bg-sky-50/30 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">Accuracy</td>
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">{(baseline.accuracy * 100).toFixed(1)}%</td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">Accuracy</td>
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{(baseline.accuracy * 100).toFixed(1)}%</td>
+                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                       {comparison ? `${(comparison.accuracy * 100).toFixed(1)}%` : '—'}
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">Proportion of all correct predictions</td>
                   </tr>
                   <tr className="hover:bg-sky-50/30 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">Precision (Delay Detection)</td>
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">{(baseline.precision * 100).toFixed(1)}%</td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">Precision (Delay Detection)</td>
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{(baseline.precision * 100).toFixed(1)}%</td>
+                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                       {comparison ? `${(comparison.precision * 100).toFixed(1)}%` : '—'}
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">Minimizes false alarms for project officers</td>
                   </tr>
                   <tr className="hover:bg-sky-50/30 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">Recall (Delay Coverage)</td>
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">{(baseline.recall * 100).toFixed(1)}%</td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">Recall (Delay Coverage)</td>
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{(baseline.recall * 100).toFixed(1)}%</td>
+                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                       {comparison ? `${(comparison.recall * 100).toFixed(1)}%` : '—'}
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">Catches all emerging milestones slipping schedule</td>
                   </tr>
                   <tr className="hover:bg-sky-50/30 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">F1 Score (Balanced)</td>
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">{baseline.f1_score.toFixed(3)}</td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">F1 Score (Balanced)</td>
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{baseline.f1_score.toFixed(3)}</td>
+                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                       {comparison ? comparison.f1_score.toFixed(3) : '—'}
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">Harmonic mean of precision and recall</td>
                   </tr>
                   <tr className="hover:bg-sky-50/30 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">Brier Score Loss</td>
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">{baseline.brier_score ?? '—'}</td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">Brier Score Loss</td>
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{baseline.brier_score ?? '—'}</td>
+                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                       {comparison ? comparison.brier_score : '—'}
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">Probability calibration error (closer to 0 is better)</td>
                   </tr>
                   <tr className="hover:bg-sky-50/30 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">PR-AUC</td>
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">{baseline.pr_auc ?? '—'}</td>
-                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200">
+                    <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">PR-AUC</td>
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{baseline.pr_auc ?? '—'}</td>
+                    <td className="py-3 px-4 font-mono font-bold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                       {comparison ? comparison.pr_auc : '—'}
                     </td>
                     <td className="py-3 px-4 text-slate-500 dark:text-slate-400 text-[11px]">Area under Precision-Recall curve</td>
@@ -214,64 +219,64 @@ export const ModelEvaluation: React.FC = () => {
           {/* Grid: Confusion Matrix & Feature Importances */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Confusion Matrix Card */}
-            <div className="glass-panel p-6 space-y-4">
+            <div className="glass-panel p-4 sm:p-6 space-y-4">
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">Holdout Confusion Matrix (Test Set)</h4>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 Evaluating {baseline.test_count} unseen test records against true statutory outcomes
               </p>
 
-              <div className="grid grid-cols-2 gap-3 text-center text-xs">
-                <div className="p-4 bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-400/25 rounded-2xl">
-                  <div className="text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold uppercase">True Negatives (TN)</div>
-                  <div className="text-3xl font-extrabold text-emerald-900 dark:text-emerald-100 font-mono mt-1">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 text-center text-xs">
+                <div className="p-3 sm:p-4 bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-400/25 rounded-2xl">
+                  <div className="text-[10px] sm:text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold uppercase">True Negatives (TN)</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-emerald-900 dark:text-emerald-100 font-mono mt-1">
                     {baseline.confusion_matrix[0][0]}
                   </div>
-                  <div className="text-[10px] text-emerald-700 dark:text-emerald-400 mt-1">Correctly identified on-time</div>
+                  <div className="text-[9px] sm:text-[10px] text-emerald-700 dark:text-emerald-400 mt-1">Correctly on-time</div>
                 </div>
 
-                <div className="p-4 bg-rose-500/10 dark:bg-rose-400/10 border border-rose-400/25 rounded-2xl">
-                  <div className="text-[11px] text-rose-800 dark:text-rose-300 font-semibold uppercase">False Positives (FP)</div>
-                  <div className="text-3xl font-extrabold text-rose-900 dark:text-rose-100 font-mono mt-1">
+                <div className="p-3 sm:p-4 bg-rose-500/10 dark:bg-rose-400/10 border border-rose-400/25 rounded-2xl">
+                  <div className="text-[10px] sm:text-[11px] text-rose-800 dark:text-rose-300 font-semibold uppercase">False Positives (FP)</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-rose-900 dark:text-rose-100 font-mono mt-1">
                     {baseline.confusion_matrix[0][1]}
                   </div>
-                  <div className="text-[10px] text-rose-700 dark:text-rose-400 mt-1">On-time flagged as delayed</div>
+                  <div className="text-[9px] sm:text-[10px] text-rose-700 dark:text-rose-400 mt-1">Falsely delayed</div>
                 </div>
 
-                <div className="p-4 bg-amber-500/10 dark:bg-amber-400/10 border border-amber-400/25 rounded-2xl">
-                  <div className="text-[11px] text-amber-800 dark:text-amber-300 font-semibold uppercase">False Negatives (FN)</div>
-                  <div className="text-3xl font-extrabold text-amber-900 dark:text-amber-100 font-mono mt-1">
+                <div className="p-3 sm:p-4 bg-amber-500/10 dark:bg-amber-400/10 border border-amber-400/25 rounded-2xl">
+                  <div className="text-[10px] sm:text-[11px] text-amber-800 dark:text-amber-300 font-semibold uppercase">False Negatives (FN)</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-amber-900 dark:text-amber-100 font-mono mt-1">
                     {baseline.confusion_matrix[1][0]}
                   </div>
-                  <div className="text-[10px] text-amber-700 dark:text-amber-400 mt-1">Delayed missed by model</div>
+                  <div className="text-[9px] sm:text-[10px] text-amber-700 dark:text-amber-400 mt-1">Missed delayed</div>
                 </div>
 
-                <div className="p-4 bg-sky-500/10 dark:bg-sky-400/10 border border-sky-400/25 rounded-2xl">
-                  <div className="text-[11px] text-sky-800 dark:text-sky-300 font-semibold uppercase">True Positives (TP)</div>
-                  <div className="text-3xl font-extrabold text-sky-900 dark:text-sky-100 font-mono mt-1">
+                <div className="p-3 sm:p-4 bg-sky-500/10 dark:bg-sky-400/10 border border-sky-400/25 rounded-2xl">
+                  <div className="text-[10px] sm:text-[11px] text-sky-800 dark:text-sky-300 font-semibold uppercase">True Positives (TP)</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-sky-900 dark:text-sky-100 font-mono mt-1">
                     {baseline.confusion_matrix[1][1]}
                   </div>
-                  <div className="text-[10px] text-sky-700 dark:text-sky-400 mt-1">Correctly caught delayed</div>
+                  <div className="text-[9px] sm:text-[10px] text-sky-700 dark:text-sky-400 mt-1">Correctly delayed</div>
                 </div>
               </div>
             </div>
 
             {/* Feature Importance Bar Chart */}
-            <div className="glass-panel p-6">
+            <div className="glass-panel p-4 sm:p-6 w-full min-w-0">
               <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">Pre-Outcome Feature Drivers</h4>
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
                 Relative influence of administrative variables on delay classification
               </p>
 
-              <div className="h-64">
+              <div className="h-64 w-full min-w-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     layout="vertical"
                     data={evaluation?.feature_importance || []}
-                    margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                    margin={{ top: 5, right: 15, left: 0, bottom: 5 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(2,132,199,0.08)'} />
                     <XAxis type="number" domain={[0, 0.4]} tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }} />
-                    <YAxis dataKey="feature" type="category" tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }} width={120} />
+                    <YAxis dataKey="feature" type="category" tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }} width={105} />
                     <Tooltip contentStyle={glassTooltipStyle} />
                     <Bar dataKey="importance" name="Weight" fill="#0284c7" radius={[0, 6, 6, 0]} />
                   </BarChart>
@@ -281,8 +286,8 @@ export const ModelEvaluation: React.FC = () => {
           </div>
 
           {/* Interactive ML Prediction Sandbox */}
-          <div className="glass-panel p-6 space-y-4">
-            <div className="border-b border-sky-100/60 dark:border-white/10 pb-3 flex items-center justify-between">
+          <div className="glass-panel p-4 sm:p-6 space-y-4">
+            <div className="border-b border-sky-100/60 dark:border-white/10 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-sky-600 dark:text-sky-400" />
@@ -379,7 +384,7 @@ export const ModelEvaluation: React.FC = () => {
 
             {predResult && (
               <div className="p-4 bg-white/40 dark:bg-slate-800/40 border border-sky-100/60 dark:border-white/5 rounded-2xl mt-4 space-y-2 text-xs animate-fade-in">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="font-bold text-slate-900 dark:text-white">
                     Predicted Delay Probability: <span className="font-mono text-sky-600 dark:text-sky-400 text-sm">{(predResult.probability * 100).toFixed(1)}%</span>
                   </div>

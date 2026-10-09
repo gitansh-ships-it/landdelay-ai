@@ -109,7 +109,7 @@ export const GeographicView: React.FC = () => {
       )}
 
       {/* Map Container */}
-      <div className="glass-panel p-2 overflow-hidden h-[600px] relative">
+      <div className="glass-panel p-2 overflow-hidden h-[450px] sm:h-[600px] relative">
         <MapContainer
           center={[22.5937, 78.9629]} // Center of India
           zoom={5}

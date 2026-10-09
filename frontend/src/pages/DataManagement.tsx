@@ -274,27 +274,27 @@ export const DataManagement: React.FC = () => {
 
             {/* Sample Records Table */}
             {preview.sample_records.length > 0 && (
-              <div className="overflow-x-auto rounded-xl border border-sky-100/60 dark:border-white/10">
-                <table className="w-full text-left text-xs border-collapse">
+              <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain rounded-xl border border-sky-100/60 dark:border-white/10">
+                <table className="w-full min-w-[620px] text-left text-xs border-collapse">
                   <thead>
                     <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
-                      <th className="p-2.5">Case ID</th>
-                      <th className="p-2.5">Project</th>
-                      <th className="p-2.5">State / District</th>
-                      <th className="p-2.5">Stage</th>
-                      <th className="p-2.5">Land (ha)</th>
-                      <th className="p-2.5">Source</th>
+                      <th className="p-2.5 min-w-[100px] whitespace-nowrap">Case ID</th>
+                      <th className="p-2.5 min-w-[160px]">Project</th>
+                      <th className="p-2.5 min-w-[130px]">State / District</th>
+                      <th className="p-2.5 min-w-[140px]">Stage</th>
+                      <th className="p-2.5 min-w-[90px]">Land (ha)</th>
+                      <th className="p-2.5 min-w-[100px]">Source</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
                     {preview.sample_records.map((r, i) => (
                       <tr key={i} className="hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors">
-                        <td className="p-2.5 font-mono font-bold text-sky-600 dark:text-sky-400">{r.case_id}</td>
+                        <td className="p-2.5 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{r.case_id}</td>
                         <td className="p-2.5 font-medium text-slate-900 dark:text-slate-100">{r.project_name}</td>
                         <td className="p-2.5 text-slate-600 dark:text-slate-300">{r.district}, {r.state}</td>
                         <td className="p-2.5 text-slate-700 dark:text-slate-300">{r.current_stage}</td>
                         <td className="p-2.5 font-mono text-slate-900 dark:text-slate-100">{r.land_required_hectares}</td>
-                        <td className="p-2.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">{r.data_source}</td>
+                        <td className="p-2.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 whitespace-nowrap">{r.data_source}</td>
                       </tr>
                     ))}
                   </tbody>

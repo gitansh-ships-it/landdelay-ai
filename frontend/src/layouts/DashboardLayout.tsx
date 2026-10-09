@@ -87,7 +87,7 @@ export const DashboardLayout: React.FC = () => {
           isSyntheticActive={isSynthetic}
           onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
         />
-        <main className="flex-1 overflow-y-auto p-4 sm:p-8 focus:outline-none">
+        <main className="flex-1 overflow-y-auto p-3.5 sm:p-8 focus:outline-none w-full min-w-0">
           <Outlet context={{ refreshTrigger, setRefreshTrigger }} />
         </main>
       </div>

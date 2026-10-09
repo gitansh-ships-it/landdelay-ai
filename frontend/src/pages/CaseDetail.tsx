@@ -147,7 +147,7 @@ export const CaseDetail: React.FC = () => {
             <ArrowLeft className="h-4 w-4" />
           </button>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="font-mono font-bold text-lg text-sky-600 dark:text-sky-400">{caseData.case_id}</span>
               <RiskBadge category={caseData.risk_category} score={caseData.risk_score} size="md" />
               {caseData.data_source === 'SYNTHETIC_DEMO_DATA' ? (
@@ -166,7 +166,7 @@ export const CaseDetail: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setIsEditOpen(true)}
             className="glass-btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
@@ -200,7 +200,7 @@ export const CaseDetail: React.FC = () => {
             <span>Parcel & Acquisition Status</span>
           </h3>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 py-2 border-y border-sky-100/60 dark:border-white/5 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 py-2 border-y border-sky-100/60 dark:border-white/5 text-xs">
             <div>
               <p className="text-slate-400 dark:text-slate-500 font-medium">Infrastructure Sector</p>
               <p className="font-semibold text-slate-900 dark:text-slate-100 mt-0.5">{caseData.project_type}</p>

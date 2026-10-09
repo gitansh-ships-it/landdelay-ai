@@ -205,18 +205,18 @@ export const RiskAnalytics: React.FC = () => {
       </div>
 
       {/* Interactive Risk Engine Simulator / Sandbox */}
-      <div className="glass-panel p-6 space-y-6">
-        <div className="flex items-center justify-between border-b border-sky-100/60 dark:border-white/10 pb-4">
+      <div className="glass-panel p-4 sm:p-6 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sky-100/60 dark:border-white/10 pb-4">
           <div>
             <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Sliders className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+              <Sliders className="h-4 w-4 text-sky-600 dark:text-sky-400 shrink-0" />
               <span>Interactive Transparent Risk Engine Simulator</span>
             </h4>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               Simulate how specific statutory bottlenecks and mitigations impact the computed delay score
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 self-start sm:self-auto">
             <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Live Result:</span>
             <RiskBadge category={simResult.category} score={simResult.score} size="md" />
           </div>
