@@ -11,7 +11,9 @@ import {
   Settings,
   Landmark,
   Scale,
-  X
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -19,13 +21,15 @@ interface SidebarProps {
   mobileOpen?: boolean;
   onClose?: () => void;
   desktopCollapsed?: boolean;
+  onToggleDesktopCollapse?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   pendingActionsCount = 0,
   mobileOpen = false,
   onClose,
-  desktopCollapsed = false
+  desktopCollapsed = false,
+  onToggleDesktopCollapse
 }) => {
   const navItems = [
     { name: 'Overview', path: '/', icon: LayoutDashboard },
@@ -56,32 +60,86 @@ export const Sidebar: React.FC<SidebarProps> = ({
         } w-64`}
       >
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-white/70 dark:border-white/10 bg-white/35 dark:bg-black/20 relative">
+        <div className={`h-16 flex items-center justify-between ${
+          desktopCollapsed ? 'px-2 lg:px-2' : 'px-4 sm:px-5'
+        } border-b border-white/70 dark:border-white/10 bg-white/35 dark:bg-black/20 relative`}>
           {desktopCollapsed ? (
-            <div className="flex items-center justify-center w-full">
-              <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#1687E8] to-[#1264B3] flex items-center justify-center text-white shadow-md shadow-[#1687E8]/25 border border-white/40">
-                <Landmark className="h-5 w-5" />
+            <>
+              {/* Collapsed view on desktop: compact logo + expand chevron */}
+              <div className="hidden lg:flex items-center justify-center gap-1.5 w-full">
+                <div
+                  className="h-8 w-8 rounded-xl bg-gradient-to-tr from-[#1687E8] to-[#1264B3] flex items-center justify-center text-white shadow-sm shadow-[#1687E8]/25 border border-white/40 shrink-0"
+                  title="LandDelay AI"
+                >
+                  <Landmark className="h-4 w-4" />
+                </div>
+                {onToggleDesktopCollapse && (
+                  <button
+                    onClick={onToggleDesktopCollapse}
+                    className="p-1 text-[#607D95] dark:text-slate-400 hover:text-[#18344D] dark:hover:text-white rounded-lg hover:bg-white/60 dark:hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                    title="Expand Sidebar"
+                    aria-label="Expand Sidebar"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                )}
               </div>
-            </div>
+
+              {/* Mobile view when desktop is collapsed: full drawer header with close button */}
+              <div className="flex lg:hidden items-center justify-between w-full">
+                <div className="flex items-center gap-3">
+                  <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#1687E8] to-[#1264B3] flex items-center justify-center text-white shadow-md shadow-[#1687E8]/25 border border-white/40 shrink-0">
+                    <Landmark className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-base text-[#18344D] dark:text-white tracking-tight flex items-center gap-1.5">
+                      LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#1687E8]/10 dark:bg-sky-500/20 text-[#1264B3] dark:text-sky-300 font-mono font-medium border border-[#1687E8]/25">AI</span>
+                    </h1>
+                    <p className="text-[10px] text-[#607D95] dark:text-slate-400 font-medium">Predictive Delay Analytics</p>
+                  </div>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="p-1.5 text-[#607D95] hover:text-[#18344D] dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-white/50 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                  title="Close Menu"
+                  aria-label="Close Menu"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+            </>
           ) : (
             <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0">
                 <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#1687E8] to-[#1264B3] flex items-center justify-center text-white shadow-md shadow-[#1687E8]/25 border border-white/40 shrink-0">
                   <Landmark className="h-5 w-5" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <h1 className="font-bold text-base text-[#18344D] dark:text-white tracking-tight flex items-center gap-1.5">
                     LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-[#1687E8]/10 dark:bg-sky-500/20 text-[#1264B3] dark:text-sky-300 font-mono font-medium border border-[#1687E8]/25">AI</span>
                   </h1>
-                  <p className="text-[10px] text-[#607D95] dark:text-slate-400 font-medium">Predictive Delay Analytics</p>
+                  <p className="text-[10px] text-[#607D95] dark:text-slate-400 font-medium truncate">Predictive Delay Analytics</p>
                 </div>
               </div>
+
+              {/* Desktop collapse toggle button */}
+              {onToggleDesktopCollapse && (
+                <button
+                  onClick={onToggleDesktopCollapse}
+                  className="hidden lg:flex p-1.5 text-[#607D95] dark:text-slate-400 hover:text-[#18344D] dark:hover:text-white rounded-lg hover:bg-white/60 dark:hover:bg-white/10 transition-colors cursor-pointer shrink-0 ml-1"
+                  title="Collapse Sidebar"
+                  aria-label="Collapse Sidebar"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+              )}
 
               {/* Mobile close button */}
               <button
                 onClick={onClose}
-                className="lg:hidden p-1.5 text-[#607D95] hover:text-[#18344D] dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-white/50 dark:hover:bg-white/10 transition-colors"
+                className="lg:hidden p-1.5 text-[#607D95] hover:text-[#18344D] dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-white/50 dark:hover:bg-white/10 transition-colors cursor-pointer shrink-0 ml-1"
                 title="Close Menu"
+                aria-label="Close Menu"
               >
                 <X className="h-5 w-5" />
               </button>

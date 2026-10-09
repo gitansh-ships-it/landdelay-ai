@@ -77,6 +77,7 @@ export const DashboardLayout: React.FC = () => {
         mobileOpen={mobileSidebarOpen}
         onClose={() => setMobileSidebarOpen(false)}
         desktopCollapsed={desktopSidebarCollapsed}
+        onToggleDesktopCollapse={toggleDesktopSidebar}
       />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header
@@ -85,8 +86,6 @@ export const DashboardLayout: React.FC = () => {
           onDataReset={handleDataReset}
           isSyntheticActive={isSynthetic}
           onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
-          desktopSidebarCollapsed={desktopSidebarCollapsed}
-          onToggleDesktopSidebar={toggleDesktopSidebar}
         />
         <main className="flex-1 overflow-y-auto p-4 sm:p-8 focus:outline-none">
           <Outlet context={{ refreshTrigger, setRefreshTrigger }} />
