@@ -50,6 +50,7 @@ allow_all_origins = "*" in cors_origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=not allow_all_origins, # Credentials must be False if origin is '*' in CORS spec
     allow_methods=["*"],
     allow_headers=["*"],

@@ -30,7 +30,10 @@ class Settings(BaseSettings):
         return v
 
     # CORS configuration - comma-separated origins, or '*'
-    CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
+    CORS_ORIGINS: str = os.getenv(
+        "CORS_ORIGINS",
+        "http://localhost:5173,http://127.0.0.1:5173,https://landdelay-ai-pkzw.vercel.app,https://landdelay-ai.vercel.app"
+    )
 
     @property
     def cors_origins_list(self) -> list[str]:

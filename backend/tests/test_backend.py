@@ -212,3 +212,34 @@ def test_demo_reset_authorization_security():
     assert auth_res.status_code == 200
     assert auth_res.json()["status"] == "RESET_COMPLETE"
     assert auth_res.json()["count"] == 250
+
+def test_csv_upload_endpoint_and_cors():
+    # 1. Test CORS preflight OPTIONS request from Vercel production origin
+    origin = "https://landdelay-ai-pkzw.vercel.app"
+    options_res = client.options(
+        "/api/import/preview",
+        headers={
+            "Origin": origin,
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type"
+        }
+    )
+    assert options_res.status_code == 200
+    assert options_res.headers.get("access-control-allow-origin") == origin
+
+    # 2. Test actual multipart CSV upload with Origin header
+    csv_content = """case_id,project_id,project_name,project_type,state,district,land_required_hectares,current_stage,stage_entry_date,planned_stage_date
+LA-TST-01,P-1,Test Corridor,Highway,Maharashtra,Thane,12.5,Survey & Boundary Demarcation,2024-01-01,2024-04-01"""
+
+    upload_res = client.post(
+        "/api/import/preview",
+        files={"file": ("test.csv", csv_content, "text/csv")},
+        headers={"Origin": origin}
+    )
+    assert upload_res.status_code == 200
+    assert upload_res.headers.get("access-control-allow-origin") == origin
+    data = upload_res.json()
+    assert data["total_rows"] == 1
+    assert data["valid_rows_count"] == 1
+    assert data["invalid_rows_count"] == 0
+

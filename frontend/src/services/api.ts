@@ -14,11 +14,18 @@ const API_BASE = cleanUrl
 
 async function handleResponse<T>(res: Response): Promise<T> {
   if (!res.ok) {
-    let errMsg = `Request failed: ${res.statusText}`;
+    let errMsg = `HTTP ${res.status}${res.statusText ? ` (${res.statusText})` : ''}`;
     try {
       const err = await res.json();
       errMsg = err.detail || errMsg;
-    } catch (_) {}
+    } catch (_) {
+      try {
+        const text = await res.text();
+        if (text && text.length < 200 && !text.includes('<!DOCTYPE')) {
+          errMsg = text.trim();
+        }
+      } catch (_) {}
+    }
     throw new Error(errMsg);
   }
   const data = await res.json();
