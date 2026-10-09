@@ -166,21 +166,21 @@ export const GeographicView: React.FC = () => {
         </MapContainer>
 
         {/* Floating Map Legend */}
-        <div className="glass-panel-elevated absolute bottom-5 right-5 z-[1000] p-3.5 rounded-xl text-xs space-y-1.5 shadow-glass">
-          <div className="font-bold text-slate-800 dark:text-slate-200 text-[11px] uppercase tracking-wider mb-1">
+        <div className="glass-panel-elevated absolute bottom-3 right-3 sm:bottom-5 sm:right-5 z-[1000] p-3 sm:p-3.5 rounded-xl text-xs space-y-1.5 shadow-glass max-w-[calc(100%-1.5rem)]">
+          <div className="font-bold text-[#18344D] dark:text-[#EDF6FF] text-[11px] uppercase tracking-wider mb-1">
             Delay Risk Legend
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-rose-500 border border-white shadow-xs" />
-            <span className="text-slate-700 dark:text-slate-300 font-medium">High Risk (Score &gt;= 70)</span>
+            <span className="h-3 w-3 rounded-full bg-rose-500 border border-white shadow-xs shrink-0" />
+            <span className="text-[#18344D] dark:text-[#A8BED2] font-medium text-[11px]">High Risk (Score &gt;= 70)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-amber-500 border border-white shadow-xs" />
-            <span className="text-slate-700 dark:text-slate-300 font-medium">Medium Risk (Score 40-69)</span>
+            <span className="h-3 w-3 rounded-full bg-amber-500 border border-white shadow-xs shrink-0" />
+            <span className="text-[#18344D] dark:text-[#A8BED2] font-medium text-[11px]">Medium Risk (Score 40-69)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-emerald-500 border border-white shadow-xs" />
-            <span className="text-slate-700 dark:text-slate-300 font-medium">Low Risk (Score &lt; 40)</span>
+            <span className="h-3 w-3 rounded-full bg-emerald-500 border border-white shadow-xs shrink-0" />
+            <span className="text-[#18344D] dark:text-[#A8BED2] font-medium text-[11px]">Low Risk (Score &lt; 40)</span>
           </div>
         </div>
       </div>

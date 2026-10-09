@@ -193,15 +193,15 @@ export const Overview: React.FC = () => {
       ) : (
         <>
           {/* KPI Cards Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Total Cases */}
             <div className="glass-card flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#607D95] dark:text-slate-400 uppercase tracking-wider">Total Cases</p>
-                <h3 className="text-2xl font-bold text-[#18344D] dark:text-white mt-1">{kpis.total_cases}</h3>
-                <p className="text-[11px] text-[#1687E8] dark:text-sky-400 mt-0.5">Active acquisitions</p>
+                <p className="text-[11px] font-semibold text-[#607D95] dark:text-[#A8BED2] uppercase tracking-wider">Total Cases</p>
+                <h3 className="text-2xl font-bold text-[#18344D] dark:text-[#EDF6FF] mt-1">{kpis.total_cases}</h3>
+                <p className="text-[11px] text-[#1687E8] dark:text-[#56B4F5] mt-0.5">Active acquisitions</p>
               </div>
-              <div className="h-10 w-10 rounded-xl bg-[#1687E8]/10 dark:bg-sky-500/15 border border-[#1687E8]/20 flex items-center justify-center text-[#1264B3] dark:text-sky-400 shadow-xs">
+              <div className="h-10 w-10 rounded-xl bg-[#1687E8]/10 dark:bg-sky-500/15 border border-[#1687E8]/20 flex items-center justify-center text-[#1264B3] dark:text-[#56B4F5] shadow-xs">
                 <Building className="h-5 w-5" />
               </div>
             </div>
@@ -209,7 +209,7 @@ export const Overview: React.FC = () => {
             {/* High Risk Cases */}
             <div className="glass-card flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#607D95] dark:text-slate-400 uppercase tracking-wider">High Risk Cases</p>
+                <p className="text-[11px] font-semibold text-[#607D95] dark:text-[#A8BED2] uppercase tracking-wider">High Risk Cases</p>
                 <h3 className="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-1">{kpis.high_risk_cases}</h3>
                 <p className="text-[11px] text-rose-600 dark:text-rose-400 mt-0.5">
                   {Math.round((kpis.high_risk_cases / kpis.total_cases) * 100)}% of total volume
@@ -223,7 +223,7 @@ export const Overview: React.FC = () => {
             {/* Overdue Milestones */}
             <div className="glass-card flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#607D95] dark:text-slate-400 uppercase tracking-wider">Overdue Milestones</p>
+                <p className="text-[11px] font-semibold text-[#607D95] dark:text-[#A8BED2] uppercase tracking-wider">Overdue Milestones</p>
                 <h3 className="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">{kpis.overdue_milestones_cases}</h3>
                 <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">Deadline slippage</p>
               </div>
@@ -235,8 +235,8 @@ export const Overview: React.FC = () => {
             {/* Acquisition Progress */}
             <div className="glass-card flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#607D95] dark:text-slate-400 uppercase tracking-wider">Acquisition Progress</p>
-                <h3 className="text-2xl font-bold text-[#18344D] dark:text-white mt-1">{kpis.avg_acquisition_progress_pct}%</h3>
+                <p className="text-[11px] font-semibold text-[#607D95] dark:text-[#A8BED2] uppercase tracking-wider">Acquisition Progress</p>
+                <h3 className="text-2xl font-bold text-[#18344D] dark:text-[#EDF6FF] mt-1">{kpis.avg_acquisition_progress_pct}%</h3>
                 <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">Avg land handed over</p>
               </div>
               <div className="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
@@ -245,11 +245,11 @@ export const Overview: React.FC = () => {
             </div>
 
             {/* Pending Actions */}
-            <div className="glass-card flex items-center justify-between">
+            <div className="glass-card flex items-center justify-between sm:col-span-2 lg:col-span-1">
               <div>
-                <p className="text-[11px] font-semibold text-[#607D95] dark:text-slate-400 uppercase tracking-wider">Pending Actions</p>
-                <h3 className="text-2xl font-bold text-[#18344D] dark:text-white mt-1">{kpis.pending_actions_count}</h3>
-                <p className="text-[11px] text-[#607D95] dark:text-slate-400 mt-0.5">Directives queued</p>
+                <p className="text-[11px] font-semibold text-[#607D95] dark:text-[#A8BED2] uppercase tracking-wider">Pending Actions</p>
+                <h3 className="text-2xl font-bold text-[#18344D] dark:text-[#EDF6FF] mt-1">{kpis.pending_actions_count}</h3>
+                <p className="text-[11px] text-[#607D95] dark:text-[#A8BED2] mt-0.5">Directives queued</p>
               </div>
               <div className="h-10 w-10 rounded-xl bg-[#1264B3]/10 border border-[#1264B3]/20 flex items-center justify-center text-[#1264B3] dark:text-sky-300 shadow-xs">
                 <ListChecks className="h-5 w-5" />
@@ -262,16 +262,16 @@ export const Overview: React.FC = () => {
             {/* Risk Distribution Donut */}
             <div className="glass-panel p-6 flex flex-col justify-between">
               <div>
-                <h4 className="text-sm font-bold text-[#18344D] dark:text-white mb-0.5">Delay Risk Classification</h4>
-                <p className="text-xs text-[#607D95] dark:text-slate-400 mb-4">Statutory rules-engine breakdown</p>
+                <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF] mb-0.5">Delay Risk Classification</h4>
+                <p className="text-xs text-[#607D95] dark:text-[#A8BED2] mb-4">Statutory rules-engine breakdown</p>
               </div>
               <div className="h-64 flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
                       data={charts?.risk_distribution || []}
-                      innerRadius={60}
-                      outerRadius={85}
+                      innerRadius={65}
+                      outerRadius={95}
                       paddingAngle={4}
                       dataKey="count"
                       nameKey="name"
@@ -284,7 +284,7 @@ export const Overview: React.FC = () => {
                     <Legend
                       verticalAlign="bottom"
                       height={36}
-                      formatter={(value) => <span className="text-xs text-[#18344D] dark:text-slate-300 font-medium">{value}</span>}
+                      formatter={(value) => <span className="text-xs text-[#18344D] dark:text-[#EDF6FF] font-medium">{value}</span>}
                     />
                   </PieChart>
                 </ResponsiveContainer>
@@ -294,8 +294,8 @@ export const Overview: React.FC = () => {
             {/* Stage Distribution Bar Chart */}
             <div className="glass-panel p-6 lg:col-span-2 flex flex-col justify-between">
               <div>
-                <h4 className="text-sm font-bold text-[#18344D] dark:text-white mb-0.5">Acquisition Stage Distribution</h4>
-                <p className="text-xs text-[#607D95] dark:text-slate-400 mb-4">Active cases per statutory stage with benchmark tracking</p>
+                <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF] mb-0.5">Acquisition Stage Distribution</h4>
+                <p className="text-xs text-[#607D95] dark:text-[#A8BED2] mb-4">Active cases per statutory stage with benchmark tracking</p>
               </div>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -304,16 +304,16 @@ export const Overview: React.FC = () => {
                       ...s,
                       shortStage: s.stage.split(' ')[0] + ' ' + (s.stage.split(' ')[1] || '')
                     })) || []}
-                    margin={{ top: 10, right: 10, left: -20, bottom: 20 }}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(22,135,232,0.08)'} />
                     <XAxis
                       dataKey="shortStage"
-                      tick={{ fill: isDark ? '#94AEC5' : '#607D95', fontSize: 10 }}
+                      tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 10 }}
                       angle={-15}
                       textAnchor="end"
                     />
-                    <YAxis tick={{ fill: isDark ? '#94AEC5' : '#607D95', fontSize: 11 }} />
+                    <YAxis tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} width={30} />
                     <RechartsTooltip contentStyle={glassTooltipStyle} />
                     <Bar dataKey="count" name="Case Count" fill="#1687E8" radius={[6, 6, 0, 0]} />
                     <Bar dataKey="avg_delay_days" name="Avg Delay Days" fill="#f59e0b" radius={[6, 6, 0, 0]} />
@@ -329,11 +329,11 @@ export const Overview: React.FC = () => {
             <div className="glass-panel p-6 lg:col-span-2 flex flex-col justify-between">
               <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
                 <div>
-                  <h4 className="text-sm font-bold text-[#18344D] dark:text-white mb-0.5">Monthly Case Progression</h4>
-                  <p className="text-xs text-[#607D95] dark:text-slate-400">Milestone velocity: initiated, delayed, and completed</p>
+                  <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF] mb-0.5">Monthly Case Progression</h4>
+                  <p className="text-xs text-[#607D95] dark:text-[#A8BED2]">Milestone velocity: initiated, delayed, and completed</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-[#1687E8]/10 text-[#1264B3] dark:text-sky-300 border border-[#1687E8]/20">
+                  <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-[#1687E8]/10 text-[#1264B3] dark:text-[#56B4F5] border border-[#1687E8]/20">
                     Initiated: {totalStarted}
                   </span>
                   <span className="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-400/20">
@@ -348,7 +348,7 @@ export const Overview: React.FC = () => {
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart
                     data={charts?.monthly_progression || []}
-                    margin={{ top: 10, right: 15, left: -20, bottom: 0 }}
+                    margin={{ top: 10, right: 15, left: 0, bottom: 0 }}
                   >
                     <defs>
                       <linearGradient id="gradInitiated" x1="0" y1="0" x2="0" y2="1">
@@ -365,14 +365,14 @@ export const Overview: React.FC = () => {
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(22,135,232,0.08)'} />
-                    <XAxis dataKey="month" tick={{ fill: isDark ? '#94AEC5' : '#607D95', fontSize: 11 }} />
-                    <YAxis tick={{ fill: isDark ? '#94AEC5' : '#607D95', fontSize: 11 }} />
+                    <XAxis dataKey="month" tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} />
+                    <YAxis tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} width={30} />
                     <RechartsTooltip contentStyle={glassTooltipStyle} />
                     <Area type="monotone" dataKey="cases_started" name="Initiated" stroke="#1687E8" strokeWidth={2} fill="url(#gradInitiated)" />
                     <Area type="monotone" dataKey="cases_delayed" name="Delayed" stroke="#ef4444" strokeWidth={2} fill="url(#gradDelayed)" />
                     <Area type="monotone" dataKey="cases_completed" name="Completed" stroke="#10b981" strokeWidth={2} fill="url(#gradCompleted)" />
                     <Legend
-                      formatter={(value) => <span className="text-xs text-[#18344D] dark:text-slate-300 font-medium">{value}</span>}
+                      formatter={(value) => <span className="text-xs text-[#18344D] dark:text-[#EDF6FF] font-medium">{value}</span>}
                     />
                   </AreaChart>
                 </ResponsiveContainer>

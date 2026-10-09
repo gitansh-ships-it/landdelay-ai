@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 bg-white/55 dark:bg-[#0c1829]/80 backdrop-blur-glass border-r border-white/80 dark:border-white/10 text-[#18344D] dark:text-[#E2EEF9] flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 shadow-glass ${
+        className={`fixed inset-y-0 left-0 z-50 bg-white/55 dark:bg-[#182b3f]/75 backdrop-blur-glass border-r border-white/80 dark:border-white/10 text-[#18344D] dark:text-[#EDF6FF] flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 shadow-glass ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } ${
           desktopCollapsed ? 'lg:w-20' : 'lg:w-64'
@@ -170,15 +170,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   desktopCollapsed ? 'lg:justify-center lg:px-0' : 'justify-between px-3.5'
                 } py-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                   isActive
-                    ? 'bg-[#1687E8]/12 text-[#1264B3] dark:bg-sky-500/15 dark:text-sky-300 border border-[#1687E8]/25 dark:border-sky-400/30 font-semibold shadow-xs'
-                    : 'text-[#607D95] dark:text-slate-300 hover:text-[#18344D] dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
+                    ? 'bg-[#1687E8]/12 text-[#1264B3] dark:bg-sky-500/20 dark:text-[#56B4F5] border border-[#1687E8]/25 dark:border-sky-400/30 font-semibold shadow-xs'
+                    : 'text-[#607D95] dark:text-[#A8BED2] hover:text-[#18344D] dark:hover:text-[#EDF6FF] hover:bg-white/50 dark:hover:bg-white/5'
                 }`
               }
             >
               {({ isActive }) => (
                 <>
                   <div className={`flex items-center ${desktopCollapsed ? 'lg:justify-center' : 'gap-3'}`}>
-                    <item.icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#1264B3] dark:text-sky-300' : 'text-[#607D95] dark:text-slate-400'}`} />
+                    <item.icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-[#1264B3] dark:text-[#56B4F5]' : 'text-[#607D95] dark:text-[#A8BED2]'}`} />
                     <span className={`${desktopCollapsed ? 'lg:hidden' : 'inline'} transition-opacity truncate`}>
                       {item.name}
                     </span>
@@ -192,7 +192,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     ) : (
                       <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold ${
                         isActive
-                          ? 'bg-[#1264B3] text-white dark:bg-sky-500 dark:text-slate-900'
+                          ? 'bg-[#1264B3] text-white dark:bg-[#1687E8] dark:text-white'
                           : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/25'
                       }`}>
                         {item.badge}
@@ -217,10 +217,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             </div>
           ) : (
-            <div className="flex items-start gap-2.5 text-xs text-[#607D95] dark:text-slate-400 bg-white/50 dark:bg-white/5 p-3 rounded-xl border border-white/70 dark:border-white/10">
+            <div className="flex items-start gap-2.5 text-xs text-[#607D95] dark:text-[#A8BED2] bg-white/50 dark:bg-white/5 p-3 rounded-xl border border-white/70 dark:border-white/10">
               <Scale className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
               <div className="text-[10px] leading-relaxed">
-                <span className="font-semibold text-[#18344D] dark:text-slate-200">Decision Support Only:</span> Does not make legal awards or determine land ownership.
+                <span className="font-semibold text-[#18344D] dark:text-[#EDF6FF]">Decision Support Only:</span> Does not make legal awards or determine land ownership.
               </div>
             </div>
           )}

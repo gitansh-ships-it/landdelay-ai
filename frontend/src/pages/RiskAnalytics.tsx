@@ -50,12 +50,12 @@ export const RiskAnalytics: React.FC = () => {
 
   const isDark = theme === 'dark';
   const glassTooltipStyle = {
-    backgroundColor: isDark ? 'rgba(15, 23, 42, 0.92)' : 'rgba(255, 255, 255, 0.92)',
-    borderColor: isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(186, 230, 253, 0.7)',
+    backgroundColor: isDark ? 'rgba(15, 28, 48, 0.95)' : 'rgba(255, 255, 255, 0.94)',
+    borderColor: isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.85)',
     borderRadius: '12px',
-    boxShadow: isDark ? '0 8px 32px rgba(0, 0, 0, 0.4)' : '0 8px 32px rgba(2, 132, 199, 0.12)',
-    backdropFilter: 'blur(12px)',
-    color: isDark ? '#f1f5f9' : '#0f172a',
+    boxShadow: isDark ? '0 8px 32px rgba(0, 0, 0, 0.5)' : '0 8px 32px rgba(18, 100, 179, 0.12)',
+    backdropFilter: 'blur(16px)',
+    color: isDark ? '#EDF6FF' : '#18344D',
     fontSize: '12px'
   };
 
@@ -155,19 +155,19 @@ export const RiskAnalytics: React.FC = () => {
         {/* Risk Score Frequency Histogram */}
         <div className="glass-panel p-6">
           <div className="flex items-center justify-between mb-1">
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Portfolio Delay Risk Histogram</h4>
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Sample: {cases.length} parcels</span>
+            <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF]">Portfolio Delay Risk Histogram</h4>
+            <span className="text-xs text-[#607D95] dark:text-[#A8BED2] font-mono">Sample: {cases.length} parcels</span>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Distribution of transparent composite risk scores</p>
+          <p className="text-xs text-[#607D95] dark:text-[#A8BED2] mb-4">Distribution of transparent composite risk scores</p>
 
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={riskRanges} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(2,132,199,0.08)'} />
-                <XAxis dataKey="range" tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }} angle={-15} textAnchor="end" />
-                <YAxis tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 11 }} />
+              <BarChart data={riskRanges} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(22,135,232,0.08)'} />
+                <XAxis dataKey="range" tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 10 }} angle={-15} textAnchor="end" />
+                <YAxis tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} width={30} />
                 <Tooltip contentStyle={glassTooltipStyle} />
-                <Bar dataKey="count" name="Case Count" fill="#0284c7" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="count" name="Case Count" fill="#1687E8" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -176,25 +176,25 @@ export const RiskAnalytics: React.FC = () => {
         {/* Rule Trigger Prevalence */}
         <div className="glass-panel p-6">
           <div className="flex items-center justify-between mb-1">
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Statutory Rule Trigger Frequency</h4>
-            <span className="text-xs text-sky-600 dark:text-sky-400 font-semibold">Configured Engine v1.0</span>
+            <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF]">Statutory Rule Trigger Frequency</h4>
+            <span className="text-xs text-[#1687E8] dark:text-[#56B4F5] font-semibold">Configured Engine v1.0</span>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Number of active cases triggering specific statutory alerts</p>
+          <p className="text-xs text-[#607D95] dark:text-[#A8BED2] mb-4">Number of active cases triggering specific statutory alerts</p>
 
           <div className="space-y-3">
             {ruleTriggersData.map((rt, idx) => (
-              <div key={idx} className="p-3 rounded-xl border border-sky-100/60 dark:border-white/5 bg-white/40 dark:bg-slate-800/40">
+              <div key={idx} className="p-3 rounded-xl border border-[#DDEFFF] dark:border-white/10 bg-white/45 dark:bg-slate-800/40">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">{rt.rule}</span>
-                  <span className="font-mono text-sky-600 dark:text-sky-400 font-bold">{rt.count} cases</span>
+                  <span className="font-semibold text-[#18344D] dark:text-[#EDF6FF]">{rt.rule}</span>
+                  <span className="font-mono text-[#1687E8] dark:text-[#56B4F5] font-bold">{rt.count} cases</span>
                 </div>
-                <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                <div className="mt-1 flex items-center justify-between text-[11px] text-[#607D95] dark:text-[#A8BED2]">
                   <span>Engine Weight: {rt.weight}</span>
                   <span>{cases.length > 0 ? Math.round((rt.count / cases.length) * 100) : 0}% prevalence</span>
                 </div>
-                <div className="mt-1.5 w-full bg-slate-200/70 dark:bg-slate-700/60 rounded-full h-1.5 overflow-hidden">
+                <div className="mt-1.5 w-full bg-[#DDEFFF] dark:bg-slate-700/60 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className="bg-gradient-to-r from-sky-500 to-blue-600 h-1.5 rounded-full transition-all duration-300 shadow-xs"
+                    className="bg-gradient-to-r from-[#1687E8] to-[#1264B3] h-1.5 rounded-full transition-all duration-300 shadow-xs"
                     style={{ width: `${cases.length > 0 ? Math.min(100, (rt.count / cases.length) * 100) : 0}%` }}
                   />
                 </div>

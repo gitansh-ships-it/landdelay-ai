@@ -317,25 +317,25 @@ export const CaseDetail: React.FC = () => {
 
       {/* Contributing Factors Table */}
       <div className="glass-panel p-6">
-        <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">Risk Contributing Drivers & Weights</h4>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
+        <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF] mb-0.5">Risk Contributing Drivers & Weights</h4>
+        <p className="text-xs text-[#607D95] dark:text-[#A8BED2] mb-4">
           Transparent breakdown of statutory milestone compliance, court injunctions, and treasury disbursement
         </p>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+        <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
+          <table className="w-full min-w-[640px] text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 font-semibold uppercase text-[11px] border-b border-sky-100/60 dark:border-white/10">
-                <th className="py-2.5 px-4">Evaluation Factor</th>
-                <th className="py-2.5 px-4">Impact Tier</th>
-                <th className="py-2.5 px-4">Weighted Points</th>
-                <th className="py-2.5 px-4">Observable Evidence / Condition</th>
+              <tr className="bg-[#EAF6FF]/80 dark:bg-slate-800/60 text-[#607D95] dark:text-[#A8BED2] font-semibold uppercase text-[11px] border-b border-[#DDEFFF] dark:border-white/10">
+                <th className="py-2.5 px-4 min-w-[160px]">Evaluation Factor</th>
+                <th className="py-2.5 px-4 min-w-[100px]">Impact Tier</th>
+                <th className="py-2.5 px-4 min-w-[120px]">Weighted Points</th>
+                <th className="py-2.5 px-4 min-w-[240px]">Observable Evidence / Condition</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
+            <tbody className="divide-y divide-[#DDEFFF]/60 dark:divide-white/5">
               {riskAssessment?.contributing_factors.map((cf, idx) => (
-                <tr key={idx} className="hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors">
-                  <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">{cf.factor}</td>
+                <tr key={idx} className="hover:bg-[#EAF6FF]/50 dark:hover:bg-slate-800/40 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-[#18344D] dark:text-[#EDF6FF]">{cf.factor}</td>
                   <td className="py-3 px-4">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
                       cf.impact === 'HIGH' ? 'bg-rose-100/80 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300' :
@@ -345,8 +345,8 @@ export const CaseDetail: React.FC = () => {
                       {cf.impact}
                     </span>
                   </td>
-                  <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400">+{cf.weight_score} pts</td>
-                  <td className="py-3 px-4 text-slate-600 dark:text-slate-300">{cf.description}</td>
+                  <td className="py-3 px-4 font-mono font-bold text-[#1687E8] dark:text-[#56B4F5]">+{cf.weight_score} pts</td>
+                  <td className="py-3 px-4 text-[#607D95] dark:text-[#A8BED2]">{cf.description}</td>
                 </tr>
               ))}
             </tbody>

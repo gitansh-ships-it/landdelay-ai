@@ -24,20 +24,20 @@
 }
 
 .theme-bg-dark {
-  background-color: #08101E;
+  background-color: #0B1522;
   background-image: 
-    radial-gradient(at 12% 15%, rgba(22, 135, 232, 0.14) 0px, transparent 45%),
-    radial-gradient(at 88% 20%, rgba(18, 100, 179, 0.12) 0px, transparent 50%),
-    radial-gradient(at 35% 85%, rgba(14, 60, 110, 0.16) 0px, transparent 55%),
-    radial-gradient(at 80% 80%, rgba(18, 100, 179, 0.18) 0px, transparent 50%),
-    linear-gradient(145deg, #060e1a 0%, #0a1526 50%, #08101e 100%);
+    radial-gradient(at 12% 15%, rgba(22, 135, 232, 0.16) 0px, transparent 45%),
+    radial-gradient(at 88% 20%, rgba(18, 100, 179, 0.14) 0px, transparent 50%),
+    radial-gradient(at 35% 85%, rgba(14, 60, 110, 0.18) 0px, transparent 55%),
+    radial-gradient(at 80% 80%, rgba(18, 100, 179, 0.20) 0px, transparent 50%),
+    linear-gradient(145deg, #070e17 0%, #0b1522 50%, #101f30 100%);
   background-attachment: fixed;
 }
 
 /* Glassmorphism Surface Components */
 @layer components {
   .glass-panel {
-    @apply bg-white/[0.55] dark:bg-[#0f1c30]/[0.65] 
+    @apply bg-white/[0.55] dark:bg-[#182b3f]/[0.75] 
            backdrop-blur-glass 
            border border-white/[0.78] dark:border-white/10 
            shadow-glass dark:shadow-glass-dark 
@@ -45,7 +45,7 @@
   }
 
   .glass-panel-elevated {
-    @apply bg-white/[0.72] dark:bg-[#0f1c30]/[0.80] 
+    @apply bg-white/[0.72] dark:bg-[#1f364d]/[0.88] 
            backdrop-blur-glass-heavy 
            border border-white/[0.85] dark:border-white/15 
            shadow-glass-lg dark:shadow-[0_16px_48px_rgba(0,0,0,0.6)] 
@@ -53,7 +53,7 @@
   }
 
   .glass-card {
-    @apply bg-white/[0.60] dark:bg-[#0f1c30]/[0.60] 
+    @apply bg-white/[0.55] dark:bg-[#182b3f]/[0.75] 
            backdrop-blur-glass 
            border border-white/[0.78] dark:border-white/10 
            shadow-glass dark:shadow-glass-dark 
@@ -63,7 +63,7 @@
   }
 
   .glass-data-surface {
-    @apply bg-white/[0.88] dark:bg-[#0d1829]/[0.88] 
+    @apply bg-white/[0.90] dark:bg-[#101f30]/[0.92] 
            backdrop-blur-glass 
            border border-white/[0.78] dark:border-white/10 
            shadow-glass dark:shadow-glass-dark 
@@ -71,7 +71,7 @@
   }
 
   .glass-table-container {
-    @apply bg-white/[0.88] dark:bg-[#0d1829]/[0.88] 
+    @apply bg-white/[0.90] dark:bg-[#101f30]/[0.92] 
            backdrop-blur-glass 
            border border-white/[0.78] dark:border-white/10 
            shadow-glass dark:shadow-glass-dark 
@@ -79,14 +79,14 @@
   }
 
   .glass-input {
-    @apply bg-white/70 dark:bg-[#0a1424]/60 
+    @apply bg-white/75 dark:bg-[#101f30]/75 
            backdrop-blur-sm 
            border border-[#DDEFFF] dark:border-slate-700/60 
            rounded-xl px-3.5 py-2 text-xs 
-           text-[#18344D] dark:text-[#E2EEF9] 
-           placeholder:text-[#607D95] dark:placeholder:text-slate-500 
-           focus:outline-none focus:ring-2 focus:ring-[#1687E8]/30 focus:border-[#1687E8]/80 
-           focus:bg-white/95 dark:focus:bg-[#0f1c30]/95 
+           text-[#18344D] dark:text-[#EDF6FF] 
+           placeholder:text-[#607D95] dark:placeholder:text-[#A8BED2]/60 
+           focus:outline-none focus:ring-2 focus:ring-[#1687E8]/40 focus:border-[#1687E8] 
+           focus:bg-white/95 dark:focus:bg-[#182b3f]/95 
            transition-all duration-200;
   }
 
@@ -98,19 +98,37 @@
            shadow-md shadow-[#1687E8]/20 
            hover:shadow-lg hover:shadow-[#1687E8]/30 
            active:scale-[0.98] transition-all duration-200 
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1687E8] focus-visible:ring-offset-2 
            flex items-center gap-2;
   }
 
   .glass-btn-secondary {
-    @apply bg-white/70 dark:bg-[#0f1c30]/70 
-           hover:bg-white/95 dark:hover:bg-[#0f1c30]/95 
+    @apply bg-white/75 dark:bg-[#182b3f]/75 
+           hover:bg-white/95 dark:hover:bg-[#1f364d]/90 
            backdrop-blur-sm 
            border border-white/80 dark:border-white/10 
-           text-[#18344D] dark:text-[#E2EEF9] 
+           text-[#18344D] dark:text-[#EDF6FF] 
            text-xs font-semibold 
            rounded-xl px-3.5 py-2 
            shadow-xs transition-all duration-200 
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1687E8] 
            flex items-center gap-2;
+  }
+}
+
+/* Accessible focus ring indicators across all buttons and interactive controls */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid #1687E8;
+  outline-offset: 2px;
+}
+
+/* Reduced motion preference support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -123,17 +141,17 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.4);
+  background: rgba(96, 125, 149, 0.35);
   border-radius: 9999px;
   backdrop-filter: blur(4px);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.7);
+  background: rgba(22, 135, 232, 0.6);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(71, 85, 105, 0.5);
+  background: rgba(168, 190, 210, 0.3);
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.8);
+  background: rgba(86, 180, 245, 0.6);
 }
