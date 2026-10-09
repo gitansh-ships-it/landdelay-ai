@@ -125,8 +125,7 @@
            border border-white/[0.78] dark:border-white/10 
            shadow-glass dark:shadow-glass-dark 
            rounded-xl p-5;
-    transition: transform var(--motion-normal) var(--ease-standard), 
-                box-shadow var(--motion-normal) var(--ease-standard), 
+    transition: box-shadow var(--motion-normal) var(--ease-standard), 
                 border-color var(--motion-normal) var(--ease-standard), 
                 background-color var(--motion-slow) var(--ease-standard);
   }
@@ -134,6 +133,10 @@
   /* Specific interactive glass card hover states */
   .glass-card-interactive {
     cursor: pointer;
+    transition: transform var(--motion-normal) var(--ease-standard), 
+                box-shadow var(--motion-normal) var(--ease-standard), 
+                border-color var(--motion-normal) var(--ease-standard), 
+                background-color var(--motion-slow) var(--ease-standard);
   }
   .glass-card-interactive:hover {
     transform: translateY(-2px);
@@ -249,6 +252,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     transform: none !important;
   }
   .page-enter, .modal-backdrop-enter, .modal-content-enter {
+    animation: none !important;
+  }
+  .recharts-bar-rectangle, .recharts-pie-sector, .recharts-area-area, .recharts-area-curve {
+    transition: none !important;
     animation: none !important;
   }
 }
