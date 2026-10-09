@@ -11,24 +11,28 @@ import { DataManagement } from './pages/DataManagement';
 import { ModelEvaluation } from './pages/ModelEvaluation';
 import { Settings } from './pages/Settings';
 
+import { ThemeProvider } from './context/ThemeContext';
+
 export const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          <Route index element={<Overview />} />
-          <Route path="cases" element={<Cases />} />
-          <Route path="cases/:caseId" element={<CaseDetail />} />
-          <Route path="risk-analytics" element={<RiskAnalytics />} />
-          <Route path="map" element={<GeographicView />} />
-          <Route path="actions" element={<ActionCenter />} />
-          <Route path="data" element={<DataManagement />} />
-          <Route path="model" element={<ModelEvaluation />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<DashboardLayout />}>
+            <Route index element={<Overview />} />
+            <Route path="cases" element={<Cases />} />
+            <Route path="cases/:caseId" element={<CaseDetail />} />
+            <Route path="risk-analytics" element={<RiskAnalytics />} />
+            <Route path="map" element={<GeographicView />} />
+            <Route path="actions" element={<ActionCenter />} />
+            <Route path="data" element={<DataManagement />} />
+            <Route path="model" element={<ModelEvaluation />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 

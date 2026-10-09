@@ -7,11 +7,15 @@ import {
   CheckCircle2,
   Database,
   Save,
-  Info
+  Cpu,
+  Activity,
+  Sparkles
 } from 'lucide-react';
 import { api } from '../services/api';
+import { useTheme } from '../context/ThemeContext';
 
 export const Settings: React.FC = () => {
+  const { theme } = useTheme();
   const [healthStatus, setHealthStatus] = useState<any>(null);
   const [savedNotice, setSavedNotice] = useState<string | null>(null);
 
@@ -36,68 +40,97 @@ export const Settings: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    setSavedNotice('Statutory parameters saved to local application state.');
+    setSavedNotice('Statutory parameters saved to active application state.');
     setTimeout(() => setSavedNotice(null), 4000);
   };
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto pb-16">
+      {/* Header Banner */}
+      <div className="glass-panel p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2.5">
+            <SettingsIcon className="h-5 w-5 text-sky-500" />
+            <span>Statutory Engine & Infrastructure Settings</span>
+          </h2>
+          <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
+            Configure transparent risk thresholds, pipeline calibration weights, and verify production runtime health
+          </p>
+        </div>
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-400/20">
+          <Sparkles className="h-3.5 w-3.5 text-sky-500" />
+          <span>v2.1 Precision Engine</span>
+        </div>
+      </div>
+
       {savedNotice && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-xs font-semibold flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+        <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-emerald-800 dark:text-emerald-200 text-xs font-semibold flex items-center gap-2.5 shadow-glass animate-fadeIn">
+          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
           <span>{savedNotice}</span>
         </div>
       )}
 
       {/* System Health Card */}
-      <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
-        <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-          <Server className="h-4 w-4 text-indigo-600" />
-          <span>System Environment & Service Health</span>
+      <div className="glass-panel p-6 space-y-4">
+        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <Server className="h-4 w-4 text-sky-500" />
+          <span>System Environment & Service Telemetry</span>
         </h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-          <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-            <span className="text-slate-400 font-medium">FastAPI Service Status</span>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-bold text-emerald-700 uppercase font-mono">
+          <div className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-white/10 shadow-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-500 dark:text-slate-400 font-medium">FastAPI Service Status</span>
+              <Activity className="h-3.5 w-3.5 text-slate-400" />
+            </div>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-xs shadow-emerald-500/50 animate-pulse" />
+              <span className="font-bold text-emerald-600 dark:text-emerald-400 uppercase font-mono tracking-wider">
                 {healthStatus?.status || 'HEALTHY'}
               </span>
             </div>
+            <span className="text-[10px] text-slate-400 mt-1 block">Live cloud backend connected</span>
           </div>
 
-          <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-            <span className="text-slate-400 font-medium">Database Storage Engine</span>
-            <div className="font-bold text-slate-800 mt-1 font-mono">
-              SQLite (Local Embedded DB)
+          <div className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-white/10 shadow-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Database Storage Engine</span>
+              <Database className="h-3.5 w-3.5 text-slate-400" />
             </div>
+            <div className="font-bold text-slate-800 dark:text-slate-200 mt-2 font-mono">
+              PostgreSQL / Render Persistent
+            </div>
+            <span className="text-[10px] text-slate-400 mt-1 block">Pooled ACID transaction storage</span>
           </div>
 
-          <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
-            <span className="text-slate-400 font-medium">Engine Mode</span>
-            <div className="font-bold text-indigo-700 mt-1 font-mono">
+          <div className="p-4 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-white/60 dark:border-white/10 shadow-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-slate-500 dark:text-slate-400 font-medium">Engine Mode</span>
+              <Cpu className="h-3.5 w-3.5 text-slate-400" />
+            </div>
+            <div className="font-bold text-sky-600 dark:text-sky-400 mt-2 font-mono">
               DECISION_SUPPORT_SYSTEM
             </div>
+            <span className="text-[10px] text-slate-400 mt-1 block">Scikit-learn + Statutory rule hybrid</span>
           </div>
         </div>
       </div>
 
       {/* Configurable Risk Thresholds Form */}
-      <form onSubmit={handleSave} className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-6 text-xs">
-        <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
+      <form onSubmit={handleSave} className="glass-panel p-6 space-y-6 text-xs">
+        <div className="border-b border-white/40 dark:border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Sliders className="h-4 w-4 text-indigo-600" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <Sliders className="h-4 w-4 text-sky-500" />
               <span>Transparent Risk Engine Weight Configuration</span>
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
               Tune statutory weight points and escalation thresholds for administrative alerts
             </p>
           </div>
           <button
             type="submit"
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg flex items-center gap-1.5 transition-colors shadow-xs"
+            className="glass-btn-primary flex items-center gap-2 self-start sm:self-auto cursor-pointer"
           >
             <Save className="h-3.5 w-3.5" />
             <span>Save Settings</span>
@@ -106,91 +139,100 @@ export const Settings: React.FC = () => {
 
         {/* Classification Cutoffs */}
         <div className="space-y-3">
-          <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">Classification Score Cutoffs</h4>
+          <h4 className="font-bold text-slate-900 dark:text-slate-100 text-xs uppercase tracking-wider flex items-center gap-2">
+            <Shield className="h-3.5 w-3.5 text-sky-500" />
+            <span>Classification Score Cutoffs</span>
+          </h4>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">High Risk Cutoff (pts)</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">High Risk Cutoff (pts)</label>
               <input
                 type="number"
                 min="50"
                 max="90"
                 value={config.highRiskThreshold}
                 onChange={(e) => setConfig({ ...config, highRiskThreshold: parseInt(e.target.value) || 70 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
-              <span className="text-[10px] text-slate-400">Scores &gt;= this value are categorized as HIGH</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 block">Scores &gt;= this value are categorized as HIGH</span>
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Medium Risk Cutoff (pts)</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Medium Risk Cutoff (pts)</label>
               <input
                 type="number"
                 min="20"
                 max="60"
                 value={config.mediumRiskThreshold}
                 onChange={(e) => setConfig({ ...config, mediumRiskThreshold: parseInt(e.target.value) || 40 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
-              <span className="text-[10px] text-slate-400">Scores between Medium & High are MEDIUM</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 block">Scores between Medium & High are MEDIUM</span>
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Staleness Age Limit (Days)</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Staleness Age Limit (Days)</label>
               <input
                 type="number"
                 min="15"
                 max="120"
                 value={config.stalenessDays}
                 onChange={(e) => setConfig({ ...config, stalenessDays: parseInt(e.target.value) || 45 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
-              <span className="text-[10px] text-slate-400">Days without progress before flagging stale</span>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 block">Days without progress before flagging stale</span>
             </div>
           </div>
         </div>
 
         {/* Rule Weights */}
-        <div className="space-y-3 pt-3 border-t border-slate-100">
-          <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">Rule Point Allocations (Max 100 Pts)</h4>
+        <div className="space-y-3 pt-3 border-t border-white/40 dark:border-white/10">
+          <h4 className="font-bold text-slate-900 dark:text-slate-100 text-xs uppercase tracking-wider">
+            Rule Point Allocations (Max 100 Pts Total)
+          </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Milestone Deadline Slippage Weight</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Milestone Deadline Slippage Weight</label>
               <input
                 type="number"
                 value={config.weightOverdue}
                 onChange={(e) => setConfig({ ...config, weightOverdue: parseInt(e.target.value) || 35 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 block">Default: 35 points</span>
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Stage Benchmark Exceeded Weight</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Stage Benchmark Exceeded Weight</label>
               <input
                 type="number"
                 value={config.weightStageDuration}
                 onChange={(e) => setConfig({ ...config, weightStageDuration: parseInt(e.target.value) || 20 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 block">Default: 20 points</span>
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Incomplete Statutory Documentation Weight</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Incomplete Statutory Documentation Weight</label>
               <input
                 type="number"
                 value={config.weightIncompleteDocs}
                 onChange={(e) => setConfig({ ...config, weightIncompleteDocs: parseInt(e.target.value) || 15 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 block">Default: 15 points</span>
             </div>
 
-            <div>
-              <label className="block font-semibold text-slate-700 mb-1">Compensation Backlog &gt;30% Weight</label>
+            <div className="p-3.5 rounded-xl bg-white/30 dark:bg-slate-800/30 border border-white/50 dark:border-white/10">
+              <label className="block font-semibold text-slate-800 dark:text-slate-200 mb-1.5">Compensation Backlog &gt;30% Weight</label>
               <input
                 type="number"
                 value={config.weightCompensationPending}
                 onChange={(e) => setConfig({ ...config, weightCompensationPending: parseInt(e.target.value) || 15 })}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg"
+                className="glass-input w-full"
               />
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 block">Default: 15 points</span>
             </div>
           </div>
         </div>

@@ -15,8 +15,11 @@ const routeMeta: Record<string, { title: string; subtitle: string }> = {
   '/settings': { title: 'System Configuration', subtitle: 'Statutory benchmarks, rule weights, and risk score thresholds' },
 };
 
+import { useTheme } from '../context/ThemeContext';
+
 export const DashboardLayout: React.FC = () => {
   const location = useLocation();
+  const { theme } = useTheme();
   const [pendingActionsCount, setPendingActionsCount] = useState<number>(0);
   const [isSynthetic, setIsSynthetic] = useState<boolean>(true);
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
@@ -49,7 +52,7 @@ export const DashboardLayout: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
+    <div className={`flex h-screen overflow-hidden font-sans ${theme === 'dark' ? 'theme-bg-dark' : 'theme-bg-light'}`}>
       <Sidebar
         pendingActionsCount={pendingActionsCount}
         mobileOpen={mobileSidebarOpen}

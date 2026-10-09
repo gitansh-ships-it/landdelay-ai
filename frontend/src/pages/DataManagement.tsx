@@ -16,8 +16,10 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { ImportPreviewResponse, DashboardKPIs } from '../types';
+import { useTheme } from '../context/ThemeContext';
 
 export const DataManagement: React.FC = () => {
+  const { theme } = useTheme();
   const { setRefreshTrigger } = useOutletContext<{ setRefreshTrigger: React.Dispatch<React.SetStateAction<number>> }>() || {};
 
   const [kpis, setKpis] = useState<DashboardKPIs | null>(null);
@@ -116,56 +118,56 @@ export const DataManagement: React.FC = () => {
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
       {/* Current Data Provenance Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Stored Parcels</div>
-            <div className="text-2xl font-bold text-slate-900 mt-1">{kpis?.total_cases || 0}</div>
-            <div className="text-[11px] text-slate-400 mt-0.5">Database registry records</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Stored Parcels</div>
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{kpis?.total_cases || 0}</div>
+            <div className="text-[11px] text-sky-600 dark:text-sky-400 mt-0.5">Database registry records</div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600">
+          <div className="h-10 w-10 rounded-xl bg-sky-500/10 dark:bg-sky-400/15 border border-sky-400/20 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-xs">
             <Database className="h-5 w-5" />
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Verified Public Records</div>
-            <div className="text-2xl font-bold text-emerald-600 mt-1">{kpis?.verified_cases_count || 0}</div>
-            <div className="text-[11px] text-emerald-600 mt-0.5">Government gazette sources</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Verified Public Records</div>
+            <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{kpis?.verified_cases_count || 0}</div>
+            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">Government gazette sources</div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
+          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 dark:bg-emerald-400/15 border border-emerald-400/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
             <ShieldCheck className="h-5 w-5" />
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+        <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Synthetic Demo Records</div>
-            <div className="text-2xl font-bold text-amber-600 mt-1">{kpis?.synthetic_cases_count || 0}</div>
-            <div className="text-[11px] text-amber-600 mt-0.5">Deterministic seed (seed=42)</div>
+            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Synthetic Demo Records</div>
+            <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">{kpis?.synthetic_cases_count || 0}</div>
+            <div className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">Deterministic seed (seed=42)</div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
+          <div className="h-10 w-10 rounded-xl bg-amber-500/10 dark:bg-amber-400/15 border border-amber-400/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shadow-xs">
             <Layers className="h-5 w-5" />
           </div>
         </div>
       </div>
 
       {/* CSV Ingestion Pipeline Card */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-4">
+      <div className="glass-panel p-6 space-y-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-sky-100/60 dark:border-white/10 pb-4">
           <div>
-            <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <FileSpreadsheet className="h-5 w-5 text-indigo-600" />
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5 text-sky-600 dark:text-sky-400" />
               <span>CSV Ingestion & Validation Pipeline</span>
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Upload statutory land acquisition rosters with automated schema checking and pre-import auditing
             </p>
           </div>
 
           <button
             onClick={handleDownloadTemplate}
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-slate-300 hover:bg-slate-50 rounded-lg text-xs font-semibold text-slate-700 transition-colors"
+            className="glass-btn-secondary text-xs px-3 py-1.5 flex items-center gap-1.5"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Download CSV Template</span>
@@ -173,8 +175,8 @@ export const DataManagement: React.FC = () => {
         </div>
 
         {importResult && (
-          <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg text-xs flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+          <div className="p-3 bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-300 rounded-xl text-xs flex items-center gap-2 font-medium">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>{importResult}</span>
           </div>
         )}
@@ -183,46 +185,46 @@ export const DataManagement: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <div className="space-y-4 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Select Data Provenance Classification *</label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Select Data Provenance Classification *</label>
               <select
                 value={importSource}
                 onChange={(e) => setImportSource(e.target.value as any)}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg bg-white"
+                className="glass-input w-full px-3 py-2"
               >
                 <option value="VERIFIED_PUBLIC_DATA">VERIFIED_PUBLIC_DATA (Official Gazette / NHAI records)</option>
                 <option value="SYNTHETIC_DEMO_DATA">SYNTHETIC_DEMO_DATA (Demonstration / Test simulation)</option>
               </select>
-              <p className="text-[11px] text-slate-400 mt-1">
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
                 Data sources are permanently segregated to guarantee governance transparency.
               </p>
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 mb-1">Choose CSV File *</label>
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Choose CSV File *</label>
               <input
                 type="file"
                 accept=".csv"
                 onChange={handleFileChange}
-                className="w-full text-xs text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                className="glass-input w-full text-xs text-slate-600 dark:text-slate-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-500/10 file:text-sky-700 dark:file:text-sky-300 hover:file:bg-sky-500/20"
               />
             </div>
 
             <button
               onClick={handleValidatePreview}
               disabled={!selectedFile || previewLoading}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="glass-btn-primary text-xs px-4 py-2 disabled:opacity-50 flex items-center gap-2"
             >
               <Upload className="h-3.5 w-3.5" />
               <span>{previewLoading ? 'Parsing & Auditing...' : 'Validate CSV & Preview'}</span>
             </button>
           </div>
 
-          <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-2 text-slate-600">
-            <h5 className="font-bold text-slate-800 flex items-center gap-1.5">
-              <Info className="h-4 w-4 text-indigo-600" />
+          <div className="p-4 bg-sky-500/10 dark:bg-sky-400/10 rounded-2xl border border-sky-200/50 dark:border-sky-500/20 text-xs space-y-2 text-slate-700 dark:text-slate-300">
+            <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <Info className="h-4 w-4 text-sky-600 dark:text-sky-400" />
               <span>Statutory Schema Constraints</span>
             </h5>
-            <ul className="list-disc pl-4 space-y-1 text-[11px]">
+            <ul className="list-disc pl-4 space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
               <li><strong>Required headers:</strong> case_id, project_name, state, district, land_required_hectares, current_stage, planned_stage_date.</li>
               <li><strong>Coordinates:</strong> Leave empty if unverified. Never fabricate GPS coordinates.</li>
               <li><strong>Percentages:</strong> compensation_pending_pct strictly between 0 and 100.</li>
@@ -233,12 +235,12 @@ export const DataManagement: React.FC = () => {
 
         {/* Validation Report & Preview */}
         {preview && (
-          <div className="space-y-4 pt-4 border-t border-slate-200">
+          <div className="space-y-4 pt-4 border-t border-sky-100/60 dark:border-white/10">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h4 className="text-sm font-bold text-slate-900">Pre-Ingestion Validation Audit</h4>
-                <p className="text-xs text-slate-500">
-                  Total Rows: {preview.total_rows} • Valid: <span className="text-emerald-700 font-bold">{preview.valid_rows_count}</span> • Errors: <span className="text-red-700 font-bold">{preview.invalid_rows_count}</span>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Pre-Ingestion Validation Audit</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Total Rows: {preview.total_rows} • Valid: <span className="text-emerald-600 dark:text-emerald-400 font-bold">{preview.valid_rows_count}</span> • Errors: <span className="text-rose-600 dark:text-rose-400 font-bold">{preview.invalid_rows_count}</span>
                 </p>
               </div>
 
@@ -246,7 +248,7 @@ export const DataManagement: React.FC = () => {
                 <button
                   onClick={handleConfirmImport}
                   disabled={isImporting}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors shadow-xs"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-colors shadow-xs"
                 >
                   {isImporting ? 'Ingesting Records...' : `Confirm & Ingest ${preview.valid_rows_count} Parcels`}
                 </button>
@@ -255,14 +257,14 @@ export const DataManagement: React.FC = () => {
 
             {/* Error List */}
             {preview.errors.length > 0 && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg space-y-2 text-xs">
-                <div className="font-bold text-red-900 flex items-center gap-1.5">
-                  <XCircle className="h-4 w-4 text-red-600" />
+              <div className="p-4 bg-rose-50/80 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/50 rounded-xl space-y-2 text-xs">
+                <div className="font-bold text-rose-900 dark:text-rose-200 flex items-center gap-1.5">
+                  <XCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
                   <span>Validation Blockers ({preview.errors.length} errors found)</span>
                 </div>
                 <div className="max-h-40 overflow-y-auto space-y-1">
                   {preview.errors.map((err, i) => (
-                    <div key={i} className="text-[11px] text-red-800">
+                    <div key={i} className="text-[11px] text-rose-800 dark:text-rose-300">
                       Row {err.row_number} [{err.field}]: {err.error}
                     </div>
                   ))}
@@ -272,27 +274,27 @@ export const DataManagement: React.FC = () => {
 
             {/* Sample Records Table */}
             {preview.sample_records.length > 0 && (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-xl border border-sky-100/60 dark:border-white/10">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="bg-slate-50 text-slate-600 font-semibold text-[11px] border-b">
-                      <th className="p-2">Case ID</th>
-                      <th className="p-2">Project</th>
-                      <th className="p-2">State / District</th>
-                      <th className="p-2">Stage</th>
-                      <th className="p-2">Land (ha)</th>
-                      <th className="p-2">Source</th>
+                    <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
+                      <th className="p-2.5">Case ID</th>
+                      <th className="p-2.5">Project</th>
+                      <th className="p-2.5">State / District</th>
+                      <th className="p-2.5">Stage</th>
+                      <th className="p-2.5">Land (ha)</th>
+                      <th className="p-2.5">Source</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
                     {preview.sample_records.map((r, i) => (
-                      <tr key={i} className="hover:bg-slate-50">
-                        <td className="p-2 font-mono font-bold text-indigo-600">{r.case_id}</td>
-                        <td className="p-2 font-medium">{r.project_name}</td>
-                        <td className="p-2 text-slate-600">{r.district}, {r.state}</td>
-                        <td className="p-2">{r.current_stage}</td>
-                        <td className="p-2 font-mono">{r.land_required_hectares}</td>
-                        <td className="p-2 font-mono text-[10px] text-emerald-700">{r.data_source}</td>
+                      <tr key={i} className="hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors">
+                        <td className="p-2.5 font-mono font-bold text-sky-600 dark:text-sky-400">{r.case_id}</td>
+                        <td className="p-2.5 font-medium text-slate-900 dark:text-slate-100">{r.project_name}</td>
+                        <td className="p-2.5 text-slate-600 dark:text-slate-300">{r.district}, {r.state}</td>
+                        <td className="p-2.5 text-slate-700 dark:text-slate-300">{r.current_stage}</td>
+                        <td className="p-2.5 font-mono text-slate-900 dark:text-slate-100">{r.land_required_hectares}</td>
+                        <td className="p-2.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400">{r.data_source}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -304,14 +306,14 @@ export const DataManagement: React.FC = () => {
       </div>
 
       {/* Synthetic Demonstration Controls Card */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+      <div className="glass-panel p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-sky-100/60 dark:border-white/10 pb-4">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <RefreshCw className="h-4 w-4 text-indigo-600" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <RefreshCw className="h-4 w-4 text-sky-600 dark:text-sky-400" />
               <span>Synthetic Demonstration Data Management</span>
             </h3>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Deterministic generator initializing 250 realistic infrastructure corridors (seed=42)
             </p>
           </div>
@@ -319,7 +321,7 @@ export const DataManagement: React.FC = () => {
           <button
             onClick={handleReseedDemo}
             disabled={isReseeding}
-            className="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition-colors disabled:opacity-50 flex items-center gap-2"
+            className="glass-btn-secondary text-xs px-3.5 py-2 disabled:opacity-50 flex items-center gap-2"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${isReseeding ? 'animate-spin' : ''}`} />
             <span>{isReseeding ? 'Regenerating...' : 'Reset & Reseed Demo Data'}</span>
@@ -327,15 +329,15 @@ export const DataManagement: React.FC = () => {
         </div>
 
         {demoNotice && (
-          <div className="p-3 bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-lg text-xs flex items-center gap-2">
-            <Check className="h-4 w-4 text-indigo-600" />
+          <div className="p-3 bg-sky-50 dark:bg-sky-950/60 border border-sky-200/80 dark:border-sky-800/50 text-sky-800 dark:text-sky-300 rounded-xl text-xs flex items-center gap-2 font-medium">
+            <Check className="h-4 w-4 text-sky-600 dark:text-sky-400" />
             <span>{demoNotice}</span>
           </div>
         )}
 
-        <div className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-white/40 dark:bg-slate-800/40 p-4 rounded-xl border border-sky-100/60 dark:border-white/5">
           <p>
-            <strong>Governance Notice:</strong> All synthetic records are tagged with <span className="font-mono bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded text-[10px]">SYNTHETIC_DEMO_DATA</span>. Resetting completely clears the SQLite database and deterministically regenerates 250 simulated cases, realistic milestone schedules, and associated follow-up actions for reproducible evaluations.
+            <strong>Governance Notice:</strong> All synthetic records are tagged with <span className="font-mono bg-amber-500/10 dark:bg-amber-400/10 text-amber-700 dark:text-amber-300 border border-amber-300/30 px-1.5 py-0.5 rounded-md text-[10px]">SYNTHETIC_DEMO_DATA</span>. Resetting completely clears the database and deterministically regenerates 250 simulated cases, realistic milestone schedules, and associated follow-up actions for reproducible evaluations.
           </p>
         </div>
       </div>

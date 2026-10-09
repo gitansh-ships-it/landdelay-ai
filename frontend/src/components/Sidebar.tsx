@@ -42,40 +42,40 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {mobileOpen && (
         <div
           onClick={onClose}
-          className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs lg:hidden"
+          className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden transition-opacity"
         />
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-200 flex flex-col flex-shrink-0 border-r border-slate-800 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-slate-900/85 dark:bg-slate-950/80 backdrop-blur-glass border-r border-white/10 dark:border-white/5 text-slate-200 flex flex-col flex-shrink-0 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 shadow-glass-lg ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800 bg-slate-950/40">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-white/10 bg-white/5 dark:bg-black/20">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/30">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-blue-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-blue-500/30 border border-white/20">
               <Landmark className="h-5 w-5" />
             </div>
             <div>
               <h1 className="font-bold text-base text-white tracking-tight flex items-center gap-1.5">
-                LandDelay <span className="text-xs px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 font-mono font-normal">AI</span>
+                LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-sky-500/20 text-sky-300 font-mono font-medium border border-sky-500/30">AI</span>
               </h1>
-              <p className="text-[11px] text-slate-400 font-medium">Infrastructure Delay Analytics</p>
+              <p className="text-[10px] text-slate-400 font-medium">Predictive Delay Analytics</p>
             </div>
           </div>
 
           {/* Mobile close button */}
           <button
             onClick={onClose}
-            className="lg:hidden p-1.5 text-slate-400 hover:text-white rounded-md hover:bg-slate-800"
+            className="lg:hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 py-4 px-3 space-y-1.5 overflow-y-auto">
           <div className="px-3 pb-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
             Decision Support
           </div>
@@ -86,10 +86,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               end={item.path === '/'}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-sm'
-                    : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
+                    ? 'bg-gradient-to-r from-blue-600/90 to-sky-600/90 text-white shadow-md shadow-blue-600/25 border border-white/20 font-semibold'
+                    : 'text-slate-300 hover:text-white hover:bg-white/10 dark:hover:bg-white/5'
                 }`
               }
             >
@@ -100,8 +100,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <span>{item.name}</span>
                   </div>
                   {item.badge !== undefined && (
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                      isActive ? 'bg-indigo-800 text-indigo-100' : 'bg-slate-800 text-amber-400'
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-semibold ${
+                      isActive ? 'bg-white/25 text-white' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                     }`}>
                       {item.badge}
                     </span>
@@ -113,11 +113,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         {/* Statutory Advisory Notice */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950/60">
-          <div className="flex items-start gap-2.5 text-xs text-slate-400">
+        <div className="p-4 border-t border-white/10 bg-white/5 dark:bg-black/20">
+          <div className="flex items-start gap-2.5 text-xs text-slate-400 bg-white/5 p-3 rounded-xl border border-white/5">
             <Scale className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
-            <div className="text-[11px] leading-relaxed">
-              <span className="font-semibold text-slate-300">Decision Support Only:</span> Does not make legal awards or adjudicate ownership.
+            <div className="text-[10px] leading-relaxed">
+              <span className="font-semibold text-slate-200">Decision Support Only:</span> Does not make legal awards or determine land ownership.
             </div>
           </div>
         </div>

@@ -10,13 +10,14 @@ import {
   BarChart3
 } from 'lucide-react';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { api } from '../services/api';
 import { RiskBadge } from '../components/RiskBadge';
+import { useTheme } from '../context/ThemeContext';
 
 export const RiskAnalytics: React.FC = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(true);
   const [cases, setCases] = useState<any[]>([]);
 
@@ -46,6 +47,17 @@ export const RiskAnalytics: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const isDark = theme === 'dark';
+  const glassTooltipStyle = {
+    backgroundColor: isDark ? 'rgba(15, 23, 42, 0.92)' : 'rgba(255, 255, 255, 0.92)',
+    borderColor: isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(186, 230, 253, 0.7)',
+    borderRadius: '12px',
+    boxShadow: isDark ? '0 8px 32px rgba(0, 0, 0, 0.4)' : '0 8px 32px rgba(2, 132, 199, 0.12)',
+    backdropFilter: 'blur(12px)',
+    color: isDark ? '#f1f5f9' : '#0f172a',
+    fontSize: '12px'
+  };
 
   // Compute live aggregates from database records
   const riskRanges = [
@@ -141,48 +153,48 @@ export const RiskAnalytics: React.FC = () => {
       {/* Overview Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Risk Score Frequency Histogram */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+        <div className="glass-panel p-6">
           <div className="flex items-center justify-between mb-1">
-            <h4 className="text-sm font-bold text-slate-900">Portfolio Delay Risk Histogram</h4>
-            <span className="text-xs text-slate-500 font-mono">Sample: {cases.length} parcels</span>
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Portfolio Delay Risk Histogram</h4>
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Sample: {cases.length} parcels</span>
           </div>
-          <p className="text-xs text-slate-500 mb-4">Distribution of transparent composite risk scores</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Distribution of transparent composite risk scores</p>
 
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={riskRanges} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                <XAxis dataKey="range" tick={{ fontSize: 10 }} angle={-15} textAnchor="end" />
-                <YAxis tick={{ fontSize: 11 }} />
-                <Tooltip />
-                <Bar dataKey="count" name="Case Count" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke={isDark ? 'rgba(255,255,255,0.06)' : 'rgba(2,132,199,0.08)'} />
+                <XAxis dataKey="range" tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 10 }} angle={-15} textAnchor="end" />
+                <YAxis tick={{ fill: isDark ? '#94a3b8' : '#64748b', fontSize: 11 }} />
+                <Tooltip contentStyle={glassTooltipStyle} />
+                <Bar dataKey="count" name="Case Count" fill="#0284c7" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Rule Trigger Prevalence */}
-        <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
+        <div className="glass-panel p-6">
           <div className="flex items-center justify-between mb-1">
-            <h4 className="text-sm font-bold text-slate-900">Statutory Rule Trigger Frequency</h4>
-            <span className="text-xs text-indigo-600 font-semibold">Configured Engine v1.0</span>
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Statutory Rule Trigger Frequency</h4>
+            <span className="text-xs text-sky-600 dark:text-sky-400 font-semibold">Configured Engine v1.0</span>
           </div>
-          <p className="text-xs text-slate-500 mb-4">Number of active cases triggering specific statutory alerts</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Number of active cases triggering specific statutory alerts</p>
 
-          <div className="space-y-3.5">
+          <div className="space-y-3">
             {ruleTriggersData.map((rt, idx) => (
-              <div key={idx} className="p-3 rounded-lg border border-slate-100 bg-slate-50/70">
+              <div key={idx} className="p-3 rounded-xl border border-sky-100/60 dark:border-white/5 bg-white/40 dark:bg-slate-800/40">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-slate-800">{rt.rule}</span>
-                  <span className="font-mono text-indigo-600 font-bold">{rt.count} cases</span>
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">{rt.rule}</span>
+                  <span className="font-mono text-sky-600 dark:text-sky-400 font-bold">{rt.count} cases</span>
                 </div>
-                <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500">
+                <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                   <span>Engine Weight: {rt.weight}</span>
                   <span>{cases.length > 0 ? Math.round((rt.count / cases.length) * 100) : 0}% prevalence</span>
                 </div>
-                <div className="mt-1.5 w-full bg-slate-200 rounded-full h-1.5">
+                <div className="mt-1.5 w-full bg-slate-200/70 dark:bg-slate-700/60 rounded-full h-1.5 overflow-hidden">
                   <div
-                    className="bg-indigo-600 h-1.5 rounded-full"
+                    className="bg-gradient-to-r from-sky-500 to-blue-600 h-1.5 rounded-full transition-all duration-300 shadow-xs"
                     style={{ width: `${cases.length > 0 ? Math.min(100, (rt.count / cases.length) * 100) : 0}%` }}
                   />
                 </div>
@@ -193,19 +205,19 @@ export const RiskAnalytics: React.FC = () => {
       </div>
 
       {/* Interactive Risk Engine Simulator / Sandbox */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-6">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+      <div className="glass-panel p-6 space-y-6">
+        <div className="flex items-center justify-between border-b border-sky-100/60 dark:border-white/10 pb-4">
           <div>
-            <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Sliders className="h-4 w-4 text-indigo-600" />
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Sliders className="h-4 w-4 text-sky-600 dark:text-sky-400" />
               <span>Interactive Transparent Risk Engine Simulator</span>
             </h4>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Simulate how specific statutory bottlenecks and mitigations impact the computed delay score
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500">Live Result:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Live Result:</span>
             <RiskBadge category={simResult.category} score={simResult.score} size="md" />
           </div>
         </div>
@@ -215,9 +227,9 @@ export const RiskAnalytics: React.FC = () => {
           <div className="lg:col-span-2 space-y-5 text-xs">
             {/* Days Overdue Slider */}
             <div>
-              <div className="flex justify-between font-semibold text-slate-700 mb-1">
+              <div className="flex justify-between font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 <span>Milestone Deadline Slippage:</span>
-                <span className="font-mono text-indigo-600 font-bold">{simState.daysOverdue} days</span>
+                <span className="font-mono text-sky-600 dark:text-sky-400 font-bold">{simState.daysOverdue} days</span>
               </div>
               <input
                 type="range"
@@ -225,16 +237,16 @@ export const RiskAnalytics: React.FC = () => {
                 max="120"
                 value={simState.daysOverdue}
                 onChange={(e) => setSimState({ ...simState, daysOverdue: parseInt(e.target.value) })}
-                className="w-full accent-indigo-600"
+                className="w-full accent-sky-500"
               />
-              <span className="text-[10px] text-slate-400">Rule threshold: &gt;0 days adds 35 pts; &gt;=30 days forces High Risk</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">Rule threshold: &gt;0 days adds 35 pts; &gt;=30 days forces High Risk</span>
             </div>
 
             {/* Compensation Pending Slider */}
             <div>
-              <div className="flex justify-between font-semibold text-slate-700 mb-1">
+              <div className="flex justify-between font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 <span>Undisbursed Compensation:</span>
-                <span className="font-mono text-indigo-600 font-bold">{simState.compPendingPct}%</span>
+                <span className="font-mono text-sky-600 dark:text-sky-400 font-bold">{simState.compPendingPct}%</span>
               </div>
               <input
                 type="range"
@@ -242,16 +254,16 @@ export const RiskAnalytics: React.FC = () => {
                 max="100"
                 value={simState.compPendingPct}
                 onChange={(e) => setSimState({ ...simState, compPendingPct: parseInt(e.target.value) })}
-                className="w-full accent-indigo-600"
+                className="w-full accent-sky-500"
               />
-              <span className="text-[10px] text-slate-400">Rule threshold: &gt;30% scales up to 15 pts</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">Rule threshold: &gt;30% scales up to 15 pts</span>
             </div>
 
             {/* Active Disputes Slider */}
             <div>
-              <div className="flex justify-between font-semibold text-slate-700 mb-1">
+              <div className="flex justify-between font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 <span>Active Boundary Contestation / Court Injunctions:</span>
-                <span className="font-mono text-indigo-600 font-bold">{simState.openDisputes} disputes</span>
+                <span className="font-mono text-sky-600 dark:text-sky-400 font-bold">{simState.openDisputes} disputes</span>
               </div>
               <input
                 type="range"
@@ -259,49 +271,49 @@ export const RiskAnalytics: React.FC = () => {
                 max="5"
                 value={simState.openDisputes}
                 onChange={(e) => setSimState({ ...simState, openDisputes: parseInt(e.target.value) })}
-                className="w-full accent-indigo-600"
+                className="w-full accent-sky-500"
               />
-              <span className="text-[10px] text-slate-400">Each litigation case adds 5 pts up to 15 pts max</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">Each litigation case adds 5 pts up to 15 pts max</span>
             </div>
 
             {/* Incomplete Docs Toggle */}
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 border border-slate-200">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-sky-100/60 dark:border-white/5">
               <input
                 type="checkbox"
                 id="simDoc"
                 checked={simState.docsIncomplete}
                 onChange={(e) => setSimState({ ...simState, docsIncomplete: e.target.checked })}
-                className="h-4 w-4 rounded text-indigo-600 border-slate-300"
+                className="h-4 w-4 rounded text-sky-600 border-sky-300 dark:border-slate-600 bg-white/70 dark:bg-slate-900"
               />
-              <label htmlFor="simDoc" className="text-slate-700 font-medium cursor-pointer">
+              <label htmlFor="simDoc" className="text-slate-700 dark:text-slate-300 font-medium cursor-pointer">
                 Statutory Gazette / Land Title Documentation Incomplete (+15 pts)
               </label>
             </div>
           </div>
 
           {/* Result Card */}
-          <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between">
+          <div className="glass-card p-6 flex flex-col justify-between">
             <div>
-              <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Simulated Output</div>
-              <div className="text-4xl font-extrabold text-slate-900 mt-2 font-mono">
-                {simResult.score} <span className="text-sm font-normal text-slate-400">/ 100</span>
+              <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Simulated Output</div>
+              <div className="text-4xl font-extrabold text-slate-900 dark:text-white mt-2 font-mono">
+                {simResult.score} <span className="text-sm font-normal text-slate-400 dark:text-slate-500">/ 100</span>
               </div>
               <div className="mt-2">
                 <RiskBadge category={simResult.category} size="md" />
               </div>
 
               <div className="mt-4 space-y-1.5">
-                <p className="text-xs font-semibold text-slate-700">Triggered Warnings:</p>
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Triggered Warnings:</p>
                 {simResult.warnings.map((w, i) => (
-                  <div key={i} className="text-[11px] text-red-700 bg-red-50 p-2 rounded border border-red-200">
+                  <div key={i} className="text-[11px] text-rose-700 dark:text-rose-300 bg-rose-50/80 dark:bg-rose-950/50 p-2 rounded-lg border border-rose-200/70 dark:border-rose-800/40">
                     • {w}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-200 text-[11px] text-slate-500">
-              <p className="font-semibold text-slate-700">Transparent Rule Principle:</p>
+            <div className="mt-6 pt-4 border-t border-sky-100/60 dark:border-white/10 text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="font-semibold text-slate-700 dark:text-slate-300">Transparent Rule Principle:</p>
               Mathematical, audit-compliant rules prevent arbitrary decisions and ensure clear justification for all administrative escalations.
             </div>
           </div>

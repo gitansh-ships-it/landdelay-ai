@@ -18,9 +18,11 @@ import {
 import { api } from '../services/api';
 import { AcquisitionCase, CaseListResponse, RiskCategory } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
+import { useTheme } from '../context/ThemeContext';
 
 export const Cases: React.FC = () => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const { refreshTrigger } = useOutletContext<{ refreshTrigger: number }>() || { refreshTrigger: 0 };
 
   const [loading, setLoading] = useState(true);
@@ -172,10 +174,10 @@ export const Cases: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Top Action & Search Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-panel p-4 flex flex-wrap items-center justify-between gap-4">
         {/* Search */}
         <div className="relative flex-1 min-w-[240px] max-w-md">
-          <Search className="h-4 w-4 text-slate-400 absolute left-3 top-2.5" />
+          <Search className="h-4 w-4 text-sky-500/70 absolute left-3 top-2.5" />
           <input
             type="text"
             placeholder="Search by Case ID, Project, District..."
@@ -184,7 +186,7 @@ export const Cases: React.FC = () => {
               setSearch(e.target.value);
               setCurrentPage(1);
             }}
-            className="w-full text-xs pl-9 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+            className="glass-input w-full text-xs pl-9 pr-4 py-2"
           />
         </div>
 
@@ -193,7 +195,7 @@ export const Cases: React.FC = () => {
           <select
             value={stageFilter}
             onChange={(e) => { setStageFilter(e.target.value); setCurrentPage(1); }}
-            className="text-xs px-2.5 py-2 border border-slate-300 rounded-lg bg-white focus:outline-none focus:border-indigo-500"
+            className="glass-input text-xs px-2.5 py-2"
           >
             <option value="">All Stages</option>
             <option value="Preliminary Notification">Preliminary Notification</option>
@@ -208,7 +210,7 @@ export const Cases: React.FC = () => {
           <select
             value={riskFilter}
             onChange={(e) => { setRiskFilter(e.target.value); setCurrentPage(1); }}
-            className="text-xs px-2.5 py-2 border border-slate-300 rounded-lg bg-white focus:outline-none focus:border-indigo-500"
+            className="glass-input text-xs px-2.5 py-2"
           >
             <option value="">All Risk</option>
             <option value="HIGH">High Risk</option>
@@ -219,7 +221,7 @@ export const Cases: React.FC = () => {
           <select
             value={typeFilter}
             onChange={(e) => { setTypeFilter(e.target.value); setCurrentPage(1); }}
-            className="text-xs px-2.5 py-2 border border-slate-300 rounded-lg bg-white focus:outline-none focus:border-indigo-500"
+            className="glass-input text-xs px-2.5 py-2"
           >
             <option value="">All Sectors</option>
             <option value="Highway">Highway</option>
@@ -232,7 +234,7 @@ export const Cases: React.FC = () => {
           <select
             value={sourceFilter}
             onChange={(e) => { setSourceFilter(e.target.value); setCurrentPage(1); }}
-            className="text-xs px-2.5 py-2 border border-slate-300 rounded-lg bg-white focus:outline-none focus:border-indigo-500"
+            className="glass-input text-xs px-2.5 py-2"
           >
             <option value="">All Sources</option>
             <option value="SYNTHETIC_DEMO_DATA">Synthetic Demo Data</option>
@@ -242,7 +244,7 @@ export const Cases: React.FC = () => {
           <button
             onClick={handleExportCSV}
             title="Export filtered cases as CSV"
-            className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors border border-slate-200"
+            className="glass-btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export</span>
@@ -250,7 +252,7 @@ export const Cases: React.FC = () => {
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition-colors shadow-xs"
+            className="glass-btn-primary text-xs px-3 py-2 flex items-center gap-1.5"
           >
             <Plus className="h-3.5 w-3.5" />
             <span>New Case</span>
@@ -259,64 +261,64 @@ export const Cases: React.FC = () => {
       </div>
 
       {/* Cases Registry Table */}
-      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="glass-panel overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50/90 text-slate-600 uppercase font-semibold text-[11px] border-b border-slate-200">
+              <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 uppercase font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
                 <th
                   onClick={() => handleSort('case_id')}
-                  className="py-3 px-4 cursor-pointer hover:bg-slate-100/70 select-none"
+                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
                 >
                   <div className="flex items-center gap-1">
                     <span>Case ID</span>
-                    <ArrowUpDown className="h-3 w-3 text-slate-400" />
+                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
                 <th className="py-3 px-4">Project & Location</th>
                 <th className="py-3 px-4">Stage</th>
                 <th
                   onClick={() => handleSort('land_required_hectares')}
-                  className="py-3 px-4 cursor-pointer hover:bg-slate-100/70 select-none"
+                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
                 >
                   <div className="flex items-center gap-1">
                     <span>Land (ha)</span>
-                    <ArrowUpDown className="h-3 w-3 text-slate-400" />
+                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
                 <th
                   onClick={() => handleSort('delay_days')}
-                  className="py-3 px-4 cursor-pointer hover:bg-slate-100/70 select-none"
+                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
                 >
                   <div className="flex items-center gap-1">
                     <span>Delay</span>
-                    <ArrowUpDown className="h-3 w-3 text-slate-400" />
+                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
                 <th className="py-3 px-4">Indicators</th>
                 <th
                   onClick={() => handleSort('risk_score')}
-                  className="py-3 px-4 cursor-pointer hover:bg-slate-100/70 select-none"
+                  className="py-3 px-4 cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors"
                 >
                   <div className="flex items-center gap-1">
                     <span>Risk Level</span>
-                    <ArrowUpDown className="h-3 w-3 text-slate-400" />
+                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
                   </div>
                 </th>
                 <th className="py-3 px-4">Data Source</th>
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-500">
+                  <td colSpan={9} className="py-12 text-center text-slate-500 dark:text-slate-400">
                     Loading acquisition cases...
                   </td>
                 </tr>
               ) : data.items.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-500">
+                  <td colSpan={9} className="py-12 text-center text-slate-500 dark:text-slate-400">
                     No matching cases found.
                   </td>
                 </tr>
@@ -325,29 +327,29 @@ export const Cases: React.FC = () => {
                   <tr
                     key={c.case_id}
                     onClick={() => navigate(`/cases/${c.case_id}`)}
-                    className="hover:bg-indigo-50/30 transition-colors cursor-pointer group"
+                    className="hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors cursor-pointer group"
                   >
-                    <td className="py-3 px-4 font-mono font-bold text-indigo-600 whitespace-nowrap">
+                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">
                       {c.case_id}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                      <div className="font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                         {c.project_name}
                       </div>
-                      <div className="text-[11px] text-slate-500">
-                        {c.district}, {c.state} • <span className="font-medium text-slate-600">{c.project_type}</span>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">
+                        {c.district}, {c.state} • <span className="font-medium text-slate-600 dark:text-slate-300">{c.project_type}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-slate-800 font-medium">
-                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">
+                    <td className="py-3 px-4 text-slate-800 dark:text-slate-200 font-medium">
+                      <span className="px-2 py-0.5 rounded-md bg-sky-50/70 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border border-sky-100 dark:border-white/10">
                         {c.current_stage}
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-slate-900 font-mono">
+                      <div className="text-slate-900 dark:text-slate-100 font-mono">
                         {c.land_acquired_hectares} / {c.land_required_hectares}
                       </div>
-                      <div className="w-16 bg-slate-200 rounded-full h-1 mt-1">
+                      <div className="w-16 bg-slate-200/70 dark:bg-slate-700/70 rounded-full h-1 mt-1 overflow-hidden">
                         <div
                           className="bg-emerald-500 h-1 rounded-full"
                           style={{
@@ -358,31 +360,31 @@ export const Cases: React.FC = () => {
                     </td>
                     <td className="py-3 px-4">
                       {c.delay_days > 0 ? (
-                        <span className="font-semibold text-red-600 font-mono">
+                        <span className="font-semibold text-rose-600 dark:text-rose-400 font-mono">
                           +{c.delay_days}d late
                         </span>
                       ) : (
-                        <span className="text-emerald-600 font-medium font-mono">On schedule</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-medium font-mono">On schedule</span>
                       )}
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1.5">
                         {c.documents_incomplete ? (
-                          <span title="Documentation Incomplete" className="p-1 rounded bg-red-100 text-red-700">
+                          <span title="Documentation Incomplete" className="p-1 rounded bg-rose-100/80 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
                             <FileX className="h-3 w-3" />
                           </span>
                         ) : (
-                          <span title="Documentation Complete" className="p-1 rounded bg-slate-100 text-slate-400">
+                          <span title="Documentation Complete" className="p-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-400">
                             <FileCheck2 className="h-3 w-3" />
                           </span>
                         )}
                         {c.open_dispute_count > 0 && (
-                          <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px]">
+                          <span className="px-1.5 py-0.5 rounded bg-amber-100/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-[10px]">
                             {c.open_dispute_count} disp
                           </span>
                         )}
                         {c.compensation_pending_pct !== null && (c.compensation_pending_pct ?? 0) > 30 && (
-                          <span className="px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono">
+                          <span className="px-1.5 py-0.5 rounded bg-sky-100/80 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300 text-[10px] font-mono">
                             {c.compensation_pending_pct}% comp
                           </span>
                         )}
@@ -393,11 +395,11 @@ export const Cases: React.FC = () => {
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
                       {c.data_source === 'SYNTHETIC_DEMO_DATA' ? (
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-amber-50/80 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200/70 dark:border-amber-800/50">
                           SYNTHETIC
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-800/50">
                           VERIFIED
                         </span>
                       )}
@@ -408,7 +410,7 @@ export const Cases: React.FC = () => {
                           e.stopPropagation();
                           navigate(`/cases/${c.case_id}`);
                         }}
-                        className="px-2.5 py-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:bg-indigo-50 rounded transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 rounded transition-colors inline-flex items-center gap-1"
                       >
                         <span>View</span>
                         <ExternalLink className="h-3 w-3" />
@@ -422,7 +424,7 @@ export const Cases: React.FC = () => {
         </div>
 
         {/* Pagination Footer */}
-        <div className="p-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-600 bg-slate-50/50">
+        <div className="p-4 border-t border-sky-100/60 dark:border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/30 dark:bg-slate-800/20">
           <div className="flex items-center gap-3">
             <span>
               Showing {(data.page - 1) * data.page_size + 1} to{' '}
@@ -434,7 +436,7 @@ export const Cases: React.FC = () => {
                 setPageSize(Number(e.target.value));
                 setCurrentPage(1);
               }}
-              className="px-2 py-1 border border-slate-300 rounded bg-white"
+              className="glass-input px-2 py-1"
             >
               <option value={10}>10 per page</option>
               <option value={15}>15 per page</option>
@@ -447,17 +449,17 @@ export const Cases: React.FC = () => {
             <button
               disabled={currentPage <= 1}
               onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-              className="p-1.5 border border-slate-300 rounded hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="glass-btn-secondary p-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="font-semibold text-slate-800">
+            <span className="font-semibold text-slate-800 dark:text-slate-200">
               Page {data.page} of {data.total_pages}
             </span>
             <button
               disabled={currentPage >= data.total_pages}
               onClick={() => setCurrentPage(prev => Math.min(data.total_pages, prev + 1))}
-              className="p-1.5 border border-slate-300 rounded hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="glass-btn-secondary p-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -467,16 +469,16 @@ export const Cases: React.FC = () => {
 
       {/* New Case Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4">
-          <div className="bg-white rounded-xl border border-slate-200 shadow-xl max-w-xl w-full overflow-hidden animate-fade-in">
-            <div className="p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4">
+          <div className="glass-panel-elevated max-w-xl w-full overflow-hidden animate-fade-in shadow-glass-lg">
+            <div className="p-5 border-b border-sky-100/60 dark:border-white/10 flex items-center justify-between bg-sky-50/40 dark:bg-slate-800/40">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Register Acquisition Parcel</h3>
-                <p className="text-xs text-slate-500">Record a new infrastructure land acquisition case</p>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Register Acquisition Parcel</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Record a new infrastructure land acquisition case</p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 p-1"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -484,29 +486,29 @@ export const Cases: React.FC = () => {
 
             <form onSubmit={handleCreateCase} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
               {modalError && (
-                <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-xs">
+                <div className="p-3 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-300 rounded-xl text-xs">
                   {modalError}
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Case ID *</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Case ID *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. LA-REG-901"
                     value={newCase.case_id}
                     onChange={(e) => setNewCase({ ...newCase, case_id: e.target.value })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                    className="glass-input w-full text-xs px-3 py-2"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Project Sector</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Project Sector</label>
                   <select
                     value={newCase.project_type}
                     onChange={(e) => setNewCase({ ...newCase, project_type: e.target.value })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg bg-white"
+                    className="glass-input w-full text-xs px-3 py-2"
                   >
                     <option value="Highway">Highway</option>
                     <option value="Railway">Railway</option>
@@ -518,42 +520,42 @@ export const Cases: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">Project Name *</label>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Project Name *</label>
                 <input
                   type="text"
                   required
                   value={newCase.project_name}
                   onChange={(e) => setNewCase({ ...newCase, project_name: e.target.value })}
-                  className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg"
+                  className="glass-input w-full text-xs px-3 py-2"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">State</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">State</label>
                   <input
                     type="text"
                     required
                     value={newCase.state}
                     onChange={(e) => setNewCase({ ...newCase, state: e.target.value })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg"
+                    className="glass-input w-full text-xs px-3 py-2"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">District</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">District</label>
                   <input
                     type="text"
                     required
                     value={newCase.district}
                     onChange={(e) => setNewCase({ ...newCase, district: e.target.value })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg"
+                    className="glass-input w-full text-xs px-3 py-2"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Land Required (Hectares)</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Land Required (Hectares)</label>
                   <input
                     type="number"
                     step="0.1"
@@ -561,15 +563,15 @@ export const Cases: React.FC = () => {
                     required
                     value={newCase.land_required_hectares}
                     onChange={(e) => setNewCase({ ...newCase, land_required_hectares: parseFloat(e.target.value) || 0 })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg"
+                    className="glass-input w-full text-xs px-3 py-2"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Current Stage</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Current Stage</label>
                   <select
                     value={newCase.current_stage}
                     onChange={(e) => setNewCase({ ...newCase, current_stage: e.target.value })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg bg-white"
+                    className="glass-input w-full text-xs px-3 py-2"
                   >
                     <option value="Preliminary Notification">Preliminary Notification</option>
                     <option value="Survey & Boundary Demarcation">Survey & Boundary Demarcation</option>
@@ -584,23 +586,23 @@ export const Cases: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Planned Stage Date</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Planned Stage Date</label>
                   <input
                     type="date"
                     required
                     value={newCase.planned_stage_date}
                     onChange={(e) => setNewCase({ ...newCase, planned_stage_date: e.target.value })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg"
+                    className="glass-input w-full text-xs px-3 py-2"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Open Disputes Count</label>
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Open Disputes Count</label>
                   <input
                     type="number"
                     min="0"
                     value={newCase.open_dispute_count}
                     onChange={(e) => setNewCase({ ...newCase, open_dispute_count: parseInt(e.target.value) || 0 })}
-                    className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg"
+                    className="glass-input w-full text-xs px-3 py-2"
                   />
                 </div>
               </div>
@@ -611,25 +613,25 @@ export const Cases: React.FC = () => {
                   id="docCheck"
                   checked={newCase.documents_incomplete}
                   onChange={(e) => setNewCase({ ...newCase, documents_incomplete: e.target.checked })}
-                  className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                  className="rounded border-sky-300 dark:border-slate-600 text-sky-600 focus:ring-sky-500 bg-white/70 dark:bg-slate-900"
                 />
-                <label htmlFor="docCheck" className="text-xs text-slate-700 font-medium cursor-pointer">
+                <label htmlFor="docCheck" className="text-xs text-slate-700 dark:text-slate-300 font-medium cursor-pointer">
                   Statutory gazette / revenue title documentation is incomplete
                 </label>
               </div>
 
-              <div className="pt-4 border-t border-slate-200 flex justify-end gap-3">
+              <div className="pt-4 border-t border-sky-100/60 dark:border-white/10 flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-slate-300 rounded-lg text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                  className="glass-btn-secondary text-xs px-4 py-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={createSubmitting}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors disabled:opacity-50"
+                  className="glass-btn-primary text-xs px-4 py-2 disabled:opacity-50"
                 >
                   {createSubmitting ? 'Registering...' : 'Save Case'}
                 </button>
