@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 bg-white/55 dark:bg-[#182b3f]/75 backdrop-blur-glass border-r border-white/80 dark:border-white/10 text-[#18344D] dark:text-[#EDF6FF] flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 shadow-glass ${
+        className={`fixed inset-y-0 left-0 z-50 bg-white/55 dark:bg-[#182b3f]/75 backdrop-blur-glass border-r border-white/80 dark:border-white/10 text-[#18344D] dark:text-[#EDF6FF] flex flex-col flex-shrink-0 transition-[width,transform] duration-[220ms] ease-[cubic-bezier(0.2,0,0,1)] lg:static lg:translate-x-0 shadow-glass ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } ${
           desktopCollapsed ? 'lg:w-20' : 'lg:w-64'

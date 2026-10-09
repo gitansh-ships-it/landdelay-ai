@@ -88,7 +88,9 @@ export const DashboardLayout: React.FC = () => {
           onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
         />
         <main className="flex-1 overflow-y-auto p-3.5 sm:p-8 focus:outline-none w-full min-w-0">
-          <Outlet context={{ refreshTrigger, setRefreshTrigger }} />
+          <div key={location.pathname} className="page-enter">
+            <Outlet context={{ refreshTrigger, setRefreshTrigger }} />
+          </div>
         </main>
       </div>
     </div>

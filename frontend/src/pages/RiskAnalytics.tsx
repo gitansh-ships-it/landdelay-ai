@@ -167,7 +167,7 @@ export const RiskAnalytics: React.FC = () => {
                 <XAxis dataKey="range" tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 10 }} angle={-15} textAnchor="end" />
                 <YAxis tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} width={30} />
                 <Tooltip contentStyle={glassTooltipStyle} />
-                <Bar dataKey="count" name="Case Count" fill="#1687E8" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="count" name="Case Count" fill="#1687E8" radius={[6, 6, 0, 0]} animationDuration={450} animationEasing="ease-out" />
               </BarChart>
             </ResponsiveContainer>
           </div>

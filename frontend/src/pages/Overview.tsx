@@ -275,6 +275,8 @@ export const Overview: React.FC = () => {
                       paddingAngle={4}
                       dataKey="count"
                       nameKey="name"
+                      animationDuration={500}
+                      animationEasing="ease-out"
                     >
                       {charts?.risk_distribution?.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
@@ -315,8 +317,8 @@ export const Overview: React.FC = () => {
                     />
                     <YAxis tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} width={30} />
                     <RechartsTooltip contentStyle={glassTooltipStyle} />
-                    <Bar dataKey="count" name="Case Count" fill="#1687E8" radius={[6, 6, 0, 0]} />
-                    <Bar dataKey="avg_delay_days" name="Avg Delay Days" fill="#f59e0b" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="count" name="Case Count" fill="#1687E8" radius={[6, 6, 0, 0]} animationDuration={450} animationEasing="ease-out" />
+                    <Bar dataKey="avg_delay_days" name="Avg Delay Days" fill="#f59e0b" radius={[6, 6, 0, 0]} animationDuration={450} animationEasing="ease-out" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -368,9 +370,9 @@ export const Overview: React.FC = () => {
                     <XAxis dataKey="month" tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} />
                     <YAxis tick={{ fill: isDark ? '#A8BED2' : '#607D95', fontSize: 11 }} width={30} />
                     <RechartsTooltip contentStyle={glassTooltipStyle} />
-                    <Area type="monotone" dataKey="cases_started" name="Initiated" stroke="#1687E8" strokeWidth={2} fill="url(#gradInitiated)" />
-                    <Area type="monotone" dataKey="cases_delayed" name="Delayed" stroke="#ef4444" strokeWidth={2} fill="url(#gradDelayed)" />
-                    <Area type="monotone" dataKey="cases_completed" name="Completed" stroke="#10b981" strokeWidth={2} fill="url(#gradCompleted)" />
+                    <Area type="monotone" dataKey="cases_started" name="Initiated" stroke="#1687E8" strokeWidth={2} fill="url(#gradInitiated)" animationDuration={500} animationEasing="ease-out" />
+                    <Area type="monotone" dataKey="cases_delayed" name="Delayed" stroke="#ef4444" strokeWidth={2} fill="url(#gradDelayed)" animationDuration={500} animationEasing="ease-out" />
+                    <Area type="monotone" dataKey="cases_completed" name="Completed" stroke="#10b981" strokeWidth={2} fill="url(#gradCompleted)" animationDuration={500} animationEasing="ease-out" />
                     <Legend
                       formatter={(value) => <span className="text-xs text-[#18344D] dark:text-[#EDF6FF] font-medium">{value}</span>}
                     />

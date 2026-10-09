@@ -283,8 +283,8 @@ export const ActionCenter: React.FC = () => {
 
       {/* Create Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-glass-lg animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 modal-backdrop-enter">
+          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-glass-lg modal-content-enter">
             <div className="p-4 border-b border-sky-100/60 dark:border-white/10 flex items-center justify-between bg-sky-50/40 dark:bg-slate-800/40">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">Create Follow-up Action Directive</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition-colors">
