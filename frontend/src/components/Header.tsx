@@ -19,6 +19,8 @@ interface HeaderProps {
   onDataReset?: () => void;
   isSyntheticActive?: boolean;
   onToggleSidebar?: () => void;
+  desktopSidebarCollapsed?: boolean;
+  onToggleDesktopSidebar?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -26,7 +28,9 @@ export const Header: React.FC<HeaderProps> = ({
   subtitle,
   onDataReset,
   isSyntheticActive = true,
-  onToggleSidebar
+  onToggleSidebar,
+  desktopSidebarCollapsed = false,
+  onToggleDesktopSidebar
 }) => {
   const { theme, toggleTheme } = useTheme();
   const [isResetting, setIsResetting] = useState(false);
@@ -82,11 +86,17 @@ export const Header: React.FC<HeaderProps> = ({
         }`}
       >
         <div className="flex items-center gap-3">
-          {onToggleSidebar && (
+          {(onToggleSidebar || onToggleDesktopSidebar) && (
             <button
-              onClick={onToggleSidebar}
-              className="lg:hidden p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
-              title="Toggle Menu"
+              onClick={() => {
+                if (window.innerWidth >= 1024 && onToggleDesktopSidebar) {
+                  onToggleDesktopSidebar();
+                } else if (onToggleSidebar) {
+                  onToggleSidebar();
+                }
+              }}
+              className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
+              title={desktopSidebarCollapsed ? "Expand Sidebar (Desktop)" : "Toggle Navigation Sidebar"}
             >
               <Menu className="h-5 w-5" />
             </button>

@@ -25,6 +25,25 @@ export const DashboardLayout: React.FC = () => {
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false);
 
+  // Desktop sidebar collapse state (persisted in localStorage)
+  const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('landdelay_sidebar_collapsed') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleDesktopSidebar = () => {
+    setDesktopSidebarCollapsed(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('landdelay_sidebar_collapsed', String(next));
+      } catch {}
+      return next;
+    });
+  };
+
   const currentMeta = routeMeta[location.pathname] || {
     title: location.pathname.startsWith('/cases/') ? 'Acquisition Case Details' : 'LandDelay AI',
     subtitle: 'Decision-support intelligence for infrastructure progress'
@@ -57,6 +76,8 @@ export const DashboardLayout: React.FC = () => {
         pendingActionsCount={pendingActionsCount}
         mobileOpen={mobileSidebarOpen}
         onClose={() => setMobileSidebarOpen(false)}
+        desktopCollapsed={desktopSidebarCollapsed}
+        onToggleDesktopCollapse={toggleDesktopSidebar}
       />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <Header
@@ -65,6 +86,8 @@ export const DashboardLayout: React.FC = () => {
           onDataReset={handleDataReset}
           isSyntheticActive={isSynthetic}
           onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
+          desktopSidebarCollapsed={desktopSidebarCollapsed}
+          onToggleDesktopSidebar={toggleDesktopSidebar}
         />
         <main className="flex-1 overflow-y-auto p-4 sm:p-8 focus:outline-none">
           <Outlet context={{ refreshTrigger, setRefreshTrigger }} />
