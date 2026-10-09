@@ -1,13 +1,6 @@
 import os
+from pydantic import field_validator
 from pydantic_settings import BaseSettings
-
-def get_normalized_database_url() -> str:
-    raw_url = os.getenv("DATABASE_URL", "sqlite:///./landdelay.db")
-    # Render and Heroku PostgreSQL URLs commonly begin with postgres://
-    # SQLAlchemy requires postgresql:// or postgresql+psycopg2://
-    if raw_url.startswith("postgres://"):
-        raw_url = raw_url.replace("postgres://", "postgresql://", 1)
-    return raw_url
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "LandDelay AI"
@@ -20,7 +13,21 @@ class Settings(BaseSettings):
     PORT: int = int(os.getenv("PORT", "8000"))
 
     # Database connection
-    DATABASE_URL: str = get_normalized_database_url()
+    DATABASE_URL: str = "sqlite:///./landdelay.db"
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def normalize_database_url(cls, v: str) -> str:
+        if isinstance(v, str):
+            raw_url = v.strip()
+            # Render and Heroku PostgreSQL URLs commonly begin with postgres:// or postgresql://
+            # Map to postgresql+psycopg:// so SQLAlchemy uses the modern Psycopg 3 driver
+            if raw_url.startswith("postgres://"):
+                return raw_url.replace("postgres://", "postgresql+psycopg://", 1)
+            elif raw_url.startswith("postgresql://") and not raw_url.startswith("postgresql+"):
+                return raw_url.replace("postgresql://", "postgresql+psycopg://", 1)
+            return raw_url
+        return v
 
     # CORS configuration - comma-separated origins, or '*'
     CORS_ORIGINS: str = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
