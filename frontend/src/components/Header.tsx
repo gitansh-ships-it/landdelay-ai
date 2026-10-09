@@ -79,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header
-        className={`bg-white/65 dark:bg-slate-900/60 backdrop-blur-glass border-b border-white/60 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-glass dark:shadow-glass-dark transition-all duration-300 ${
+        className={`bg-white/55 dark:bg-[#0c1829]/75 backdrop-blur-glass border-b border-white/80 dark:border-white/10 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30 shadow-glass dark:shadow-glass-dark transition-all duration-300 ${
           isCollapsed
             ? 'h-16 lg:h-0 lg:min-h-0 lg:py-0 lg:opacity-0 lg:overflow-hidden lg:border-b-0 lg:pointer-events-none'
             : 'h-16'
@@ -95,15 +95,15 @@ export const Header: React.FC<HeaderProps> = ({
                   onToggleSidebar();
                 }
               }}
-              className="p-2 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
+              className="p-2 text-[#607D95] dark:text-slate-300 hover:text-[#18344D] dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
               title={desktopSidebarCollapsed ? "Expand Sidebar (Desktop)" : "Toggle Navigation Sidebar"}
             >
               <Menu className="h-5 w-5" />
             </button>
           )}
           <div>
-            <h2 className="text-sm sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-            {subtitle && <p className="hidden sm:block text-xs text-slate-500 dark:text-slate-400 font-medium">{subtitle}</p>}
+            <h2 className="text-sm sm:text-lg font-bold text-[#18344D] dark:text-white tracking-tight">{title}</h2>
+            {subtitle && <p className="hidden sm:block text-xs text-[#607D95] dark:text-slate-400 font-medium">{subtitle}</p>}
           </div>
         </div>
 
@@ -132,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
           )}
 
           {/* System Online Status */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-700 dark:text-blue-300 rounded-xl text-xs font-mono backdrop-blur-xs">
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-[#1687E8]/10 border border-[#1687E8]/20 text-[#1264B3] dark:text-blue-300 rounded-xl text-xs font-mono backdrop-blur-xs">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
             <span>API v1.0</span>
           </div>
@@ -141,12 +141,12 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Switch to Serene Light Mode' : 'Switch to Deep Navy Dark Mode'}
-            className="p-2 bg-white/60 dark:bg-slate-800/60 hover:bg-white/90 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 rounded-xl text-slate-700 dark:text-slate-200 transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95"
+            className="p-2 bg-white/70 dark:bg-slate-800/60 hover:bg-white/95 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 rounded-xl text-[#18344D] dark:text-slate-200 transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95 cursor-pointer"
           >
             {theme === 'dark' ? (
               <Sun className="h-4 w-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
             ) : (
-              <Moon className="h-4 w-4 text-sky-600 transition-transform duration-300 rotate-0 hover:-rotate-12" />
+              <Moon className="h-4 w-4 text-[#1687E8] transition-transform duration-300 rotate-0 hover:-rotate-12" />
             )}
           </button>
 
@@ -155,9 +155,9 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={handleReset}
             disabled={isResetting}
             title="Reset and reseed 250 deterministic demonstration cases"
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900/90 dark:bg-slate-800/90 hover:bg-slate-900 dark:hover:bg-slate-700 text-white text-[11px] sm:text-xs font-medium rounded-xl transition-all shadow-xs disabled:opacity-50 border border-white/10 active:scale-95"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white/70 hover:bg-white/95 dark:bg-slate-800/90 dark:hover:bg-slate-700 text-[#18344D] dark:text-white text-[11px] sm:text-xs font-medium rounded-xl transition-all shadow-xs hover:shadow-glass disabled:opacity-50 border border-white/80 dark:border-white/10 active:scale-95 cursor-pointer"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${isResetting ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 text-[#1687E8] dark:text-sky-400 ${isResetting ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">{isResetting ? 'Resetting...' : 'Reseed Demo'}</span>
             <span className="sm:hidden">Reset</span>
           </button>
@@ -166,9 +166,9 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={() => toggleCollapse(true)}
             title="Collapse Header (Maximize Workspace View)"
-            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-white/60 dark:bg-slate-800/60 hover:bg-white/90 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95 cursor-pointer"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-white/70 dark:bg-slate-800/60 hover:bg-white/95 dark:hover:bg-slate-800 border border-white/80 dark:border-slate-700/60 text-[#18344D] dark:text-slate-200 text-xs font-semibold rounded-xl transition-all shadow-xs hover:shadow-glass hover:scale-105 active:scale-95 cursor-pointer"
           >
-            <ChevronUp className="h-3.5 w-3.5 text-sky-500" />
+            <ChevronUp className="h-3.5 w-3.5 text-[#1687E8] dark:text-sky-400" />
             <span>Collapse</span>
           </button>
         </div>
@@ -176,16 +176,16 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Floating Collapsed Header Island (Desktop View) */}
       {isCollapsed && (
-        <div className="fixed top-3 right-6 z-40 hidden lg:flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-glass border border-white/70 dark:border-white/10 shadow-glass-lg text-xs animate-fadeIn transition-all">
-          <div className="flex items-center gap-2 pr-3 border-r border-slate-200/80 dark:border-slate-700/80">
+        <div className="fixed top-3 right-6 z-40 hidden lg:flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/80 dark:bg-[#0c1829]/85 backdrop-blur-glass border border-white/85 dark:border-white/10 shadow-glass-lg text-xs animate-fadeIn transition-all text-[#18344D] dark:text-white">
+          <div className="flex items-center gap-2 pr-3 border-r border-[#DDEFFF] dark:border-slate-700/80">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-bold text-slate-900 dark:text-white max-w-[200px] truncate">
+            <span className="font-bold text-[#18344D] dark:text-white max-w-[200px] truncate">
               {title}
             </span>
           </div>
 
           {/* Provenance Indicator */}
-          <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-sky-500/10 text-sky-700 dark:text-sky-300 border border-sky-400/20">
+          <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#1687E8]/10 text-[#1264B3] dark:text-sky-300 border border-[#1687E8]/20">
             <span>{isSyntheticActive ? 'DEMO' : 'LIVE'}</span>
           </div>
 
@@ -193,12 +193,12 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            className="p-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
+            className="p-1.5 text-[#607D95] dark:text-slate-300 hover:text-[#18344D] dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
           >
             {theme === 'dark' ? (
               <Sun className="h-3.5 w-3.5 text-amber-400" />
             ) : (
-              <Moon className="h-3.5 w-3.5 text-sky-600" />
+              <Moon className="h-3.5 w-3.5 text-[#1687E8]" />
             )}
           </button>
 
@@ -207,16 +207,16 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={handleReset}
             disabled={isResetting}
             title="Reset and reseed demo cases"
-            className="p-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
+            className="p-1.5 text-[#607D95] dark:text-slate-300 hover:text-[#18344D] dark:hover:text-white rounded-xl hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors cursor-pointer"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${isResetting ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 text-[#1687E8] dark:text-sky-400 ${isResetting ? 'animate-spin' : ''}`} />
           </button>
 
           {/* Expand Header Action */}
           <button
             onClick={() => toggleCollapse(false)}
             title="Expand Header"
-            className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white rounded-xl font-semibold shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#1687E8] to-[#1264B3] hover:from-[#1479d4] hover:to-[#0f5499] text-white rounded-xl font-semibold shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer"
           >
             <ChevronDown className="h-3.5 w-3.5" />
             <span>Expand</span>
