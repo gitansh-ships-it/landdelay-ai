@@ -1,0 +1,6 @@
+case_id,project_id,project_name,project_type,state,district,latitude,longitude,land_required_hectares,land_acquired_hectares,current_stage,stage_entry_date,planned_stage_date,actual_stage_date,compensation_pending_pct,open_dispute_count,documents_incomplete,data_source
+LA-PUB-001,PRJ-NHAI-001,Delhi-Mumbai Expressway Package 14,Highway,Maharashtra,Thane,19.2183,72.9781,42.5,15.2,Survey & Boundary Demarcation,2024-01-10,2024-04-10,,32.5,1,false,VERIFIED_PUBLIC_DATA
+LA-PUB-002,PRJ-DFCC-001,Eastern Dedicated Freight Corridor Ph-II,Railway,Uttar Pradesh,Varanasi,25.3176,82.9739,31.0,22.0,Public Hearing & Objections,2024-02-01,2024-04-01,,45.0,2,true,VERIFIED_PUBLIC_DATA
+LA-PUB-003,PRJ-METRO-001,Mumbai Metro Line 4 Wadala-Kasarvadavali,Metro Rail,Maharashtra,Palghar,19.6967,72.7655,18.4,18.4,Possession & Physical Handover,2023-09-15,2023-11-30,2023-12-05,0.0,0,false,VERIFIED_PUBLIC_DATA
+LA-PUB-004,PRJ-SOLAR-001,Bhadla Solar Park Extension Phase IV,Power & Energy,Rajasthan,Jodhpur,26.2389,73.0243,65.0,30.0,Declaration & Final Scheme,2023-11-01,2024-01-30,,55.0,0,false,VERIFIED_PUBLIC_DATA
+LA-PUB-005,PRJ-AIRPORT-001,Noida International Airport Jewar Ph-2,Airport,Uttar Pradesh,Gautam Buddha Nagar,28.3588,77.5508,54.2,40.0,Valuation & Award Determination,2023-12-01,2024-03-01,,25.0,1,false,VERIFIED_PUBLIC_DATA

@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: landdelay-api
+    runtime: python
+    rootDir: backend
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
+    startCommand: "python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 10000
+      - key: HOST
+        value: 0.0.0.0
+      - key: CORS_ORIGINS
+        sync: false
+        # Note: Set this in Render dashboard to your Vercel URL, e.g.:
+        # https://landdelay-ai.vercel.app
+      - key: ADMIN_RESET_KEY
+        generateValue: true
+      - key: AUTO_SEED_DEMO_DATA
+        value: "true"
+      # To use Render Managed PostgreSQL, uncomment DATABASE_URL below and the databases section:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: landdelay-postgres
+          property: connectionString
+      # If using SQLite on a persistent disk (Starter plan and above), comment DATABASE_URL above and use:
+      # - key: DATABASE_URL
+      #   value: sqlite:////var/data/landdelay.db
+
+    # SQLite Persistent Disk configuration (Starter plan or higher):
+    # disk:
+    #   name: landdelay-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+
+databases:
+  - name: landdelay-postgres
+    plan: free
+    databaseName: landdelay
+    user: landdelay_admin
