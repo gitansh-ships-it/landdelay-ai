@@ -2,24 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
-  Calendar,
   Building,
-  MapPin,
-  Clock,
   AlertTriangle,
   CheckCircle2,
   ListPlus,
-  Scale,
-  FileCheck2,
-  FileX,
-  History,
-  TrendingUp,
-  ShieldCheck,
   Edit3,
   X
 } from 'lucide-react';
 import { api } from '../services/api';
-import { AcquisitionCase, RiskAssessment, ActionItem } from '../types';
+import { AcquisitionCase, RiskAssessment } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTheme } from '../context/ThemeContext';
 
@@ -124,7 +115,7 @@ export const CaseDetail: React.FC = () => {
 
   if (loading || !caseData) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-slate-500">
+      <div className="flex flex-col items-center justify-center h-96 text-[#687386] dark:text-[#94A3B8]">
         <p className="text-sm">Retrieving acquisition parcel dossier...</p>
       </div>
     );
@@ -141,26 +132,26 @@ export const CaseDetail: React.FC = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/cases')}
-            className="glass-btn-secondary p-2 rounded-xl text-slate-600 dark:text-slate-300"
+            className="glass-btn-secondary p-2 rounded-lg text-[#687386] dark:text-[#94A3B8]"
             title="Back to Registry"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono font-bold text-lg text-sky-600 dark:text-sky-400">{caseData.case_id}</span>
+              <span className="font-mono font-bold text-lg text-[#3563E9]">{caseData.case_id}</span>
               <RiskBadge category={caseData.risk_category} score={caseData.risk_score} size="md" />
               {caseData.data_source === 'SYNTHETIC_DEMO_DATA' ? (
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/10 dark:bg-amber-400/10 text-amber-700 dark:text-amber-300 border border-amber-300/30 font-mono font-medium">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#FFFBEB] dark:bg-[#E9A23B]/10 text-[#B45309] dark:text-[#FBBF24] border border-[#FDE68A] dark:border-[#E9A23B]/30 font-mono font-medium">
                   SYNTHETIC DEMO RECORD
                 </span>
               ) : (
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 text-emerald-700 dark:text-emerald-300 border border-emerald-300/30 font-mono font-medium">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#ECFDF5] dark:bg-[#19966B]/10 text-[#065F46] dark:text-[#34D399] border border-[#A7F3D0] dark:border-[#19966B]/30 font-mono font-medium">
                   VERIFIED PUBLIC RECORD
                 </span>
               )}
             </div>
-            <h2 className="text-base font-semibold text-slate-900 dark:text-white mt-0.5">
+            <h2 className="text-base font-semibold text-[#172033] dark:text-[#F1F5F9] mt-0.5">
               {caseData.project_name}
             </h2>
           </div>
@@ -185,8 +176,8 @@ export const CaseDetail: React.FC = () => {
       </div>
 
       {actionSuccess && (
-        <div className="p-3 bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-300 rounded-xl text-xs font-medium flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+        <div className="p-3 bg-[#ECFDF5] dark:bg-[#19966B]/15 border border-[#A7F3D0] dark:border-[#19966B]/30 text-[#065F46] dark:text-[#34D399] rounded-lg text-xs font-medium flex items-center gap-2">
+          <CheckCircle2 className="h-4 w-4 text-[#19966B]" />
           <span>{actionSuccess}</span>
         </div>
       )}
@@ -195,27 +186,27 @@ export const CaseDetail: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Section A: Case Overview Card */}
         <div className="glass-panel p-6 lg:col-span-2 space-y-5">
-          <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-            <Building className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+          <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] uppercase tracking-wider flex items-center gap-2">
+            <Building className="h-4 w-4 text-[#3563E9]" />
             <span>Parcel & Acquisition Status</span>
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 py-2 border-y border-sky-100/60 dark:border-white/5 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 py-2 border-y border-[#E1E7EF] dark:border-[#1F2E45] text-xs">
             <div>
-              <p className="text-slate-400 dark:text-slate-500 font-medium">Infrastructure Sector</p>
-              <p className="font-semibold text-slate-900 dark:text-slate-100 mt-0.5">{caseData.project_type}</p>
+              <p className="text-[#687386] dark:text-[#94A3B8] font-medium">Infrastructure Sector</p>
+              <p className="font-semibold text-[#172033] dark:text-[#F1F5F9] mt-0.5">{caseData.project_type}</p>
             </div>
             <div>
-              <p className="text-slate-400 dark:text-slate-500 font-medium">Jurisdiction</p>
-              <p className="font-semibold text-slate-900 dark:text-slate-100 mt-0.5">{caseData.district}, {caseData.state}</p>
+              <p className="text-[#687386] dark:text-[#94A3B8] font-medium">Jurisdiction</p>
+              <p className="font-semibold text-[#172033] dark:text-[#F1F5F9] mt-0.5">{caseData.district}, {caseData.state}</p>
             </div>
             <div>
-              <p className="text-slate-400 dark:text-slate-500 font-medium">Lifecycle Status</p>
-              <p className="font-semibold text-slate-900 dark:text-slate-100 mt-0.5">{caseData.status}</p>
+              <p className="text-[#687386] dark:text-[#94A3B8] font-medium">Lifecycle Status</p>
+              <p className="font-semibold text-[#172033] dark:text-[#F1F5F9] mt-0.5">{caseData.status}</p>
             </div>
             <div>
-              <p className="text-slate-400 dark:text-slate-500 font-medium">Last Verified Update</p>
-              <p className="font-semibold text-slate-900 dark:text-slate-100 mt-0.5">
+              <p className="text-[#687386] dark:text-[#94A3B8] font-medium">Last Verified Update</p>
+              <p className="font-semibold text-[#172033] dark:text-[#F1F5F9] mt-0.5">
                 {new Date(caseData.last_updated_at).toLocaleDateString()}
               </p>
             </div>
@@ -224,14 +215,14 @@ export const CaseDetail: React.FC = () => {
           {/* Land Progress Bar */}
           <div>
             <div className="flex items-center justify-between text-xs mb-1.5">
-              <span className="font-semibold text-slate-700 dark:text-slate-300">Land Possession Handover:</span>
-              <span className="font-mono font-bold text-slate-900 dark:text-slate-100">
+              <span className="font-semibold text-[#172033] dark:text-[#F1F5F9]">Land Possession Handover:</span>
+              <span className="font-mono font-bold text-[#172033] dark:text-[#F1F5F9]">
                 {caseData.land_acquired_hectares} ha / {caseData.land_required_hectares} ha ({progressPct}%)
               </span>
             </div>
-            <div className="w-full bg-slate-200/70 dark:bg-slate-700/60 rounded-full h-2.5 overflow-hidden">
+            <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2 overflow-hidden">
               <div
-                className="bg-gradient-to-r from-sky-500 to-blue-600 h-2.5 rounded-full transition-all duration-300 shadow-xs"
+                className="bg-[#3563E9] h-2 rounded-full transition-all duration-300"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -239,34 +230,34 @@ export const CaseDetail: React.FC = () => {
 
           {/* Key Indicators Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-            <div className="p-3 bg-white/40 dark:bg-slate-800/40 border border-sky-100/60 dark:border-white/5 rounded-xl">
-              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Current Statutory Stage</div>
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">{caseData.current_stage}</div>
-              <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+            <div className="p-3 bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg">
+              <div className="text-[11px] font-medium text-[#687386] dark:text-[#94A3B8]">Current Statutory Stage</div>
+              <div className="text-xs font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{caseData.current_stage}</div>
+              <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">
                 Target: {new Date(caseData.planned_stage_date).toLocaleDateString()}
               </div>
             </div>
 
-            <div className="p-3 bg-white/40 dark:bg-slate-800/40 border border-sky-100/60 dark:border-white/5 rounded-xl">
-              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Compensation Undisbursed</div>
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1 font-mono">
+            <div className="p-3 bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg">
+              <div className="text-[11px] font-medium text-[#687386] dark:text-[#94A3B8]">Compensation Undisbursed</div>
+              <div className="text-xs font-bold text-[#172033] dark:text-[#F1F5F9] mt-1 font-mono">
                 {caseData.compensation_pending_pct ?? 0}%
               </div>
-              <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
+              <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">
                 {(caseData.compensation_pending_pct ?? 0) > 40 ? 'Severe backlog' : 'Normal release'}
               </div>
             </div>
 
-            <div className="p-3 bg-white/40 dark:bg-slate-800/40 border border-sky-100/60 dark:border-white/5 rounded-xl">
-              <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400">Recorded Boundary Disputes</div>
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-1">
+            <div className="p-3 bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg">
+              <div className="text-[11px] font-medium text-[#687386] dark:text-[#94A3B8]">Recorded Boundary Disputes</div>
+              <div className="text-xs font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">
                 {caseData.open_dispute_count > 0 ? (
-                  <span className="text-amber-600 dark:text-amber-400">{caseData.open_dispute_count} active petitions</span>
+                  <span className="text-[#E9A23B]">{caseData.open_dispute_count} active petitions</span>
                 ) : (
-                  <span className="text-emerald-600 dark:text-emerald-400">No disputes logged</span>
+                  <span className="text-[#19966B]">No disputes logged</span>
                 )}
               </div>
-              <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">Revenue / SDM court</div>
+              <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">Revenue / SDM court</div>
             </div>
           </div>
         </div>
@@ -274,20 +265,20 @@ export const CaseDetail: React.FC = () => {
         {/* Section C: Transparent Risk Assessment */}
         <div className="glass-panel p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-amber-500" />
+            <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] uppercase tracking-wider flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-[#E9A23B]" />
               <span>Risk Evaluation</span>
             </h3>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-sky-500/10 dark:bg-sky-400/10 text-sky-700 dark:text-sky-300 border border-sky-200/50 dark:border-sky-500/20">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#3563E9]/10 text-[#3563E9] border border-[#3563E9]/20 font-semibold">
               {riskAssessment?.score_type}
             </span>
           </div>
 
-          <div className="p-4 bg-white/50 dark:bg-slate-800/50 rounded-xl border border-sky-100/60 dark:border-white/5 text-center">
-            <div className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Computed Risk Score</div>
-            <div className="text-4xl font-extrabold text-slate-900 dark:text-white mt-1 font-mono">
+          <div className="p-4 bg-[#F9FAFB] dark:bg-[#0E1726] rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45] text-center">
+            <div className="text-xs font-medium text-[#687386] dark:text-[#94A3B8] uppercase">Computed Risk Score</div>
+            <div className="text-4xl font-extrabold text-[#172033] dark:text-[#F1F5F9] mt-1 font-mono">
               {riskAssessment?.risk_score}
-              <span className="text-xs text-slate-400 dark:text-slate-500 font-normal"> / 100</span>
+              <span className="text-xs text-[#687386] dark:text-[#94A3B8] font-normal"> / 100</span>
             </div>
             <div className="mt-2">
               <RiskBadge
@@ -295,7 +286,7 @@ export const CaseDetail: React.FC = () => {
                 size="md"
               />
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2">
+            <p className="text-[11px] text-[#687386] dark:text-[#94A3B8] mt-2">
               Freshness: {riskAssessment?.data_freshness_days} days since field inspection
             </p>
           </div>
@@ -303,10 +294,10 @@ export const CaseDetail: React.FC = () => {
           {/* Rule Warnings Banner */}
           {riskAssessment?.rule_warnings && riskAssessment.rule_warnings.length > 0 && (
             <div className="space-y-2">
-              <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Triggered Statutory Warnings:</p>
+              <p className="text-xs font-semibold text-[#172033] dark:text-[#F1F5F9]">Triggered Statutory Warnings:</p>
               {riskAssessment.rule_warnings.map((warn, i) => (
-                <div key={i} className="p-2.5 rounded-xl bg-rose-50/80 dark:bg-rose-950/50 border border-rose-200/80 dark:border-rose-800/40 text-rose-800 dark:text-rose-300 text-xs flex items-start gap-2">
-                  <AlertTriangle className="h-3.5 w-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                <div key={i} className="p-2.5 rounded-lg bg-[#FEF2F2] dark:bg-[#DC3545]/15 border border-[#FECACA] dark:border-[#DC3545]/30 text-[#DC3545] text-xs flex items-start gap-2">
+                  <AlertTriangle className="h-3.5 w-3.5 text-[#DC3545] shrink-0 mt-0.5" />
                   <span>{warn}</span>
                 </div>
               ))}
@@ -317,36 +308,36 @@ export const CaseDetail: React.FC = () => {
 
       {/* Contributing Factors Table */}
       <div className="glass-panel p-6">
-        <h4 className="text-sm font-bold text-[#18344D] dark:text-[#EDF6FF] mb-0.5">Risk Contributing Drivers & Weights</h4>
-        <p className="text-xs text-[#607D95] dark:text-[#A8BED2] mb-4">
+        <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] mb-0.5">Risk Contributing Drivers & Weights</h4>
+        <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">
           Transparent breakdown of statutory milestone compliance, court injunctions, and treasury disbursement
         </p>
 
         <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
           <table className="w-full min-w-[640px] text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-[#EAF6FF]/80 dark:bg-slate-800/60 text-[#607D95] dark:text-[#A8BED2] font-semibold uppercase text-[11px] border-b border-[#DDEFFF] dark:border-white/10">
+              <tr className="bg-[#F9FAFB] dark:bg-[#0E1726] text-[#687386] dark:text-[#94A3B8] font-semibold uppercase text-[11px] border-b border-[#E1E7EF] dark:border-[#1F2E45]">
                 <th className="py-2.5 px-4 min-w-[160px]">Evaluation Factor</th>
                 <th className="py-2.5 px-4 min-w-[100px]">Impact Tier</th>
                 <th className="py-2.5 px-4 min-w-[120px]">Weighted Points</th>
                 <th className="py-2.5 px-4 min-w-[240px]">Observable Evidence / Condition</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#DDEFFF]/60 dark:divide-white/5">
+            <tbody className="divide-y divide-[#E1E7EF] dark:divide-[#1F2E45]">
               {riskAssessment?.contributing_factors.map((cf, idx) => (
-                <tr key={idx} className="hover:bg-[#EAF6FF]/50 dark:hover:bg-slate-800/40 transition-colors">
-                  <td className="py-3 px-4 font-semibold text-[#18344D] dark:text-[#EDF6FF]">{cf.factor}</td>
+                <tr key={idx} className="hover:bg-[#F5F7FA] dark:hover:bg-[#1A2A42]/50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-[#172033] dark:text-[#F1F5F9]">{cf.factor}</td>
                   <td className="py-3 px-4">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                      cf.impact === 'HIGH' ? 'bg-rose-100/80 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300' :
-                      cf.impact === 'MEDIUM' ? 'bg-amber-100/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300' :
-                      'bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
+                      cf.impact === 'HIGH' ? 'bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30' :
+                      cf.impact === 'MEDIUM' ? 'bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] border border-[#FDE68A] dark:border-[#E9A23B]/30' :
+                      'bg-[#ECFDF5] dark:bg-[#19966B]/15 text-[#065F46] border border-[#A7F3D0] dark:border-[#19966B]/30'
                     }`}>
                       {cf.impact}
                     </span>
                   </td>
-                  <td className="py-3 px-4 font-mono font-bold text-[#1687E8] dark:text-[#56B4F5]">+{cf.weight_score} pts</td>
-                  <td className="py-3 px-4 text-[#607D95] dark:text-[#A8BED2]">{cf.description}</td>
+                  <td className="py-3 px-4 font-mono font-bold text-[#3563E9]">+{cf.weight_score} pts</td>
+                  <td className="py-3 px-4 text-[#687386] dark:text-[#94A3B8]">{cf.description}</td>
                 </tr>
               ))}
             </tbody>
@@ -356,56 +347,56 @@ export const CaseDetail: React.FC = () => {
 
       {/* Section B: Milestone Timeline */}
       <div className="glass-panel p-6">
-        <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">Statutory Milestone Progression Timeline</h4>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Chronological milestone deadlines and compliance verification</p>
+        <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] mb-0.5">Statutory Milestone Progression Timeline</h4>
+        <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">Chronological milestone deadlines and compliance verification</p>
 
         <div className="space-y-3">
           {caseData.milestones?.map((ms, index) => (
             <div
               key={ms.id}
-              className={`p-4 rounded-xl border flex flex-wrap items-center justify-between gap-4 transition-all duration-200 ${
-                ms.status === 'COMPLETED' ? 'bg-emerald-500/10 border-emerald-400/20' :
-                ms.status === 'OVERDUE' ? 'bg-rose-500/10 border-rose-400/25' :
-                ms.status === 'IN_PROGRESS' ? 'bg-sky-500/10 border-sky-400/25' :
-                'bg-white/30 dark:bg-slate-800/30 border-sky-100/50 dark:border-white/5 opacity-80'
+              className={`p-4 rounded-lg border flex flex-wrap items-center justify-between gap-4 transition-colors ${
+                ms.status === 'COMPLETED' ? 'bg-[#ECFDF5] dark:bg-[#19966B]/10 border-[#A7F3D0] dark:border-[#19966B]/25' :
+                ms.status === 'OVERDUE' ? 'bg-[#FEF2F2] dark:bg-[#DC3545]/10 border-[#FECACA] dark:border-[#DC3545]/25' :
+                ms.status === 'IN_PROGRESS' ? 'bg-[#3563E9]/5 dark:bg-[#3563E9]/10 border-[#3563E9]/25' :
+                'bg-[#F9FAFB] dark:bg-[#0E1726] border-[#E1E7EF] dark:border-[#1F2E45]'
               }`}
             >
               <div className="flex items-center gap-3">
                 <div className={`h-8 w-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 shadow-xs ${
-                  ms.status === 'COMPLETED' ? 'bg-emerald-600 text-white' :
-                  ms.status === 'OVERDUE' ? 'bg-rose-600 text-white' :
-                  ms.status === 'IN_PROGRESS' ? 'bg-sky-600 text-white' :
-                  'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+                  ms.status === 'COMPLETED' ? 'bg-[#19966B] text-white' :
+                  ms.status === 'OVERDUE' ? 'bg-[#DC3545] text-white' :
+                  ms.status === 'IN_PROGRESS' ? 'bg-[#3563E9] text-white' :
+                  'bg-slate-200 dark:bg-slate-700 text-[#687386] dark:text-[#94A3B8]'
                 }`}>
                   {index + 1}
                 </div>
                 <div>
-                  <h5 className="font-semibold text-slate-900 dark:text-slate-100 text-xs">{ms.milestone_name}</h5>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">Stage: {ms.stage_name}</p>
+                  <h5 className="font-semibold text-[#172033] dark:text-[#F1F5F9] text-xs">{ms.milestone_name}</h5>
+                  <p className="text-[11px] text-[#687386] dark:text-[#94A3B8]">Stage: {ms.stage_name}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-6 text-xs">
                 <div>
-                  <span className="text-slate-400 dark:text-slate-500 text-[11px]">Planned: </span>
-                  <span className="font-medium text-slate-800 dark:text-slate-200">{new Date(ms.planned_date).toLocaleDateString()}</span>
+                  <span className="text-[#687386] dark:text-[#94A3B8] text-[11px]">Planned: </span>
+                  <span className="font-medium text-[#172033] dark:text-[#F1F5F9]">{new Date(ms.planned_date).toLocaleDateString()}</span>
                 </div>
                 {ms.actual_date && (
                   <div>
-                    <span className="text-slate-400 dark:text-slate-500 text-[11px]">Actual: </span>
-                    <span className="font-medium text-slate-800 dark:text-slate-200">{new Date(ms.actual_date).toLocaleDateString()}</span>
+                    <span className="text-[#687386] dark:text-[#94A3B8] text-[11px]">Actual: </span>
+                    <span className="font-medium text-[#172033] dark:text-[#F1F5F9]">{new Date(ms.actual_date).toLocaleDateString()}</span>
                   </div>
                 )}
                 {ms.days_overdue > 0 && (
-                  <span className="text-rose-700 dark:text-rose-300 font-bold bg-rose-100/80 dark:bg-rose-950/60 px-2 py-0.5 rounded-md text-[11px] border border-rose-200/60 dark:border-rose-800/40">
+                  <span className="text-[#DC3545] font-bold bg-[#FEF2F2] dark:bg-[#DC3545]/15 px-2 py-0.5 rounded-md text-[11px] border border-[#FECACA] dark:border-[#DC3545]/30">
                     +{ms.days_overdue}d Overdue
                   </span>
                 )}
                 <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full uppercase ${
-                  ms.status === 'COMPLETED' ? 'bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' :
-                  ms.status === 'OVERDUE' ? 'bg-rose-100/80 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 animate-pulse' :
-                  ms.status === 'IN_PROGRESS' ? 'bg-sky-100/80 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300' :
-                  'bg-slate-200/80 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300'
+                  ms.status === 'COMPLETED' ? 'bg-[#ECFDF5] dark:bg-[#19966B]/15 text-[#065F46] dark:text-[#34D399] border border-[#A7F3D0] dark:border-[#19966B]/30' :
+                  ms.status === 'OVERDUE' ? 'bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30' :
+                  ms.status === 'IN_PROGRESS' ? 'bg-[#3563E9]/10 text-[#3563E9] border border-[#3563E9]/20' :
+                  'bg-slate-100 dark:bg-slate-800 text-[#687386] dark:text-[#94A3B8]'
                 }`}>
                   {ms.status}
                 </span>
@@ -419,12 +410,12 @@ export const CaseDetail: React.FC = () => {
       <div className="glass-panel p-6">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h4 className="text-sm font-bold text-slate-900 dark:text-white">Recommended Administrative Actions</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400">Non-binding decision-support recommendations generated by LandDelay AI</p>
+            <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Recommended Administrative Actions</h4>
+            <p className="text-xs text-[#687386] dark:text-[#94A3B8]">Non-binding decision-support recommendations generated by LandDelay AI</p>
           </div>
           <button
             onClick={() => setIsActionOpen(true)}
-            className="text-xs text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-semibold transition-colors"
+            className="text-xs text-[#3563E9] hover:text-[#2B52C6] font-semibold transition-colors cursor-pointer"
           >
             + Create Custom Action
           </button>
@@ -433,19 +424,19 @@ export const CaseDetail: React.FC = () => {
         <div className="space-y-3">
           {riskAssessment?.recommended_actions && riskAssessment.recommended_actions.length > 0 ? (
             riskAssessment.recommended_actions.map((rec, i) => (
-              <div key={i} className="p-4 bg-white/40 dark:bg-slate-800/40 rounded-xl border border-sky-100/60 dark:border-white/5 flex items-center justify-between gap-4">
+              <div key={i} className="p-4 bg-[#F9FAFB] dark:bg-[#0E1726] rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between gap-4">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-xs text-slate-900 dark:text-slate-100">{rec.title}</span>
+                    <span className="font-semibold text-xs text-[#172033] dark:text-[#F1F5F9]">{rec.title}</span>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                      rec.priority === 'HIGH' ? 'bg-rose-100/80 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300' : 'bg-amber-100/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
+                      rec.priority === 'HIGH' ? 'bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30' : 'bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] border border-[#FDE68A] dark:border-[#E9A23B]/30'
                     }`}>
                       {rec.priority} PRIORITY
                     </span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300">{rec.reason}</p>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Recommended Role: <span className="font-medium text-slate-700 dark:text-slate-200">{rec.assigned_role}</span>
+                  <p className="text-xs text-[#687386] dark:text-[#94A3B8]">{rec.reason}</p>
+                  <p className="text-[11px] text-[#687386] dark:text-[#94A3B8]">
+                    Recommended Role: <span className="font-medium text-[#172033] dark:text-[#F1F5F9]">{rec.assigned_role}</span>
                   </p>
                 </div>
 
@@ -458,7 +449,7 @@ export const CaseDetail: React.FC = () => {
               </div>
             ))
           ) : (
-            <p className="text-xs text-slate-500 dark:text-slate-400 py-4 text-center">
+            <p className="text-xs text-[#687386] dark:text-[#94A3B8] py-4 text-center">
               No urgent administrative follow-up required. Milestones are tracking within standard benchmarks.
             </p>
           )}
@@ -469,52 +460,52 @@ export const CaseDetail: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Active Directives */}
         <div className="glass-panel p-6">
-          <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">Directives Assigned to Parcel</h4>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Ongoing tasks assigned to officers</p>
+          <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] mb-0.5">Directives Assigned to Parcel</h4>
+          <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">Ongoing tasks assigned to officers</p>
 
           <div className="space-y-3">
             {caseData.actions && caseData.actions.length > 0 ? (
               caseData.actions.map((act) => (
-                <div key={act.action_id} className="p-3 rounded-xl border border-sky-100/60 dark:border-white/5 bg-white/40 dark:bg-slate-800/40">
+                <div key={act.action_id} className="p-3 rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45] bg-[#F9FAFB] dark:bg-[#0E1726]">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-800 dark:text-slate-200">{act.title}</span>
+                    <span className="font-semibold text-[#172033] dark:text-[#F1F5F9]">{act.title}</span>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                      act.status === 'COMPLETED' ? 'bg-emerald-100/80 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300' : 'bg-sky-100/80 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300'
+                      act.status === 'COMPLETED' ? 'bg-[#ECFDF5] dark:bg-[#19966B]/15 text-[#065F46] border border-[#A7F3D0] dark:border-[#19966B]/30' : 'bg-[#3563E9]/10 text-[#3563E9] border border-[#3563E9]/20'
                     }`}>
                       {act.status}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-1">{act.description}</p>
-                  <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                  <p className="text-[11px] text-[#687386] dark:text-[#94A3B8] mt-1">{act.description}</p>
+                  <div className="mt-2 flex items-center justify-between text-[10px] text-[#687386] dark:text-[#94A3B8]">
                     <span>Officer: {act.assigned_role}</span>
                     <span>Due: {new Date(act.due_date).toLocaleDateString()}</span>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-xs text-slate-500 dark:text-slate-400 py-3 text-center">No active actions assigned yet.</p>
+              <p className="text-xs text-[#687386] dark:text-[#94A3B8] py-3 text-center">No active actions assigned yet.</p>
             )}
           </div>
         </div>
 
         {/* Audit Log */}
         <div className="glass-panel p-6">
-          <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">Statutory Audit Trail</h4>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">System and administrative event history</p>
+          <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] mb-0.5">Statutory Audit Trail</h4>
+          <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">System and administrative event history</p>
 
           <div className="space-y-3 max-h-64 overflow-y-auto pr-2">
             {caseData.audit_logs && caseData.audit_logs.length > 0 ? (
               caseData.audit_logs.map((log) => (
-                <div key={log.id} className="text-xs p-2.5 rounded-xl bg-white/40 dark:bg-slate-800/40 border border-sky-100/60 dark:border-white/5">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500">
-                    <span className="font-mono font-semibold text-sky-600 dark:text-sky-400">{log.action_type}</span>
+                <div key={log.id} className="text-xs p-2.5 rounded-lg bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45]">
+                  <div className="flex items-center justify-between text-[11px] text-[#687386] dark:text-[#94A3B8]">
+                    <span className="font-mono font-semibold text-[#3563E9]">{log.action_type}</span>
                     <span>{new Date(log.timestamp).toLocaleString()}</span>
                   </div>
-                  <p className="text-slate-700 dark:text-slate-300 mt-1">{log.details}</p>
+                  <p className="text-[#172033] dark:text-[#F1F5F9] mt-1">{log.details}</p>
                 </div>
               ))
             ) : (
-              <p className="text-xs text-slate-500 dark:text-slate-400 py-3 text-center">No audit records recorded.</p>
+              <p className="text-xs text-[#687386] dark:text-[#94A3B8] py-3 text-center">No audit records recorded.</p>
             )}
           </div>
         </div>
@@ -522,17 +513,17 @@ export const CaseDetail: React.FC = () => {
 
       {/* Edit Parameters Modal */}
       {isEditOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-glass-lg modal-content-enter">
-            <div className="p-4 border-b border-sky-100/60 dark:border-white/10 flex items-center justify-between bg-sky-50/40 dark:bg-slate-800/40">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Update Parcel Monitoring Records</h3>
-              <button onClick={() => setIsEditOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition-colors">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
+          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-lg modal-content-enter">
+            <div className="p-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
+              <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Update Parcel Monitoring Records</h3>
+              <button onClick={() => setIsEditOpen(false)} className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <form onSubmit={handleUpdateCase} className="p-6 space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Land Acquired (Hectares)</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Land Acquired (Hectares)</label>
                 <input
                   type="number"
                   step="0.1"
@@ -545,7 +536,7 @@ export const CaseDetail: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Current Statutory Stage</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Current Statutory Stage</label>
                 <select
                   value={editForm.current_stage}
                   onChange={(e) => setEditForm({ ...editForm, current_stage: e.target.value })}
@@ -562,7 +553,7 @@ export const CaseDetail: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Compensation Pending (%)</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Compensation Pending (%)</label>
                 <input
                   type="number"
                   min="0"
@@ -574,7 +565,7 @@ export const CaseDetail: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Open Dispute Count</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Open Dispute Count</label>
                 <input
                   type="number"
                   min="0"
@@ -590,14 +581,14 @@ export const CaseDetail: React.FC = () => {
                   id="incompleteEdit"
                   checked={editForm.documents_incomplete}
                   onChange={(e) => setEditForm({ ...editForm, documents_incomplete: e.target.checked })}
-                  className="rounded text-sky-600 border-sky-300 dark:border-slate-600 bg-white/70 dark:bg-slate-900"
+                  className="rounded text-[#3563E9] border-[#E1E7EF] dark:border-[#1F2E45] bg-white dark:bg-[#0E1726]"
                 />
-                <label htmlFor="incompleteEdit" className="text-slate-700 dark:text-slate-300 cursor-pointer">
+                <label htmlFor="incompleteEdit" className="text-[#172033] dark:text-[#F1F5F9] cursor-pointer">
                   Statutory gazette / revenue records incomplete
                 </label>
               </div>
 
-              <div className="pt-4 border-t border-sky-100/60 dark:border-white/10 flex justify-end gap-2">
+              <div className="pt-4 border-t border-[#E1E7EF] dark:border-[#1F2E45] flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsEditOpen(false)}
@@ -619,17 +610,17 @@ export const CaseDetail: React.FC = () => {
 
       {/* Create Action Modal */}
       {isActionOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-glass-lg modal-content-enter">
-            <div className="p-4 border-b border-sky-100/60 dark:border-white/10 flex items-center justify-between bg-sky-50/40 dark:bg-slate-800/40">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Assign Administrative Directive</h3>
-              <button onClick={() => setIsActionOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition-colors">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
+          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-lg modal-content-enter">
+            <div className="p-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
+              <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Assign Administrative Directive</h3>
+              <button onClick={() => setIsActionOpen(false)} className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <form onSubmit={handleCreateAction} className="p-6 space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Action Directive Title *</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Action Directive Title *</label>
                 <input
                   type="text"
                   required
@@ -641,7 +632,7 @@ export const CaseDetail: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Detailed Instructions *</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Detailed Instructions *</label>
                 <textarea
                   required
                   rows={3}
@@ -654,7 +645,7 @@ export const CaseDetail: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Priority</label>
+                  <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Priority</label>
                   <select
                     value={actionForm.priority}
                     onChange={(e) => setActionForm({ ...actionForm, priority: e.target.value })}
@@ -666,7 +657,7 @@ export const CaseDetail: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Target Completion Date</label>
+                  <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Target Completion Date</label>
                   <input
                     type="date"
                     required
@@ -678,7 +669,7 @@ export const CaseDetail: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Designated Officer Role</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Designated Officer Role</label>
                 <select
                   value={actionForm.assigned_role}
                   onChange={(e) => setActionForm({ ...actionForm, assigned_role: e.target.value })}
@@ -692,7 +683,7 @@ export const CaseDetail: React.FC = () => {
                 </select>
               </div>
 
-              <div className="pt-4 border-t border-sky-100/60 dark:border-white/10 flex justify-end gap-2">
+              <div className="pt-4 border-t border-[#E1E7EF] dark:border-[#1F2E45] flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsActionOpen(false)}

@@ -71,7 +71,7 @@ export const DashboardLayout: React.FC = () => {
   };
 
   return (
-    <div className={`flex h-screen overflow-hidden font-sans ${theme === 'dark' ? 'theme-bg-dark' : 'theme-bg-light'}`}>
+    <div className={`flex h-screen overflow-hidden font-sans bg-[#F5F7FA] dark:bg-[#0B1320]`}>
       <Sidebar
         pendingActionsCount={pendingActionsCount}
         mobileOpen={mobileSidebarOpen}
@@ -87,7 +87,7 @@ export const DashboardLayout: React.FC = () => {
           isSyntheticActive={isSynthetic}
           onToggleSidebar={() => setMobileSidebarOpen(prev => !prev)}
         />
-        <main className="flex-1 overflow-y-auto p-3.5 sm:p-8 focus:outline-none w-full min-w-0">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 focus:outline-none w-full min-w-0 bg-[#F5F7FA] dark:bg-[#0B1320]">
           <div key={location.pathname} className="page-enter">
             <Outlet context={{ refreshTrigger, setRefreshTrigger }} />
           </div>

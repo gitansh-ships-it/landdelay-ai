@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  CheckSquare,
   Clock,
   AlertCircle,
-  Filter,
   Plus,
-  ArrowUpDown,
   ExternalLink,
   CheckCircle2,
   Calendar,
@@ -108,30 +105,30 @@ export const ActionCenter: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Open Directives</div>
-            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{openCount}</div>
+            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Open Directives</div>
+            <div className="text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{openCount}</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-sky-500/10 dark:bg-sky-400/15 border border-sky-400/20 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs">
             <Clock className="h-5 w-5" />
           </div>
         </div>
 
         <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">In Progress</div>
-            <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">{inProgressCount}</div>
+            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">In Progress</div>
+            <div className="text-2xl font-bold text-[#E9A23B] mt-1">{inProgressCount}</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-amber-500/10 dark:bg-amber-400/15 border border-amber-400/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#E9A23B]/10 border border-[#E9A23B]/20 flex items-center justify-center text-[#E9A23B] shadow-xs">
             <AlertCircle className="h-5 w-5" />
           </div>
         </div>
 
         <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Completed / Resolved</div>
-            <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{completedCount}</div>
+            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Completed / Resolved</div>
+            <div className="text-2xl font-bold text-[#19966B] mt-1">{completedCount}</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 dark:bg-emerald-400/15 border border-emerald-400/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#19966B]/10 border border-[#19966B]/20 flex items-center justify-center text-[#19966B] shadow-xs">
             <CheckCircle2 className="h-5 w-5" />
           </div>
         </div>
@@ -178,7 +175,7 @@ export const ActionCenter: React.FC = () => {
           {(statusFilter || priorityFilter || roleFilter) && (
             <button
               onClick={() => { setStatusFilter(''); setPriorityFilter(''); setRoleFilter(''); }}
-              className="text-xs text-sky-600 dark:text-sky-400 font-semibold hover:text-sky-700 dark:hover:text-sky-300 px-2 transition-colors"
+              className="text-xs text-[#3563E9] hover:text-[#2B52C6] font-semibold px-2 transition-colors cursor-pointer"
             >
               Reset
             </button>
@@ -197,58 +194,58 @@ export const ActionCenter: React.FC = () => {
       {/* Actions List */}
       <div className="space-y-3">
         {loading ? (
-          <div className="glass-panel p-12 text-center text-slate-500 dark:text-slate-400">
+          <div className="glass-panel p-12 text-center text-[#687386] dark:text-[#94A3B8]">
             Loading administrative actions...
           </div>
         ) : actions.length === 0 ? (
-          <div className="glass-panel p-12 text-center text-slate-500 dark:text-slate-400">
+          <div className="glass-panel p-12 text-center text-[#687386] dark:text-[#94A3B8]">
             No administrative directives match current criteria.
           </div>
         ) : (
           actions.map((act) => (
             <div
               key={act.action_id}
-              className={`p-5 rounded-2xl border transition-all duration-200 flex flex-wrap items-center justify-between gap-4 ${
+              className={`p-5 rounded-xl border transition-colors flex flex-wrap items-center justify-between gap-4 ${
                 act.status === 'COMPLETED'
-                  ? 'bg-white/40 dark:bg-slate-900/40 border-sky-100/40 dark:border-white/5 opacity-70'
-                  : 'glass-card hover:border-sky-300/50 dark:hover:border-white/20'
+                  ? 'bg-white/60 dark:bg-[#121E31]/60 border-[#E1E7EF] dark:border-[#1F2E45] opacity-75'
+                  : 'glass-card hover:border-[#3563E9]'
               }`}
             >
               <div className="space-y-1.5 max-w-2xl">
                 <div className="flex items-center gap-2">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${
-                    act.priority === 'HIGH' ? 'bg-rose-100/80 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/40' :
-                    act.priority === 'MEDIUM' ? 'bg-amber-100/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800/40' :
-                    'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                    act.priority === 'HIGH' ? 'bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30' :
+                    act.priority === 'MEDIUM' ? 'bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] border border-[#FDE68A] dark:border-[#E9A23B]/30' :
+                    'bg-slate-100 dark:bg-slate-800 text-[#687386] dark:text-[#94A3B8] border border-[#E1E7EF] dark:border-[#1F2E45]'
                   }`}>
                     {act.priority} PRIORITY
                   </span>
-                  <span className="font-mono text-xs font-bold text-sky-600 dark:text-sky-400">
+                  <span className="font-mono text-xs font-bold text-[#3563E9]">
                     {act.case_id}
                   </span>
                   {act.project_name && (
-                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                    <span className="text-xs text-[#687386] dark:text-[#94A3B8]">
                       • {act.project_name} ({act.district})
                     </span>
                   )}
                 </div>
 
-                <h4 className={`text-sm font-bold ${act.status === 'COMPLETED' ? 'line-through text-slate-500 dark:text-slate-400' : 'text-slate-900 dark:text-white'}`}>
+                <h4 className={`text-sm font-bold ${act.status === 'COMPLETED' ? 'line-through text-[#687386] dark:text-[#94A3B8]' : 'text-[#172033] dark:text-[#F1F5F9]'}`}>
                   {act.title}
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{act.description}</p>
+                <p className="text-xs text-[#687386] dark:text-[#94A3B8] leading-relaxed">{act.description}</p>
 
-                <div className="flex flex-wrap items-center gap-4 text-[11px] text-slate-500 dark:text-slate-400 pt-1">
+                <div className="flex flex-wrap items-center gap-4 text-[11px] text-[#687386] dark:text-[#94A3B8] pt-1">
                   <span className="flex items-center gap-1">
-                    <User className="h-3 w-3 text-sky-500/70" />
-                    <span>Role: <strong className="text-slate-700 dark:text-slate-200 font-semibold">{act.assigned_role}</strong></span>
+                    <User className="h-3 w-3 text-[#3563E9]" />
+                    <span>Role: <strong className="text-[#172033] dark:text-[#F1F5F9] font-semibold">{act.assigned_role}</strong></span>
                   </span>
                   <span className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3 text-sky-500/70" />
-                    <span>Target Due: <strong className="text-slate-700 dark:text-slate-200 font-semibold">{new Date(act.due_date).toLocaleDateString()}</strong></span>
+                    <Calendar className="h-3 w-3 text-[#3563E9]" />
+                    <span>Target Due: <strong className="text-[#172033] dark:text-[#F1F5F9] font-semibold">{new Date(act.due_date).toLocaleDateString()}</strong></span>
                   </span>
                   {act.completed_at && (
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span className="text-[#19966B] font-semibold">
                       Completed: {new Date(act.completed_at).toLocaleDateString()}
                     </span>
                   )}
@@ -258,10 +255,10 @@ export const ActionCenter: React.FC = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => handleStatusToggle(act)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 shadow-xs ${
-                    act.status === 'OPEN' ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200/80 dark:border-sky-800/50 hover:bg-sky-100' :
-                    act.status === 'IN_PROGRESS' ? 'bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border-amber-200/80 dark:border-amber-800/50 hover:bg-amber-100' :
-                    'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-800/50 hover:bg-emerald-100'
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer ${
+                    act.status === 'OPEN' ? 'bg-[#3563E9]/10 text-[#3563E9] border-[#3563E9]/30 hover:bg-[#3563E9]/20' :
+                    act.status === 'IN_PROGRESS' ? 'bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] dark:text-[#FBBF24] border-[#FDE68A] dark:border-[#E9A23B]/30 hover:bg-amber-100' :
+                    'bg-[#ECFDF5] dark:bg-[#19966B]/15 text-[#065F46] dark:text-[#34D399] border-[#A7F3D0] dark:border-[#19966B]/30 hover:bg-emerald-100'
                   }`}
                 >
                   <CheckCircle2 className="h-3.5 w-3.5" />
@@ -283,17 +280,17 @@ export const ActionCenter: React.FC = () => {
 
       {/* Create Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-glass-lg modal-content-enter">
-            <div className="p-4 border-b border-sky-100/60 dark:border-white/10 flex items-center justify-between bg-sky-50/40 dark:bg-slate-800/40">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Create Follow-up Action Directive</h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition-colors">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
+          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-lg modal-content-enter">
+            <div className="p-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
+              <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Create Follow-up Action Directive</h3>
+              <button onClick={() => setIsModalOpen(false)} className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer">
                 <X className="h-4 w-4" />
               </button>
             </div>
             <form onSubmit={handleCreateAction} className="p-6 space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Target Case ID *</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Target Case ID *</label>
                 <input
                   type="text"
                   required
@@ -305,7 +302,7 @@ export const ActionCenter: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Directive Title *</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Directive Title *</label>
                 <input
                   type="text"
                   required
@@ -317,7 +314,7 @@ export const ActionCenter: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Directive Instructions *</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Directive Instructions *</label>
                 <textarea
                   required
                   rows={3}
@@ -330,7 +327,7 @@ export const ActionCenter: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Priority</label>
+                  <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Priority</label>
                   <select
                     value={createForm.priority}
                     onChange={(e) => setCreateForm({ ...createForm, priority: e.target.value })}
@@ -342,7 +339,7 @@ export const ActionCenter: React.FC = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Due Date</label>
+                  <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Due Date</label>
                   <input
                     type="date"
                     required
@@ -354,7 +351,7 @@ export const ActionCenter: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Assigned Role</label>
+                <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Assigned Role</label>
                 <select
                   value={createForm.assigned_role}
                   onChange={(e) => setCreateForm({ ...createForm, assigned_role: e.target.value })}
@@ -368,7 +365,7 @@ export const ActionCenter: React.FC = () => {
                 </select>
               </div>
 
-              <div className="pt-4 border-t border-sky-100/60 dark:border-white/10 flex justify-end gap-2">
+              <div className="pt-4 border-t border-[#E1E7EF] dark:border-[#1F2E45] flex justify-end gap-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}

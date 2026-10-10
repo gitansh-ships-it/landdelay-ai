@@ -6,7 +6,6 @@ import {
   Database,
   RefreshCw,
   CheckCircle2,
-  AlertTriangle,
   FileSpreadsheet,
   ShieldCheck,
   Info,
@@ -120,33 +119,33 @@ export const DataManagement: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Stored Parcels</div>
-            <div className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{kpis?.total_cases || 0}</div>
-            <div className="text-[11px] text-sky-600 dark:text-sky-400 mt-0.5">Database registry records</div>
+            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Total Stored Parcels</div>
+            <div className="text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{kpis?.total_cases || 0}</div>
+            <div className="text-[11px] text-[#3563E9] mt-0.5 font-medium">Database registry records</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-sky-500/10 dark:bg-sky-400/15 border border-sky-400/20 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs">
             <Database className="h-5 w-5" />
           </div>
         </div>
 
         <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Verified Public Records</div>
-            <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{kpis?.verified_cases_count || 0}</div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">Government gazette sources</div>
+            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Verified Public Records</div>
+            <div className="text-2xl font-bold text-[#19966B] mt-1">{kpis?.verified_cases_count || 0}</div>
+            <div className="text-[11px] text-[#19966B] mt-0.5 font-medium">Government gazette sources</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-emerald-500/10 dark:bg-emerald-400/15 border border-emerald-400/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#19966B]/10 border border-[#19966B]/20 flex items-center justify-center text-[#19966B] shadow-xs">
             <ShieldCheck className="h-5 w-5" />
           </div>
         </div>
 
         <div className="glass-card p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Synthetic Demo Records</div>
-            <div className="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">{kpis?.synthetic_cases_count || 0}</div>
-            <div className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">Deterministic seed (seed=42)</div>
+            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Synthetic Demo Records</div>
+            <div className="text-2xl font-bold text-[#E9A23B] mt-1">{kpis?.synthetic_cases_count || 0}</div>
+            <div className="text-[11px] text-[#E9A23B] mt-0.5 font-medium">Deterministic seed (seed=42)</div>
           </div>
-          <div className="h-10 w-10 rounded-xl bg-amber-500/10 dark:bg-amber-400/15 border border-amber-400/20 flex items-center justify-center text-amber-600 dark:text-amber-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#E9A23B]/10 border border-[#E9A23B]/20 flex items-center justify-center text-[#E9A23B] shadow-xs">
             <Layers className="h-5 w-5" />
           </div>
         </div>
@@ -154,13 +153,13 @@ export const DataManagement: React.FC = () => {
 
       {/* CSV Ingestion Pipeline Card */}
       <div className="glass-panel p-6 space-y-6">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-sky-100/60 dark:border-white/10 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] pb-4">
           <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <FileSpreadsheet className="h-5 w-5 text-sky-600 dark:text-sky-400" />
+            <h3 className="text-base font-bold text-[#172033] dark:text-[#F1F5F9] flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5 text-[#3563E9]" />
               <span>CSV Ingestion & Validation Pipeline</span>
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            <p className="text-xs text-[#687386] dark:text-[#94A3B8] mt-0.5">
               Upload statutory land acquisition rosters with automated schema checking and pre-import auditing
             </p>
           </div>
@@ -175,8 +174,8 @@ export const DataManagement: React.FC = () => {
         </div>
 
         {importResult && (
-          <div className="p-3 bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/50 text-emerald-800 dark:text-emerald-300 rounded-xl text-xs flex items-center gap-2 font-medium">
-            <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+          <div className="p-3 bg-[#ECFDF5] dark:bg-[#19966B]/15 border border-[#A7F3D0] dark:border-[#19966B]/30 text-[#065F46] dark:text-[#34D399] rounded-lg text-xs flex items-center gap-2 font-medium">
+            <CheckCircle2 className="h-4 w-4 text-[#19966B]" />
             <span>{importResult}</span>
           </div>
         )}
@@ -185,7 +184,7 @@ export const DataManagement: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
           <div className="space-y-4 text-xs">
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Select Data Provenance Classification *</label>
+              <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Select Data Provenance Classification *</label>
               <select
                 value={importSource}
                 onChange={(e) => setImportSource(e.target.value as any)}
@@ -194,18 +193,18 @@ export const DataManagement: React.FC = () => {
                 <option value="VERIFIED_PUBLIC_DATA">VERIFIED_PUBLIC_DATA (Official Gazette / NHAI records)</option>
                 <option value="SYNTHETIC_DEMO_DATA">SYNTHETIC_DEMO_DATA (Demonstration / Test simulation)</option>
               </select>
-              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
+              <p className="text-[11px] text-[#687386] dark:text-[#94A3B8] mt-1">
                 Data sources are permanently segregated to guarantee governance transparency.
               </p>
             </div>
 
             <div>
-              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Choose CSV File *</label>
+              <label className="block font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Choose CSV File *</label>
               <input
                 type="file"
                 accept=".csv"
                 onChange={handleFileChange}
-                className="glass-input w-full text-xs text-slate-600 dark:text-slate-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-500/10 file:text-sky-700 dark:file:text-sky-300 hover:file:bg-sky-500/20"
+                className="glass-input w-full text-xs text-[#172033] dark:text-[#F1F5F9] file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#3563E9]/10 file:text-[#3563E9] hover:file:bg-[#3563E9]/20"
               />
             </div>
 
@@ -219,12 +218,12 @@ export const DataManagement: React.FC = () => {
             </button>
           </div>
 
-          <div className="p-4 bg-sky-500/10 dark:bg-sky-400/10 rounded-2xl border border-sky-200/50 dark:border-sky-500/20 text-xs space-y-2 text-slate-700 dark:text-slate-300">
-            <h5 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Info className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+          <div className="p-4 bg-[#F9FAFB] dark:bg-[#0E1726] rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45] text-xs space-y-2 text-[#172033] dark:text-[#F1F5F9]">
+            <h5 className="font-bold flex items-center gap-1.5 text-[#172033] dark:text-[#F1F5F9]">
+              <Info className="h-4 w-4 text-[#3563E9]" />
               <span>Statutory Schema Constraints</span>
             </h5>
-            <ul className="list-disc pl-4 space-y-1 text-[11px] text-slate-600 dark:text-slate-400">
+            <ul className="list-disc pl-4 space-y-1 text-[11px] text-[#687386] dark:text-[#94A3B8]">
               <li><strong>Required headers:</strong> case_id, project_name, state, district, land_required_hectares, current_stage, planned_stage_date.</li>
               <li><strong>Coordinates:</strong> Leave empty if unverified. Never fabricate GPS coordinates.</li>
               <li><strong>Percentages:</strong> compensation_pending_pct strictly between 0 and 100.</li>
@@ -235,12 +234,12 @@ export const DataManagement: React.FC = () => {
 
         {/* Validation Report & Preview */}
         {preview && (
-          <div className="space-y-4 pt-4 border-t border-sky-100/60 dark:border-white/10">
+          <div className="space-y-4 pt-4 border-t border-[#E1E7EF] dark:border-[#1F2E45]">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Pre-Ingestion Validation Audit</h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Total Rows: {preview.total_rows} • Valid: <span className="text-emerald-600 dark:text-emerald-400 font-bold">{preview.valid_rows_count}</span> • Errors: <span className="text-rose-600 dark:text-rose-400 font-bold">{preview.invalid_rows_count}</span>
+                <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Pre-Ingestion Validation Audit</h4>
+                <p className="text-xs text-[#687386] dark:text-[#94A3B8]">
+                  Total Rows: {preview.total_rows} • Valid: <span className="text-[#19966B] font-bold">{preview.valid_rows_count}</span> • Errors: <span className="text-[#DC3545] font-bold">{preview.invalid_rows_count}</span>
                 </p>
               </div>
 
@@ -248,7 +247,7 @@ export const DataManagement: React.FC = () => {
                 <button
                   onClick={handleConfirmImport}
                   disabled={isImporting}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-colors shadow-xs"
+                  className="px-4 py-2 bg-[#19966B] hover:bg-[#15805a] text-white rounded-lg text-xs font-bold transition-colors shadow-xs cursor-pointer"
                 >
                   {isImporting ? 'Ingesting Records...' : `Confirm & Ingest ${preview.valid_rows_count} Parcels`}
                 </button>
@@ -257,14 +256,14 @@ export const DataManagement: React.FC = () => {
 
             {/* Error List */}
             {preview.errors.length > 0 && (
-              <div className="p-4 bg-rose-50/80 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/50 rounded-xl space-y-2 text-xs">
-                <div className="font-bold text-rose-900 dark:text-rose-200 flex items-center gap-1.5">
-                  <XCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
+              <div className="p-4 bg-[#FEF2F2] dark:bg-[#DC3545]/15 border border-[#FECACA] dark:border-[#DC3545]/30 rounded-lg space-y-2 text-xs">
+                <div className="font-bold text-[#DC3545] flex items-center gap-1.5">
+                  <XCircle className="h-4 w-4 text-[#DC3545]" />
                   <span>Validation Blockers ({preview.errors.length} errors found)</span>
                 </div>
                 <div className="max-h-40 overflow-y-auto space-y-1">
                   {preview.errors.map((err, i) => (
-                    <div key={i} className="text-[11px] text-rose-800 dark:text-rose-300">
+                    <div key={i} className="text-[11px] text-[#DC3545]">
                       Row {err.row_number} [{err.field}]: {err.error}
                     </div>
                   ))}
@@ -274,10 +273,10 @@ export const DataManagement: React.FC = () => {
 
             {/* Sample Records Table */}
             {preview.sample_records.length > 0 && (
-              <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain rounded-xl border border-sky-100/60 dark:border-white/10">
+              <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45]">
                 <table className="w-full min-w-[620px] text-left text-xs border-collapse">
                   <thead>
-                    <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
+                    <tr className="bg-[#F9FAFB] dark:bg-[#0E1726] text-[#687386] dark:text-[#94A3B8] font-semibold text-[11px] border-b border-[#E1E7EF] dark:border-[#1F2E45]">
                       <th className="p-2.5 min-w-[100px] whitespace-nowrap">Case ID</th>
                       <th className="p-2.5 min-w-[160px]">Project</th>
                       <th className="p-2.5 min-w-[130px]">State / District</th>
@@ -286,15 +285,15 @@ export const DataManagement: React.FC = () => {
                       <th className="p-2.5 min-w-[100px]">Source</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
+                  <tbody className="divide-y divide-[#E1E7EF] dark:divide-[#1F2E45]">
                     {preview.sample_records.map((r, i) => (
-                      <tr key={i} className="hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors">
-                        <td className="p-2.5 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">{r.case_id}</td>
-                        <td className="p-2.5 font-medium text-slate-900 dark:text-slate-100">{r.project_name}</td>
-                        <td className="p-2.5 text-slate-600 dark:text-slate-300">{r.district}, {r.state}</td>
-                        <td className="p-2.5 text-slate-700 dark:text-slate-300">{r.current_stage}</td>
-                        <td className="p-2.5 font-mono text-slate-900 dark:text-slate-100">{r.land_required_hectares}</td>
-                        <td className="p-2.5 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 whitespace-nowrap">{r.data_source}</td>
+                      <tr key={i} className="hover:bg-[#F5F7FA] dark:hover:bg-[#1A2A42]/50 transition-colors">
+                        <td className="p-2.5 font-mono font-bold text-[#3563E9] whitespace-nowrap">{r.case_id}</td>
+                        <td className="p-2.5 font-medium text-[#172033] dark:text-[#F1F5F9]">{r.project_name}</td>
+                        <td className="p-2.5 text-[#687386] dark:text-[#94A3B8]">{r.district}, {r.state}</td>
+                        <td className="p-2.5 text-[#172033] dark:text-[#F1F5F9]">{r.current_stage}</td>
+                        <td className="p-2.5 font-mono text-[#172033] dark:text-[#F1F5F9]">{r.land_required_hectares}</td>
+                        <td className="p-2.5 font-mono text-[10px] text-[#19966B] whitespace-nowrap">{r.data_source}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -307,13 +306,13 @@ export const DataManagement: React.FC = () => {
 
       {/* Synthetic Demonstration Controls Card */}
       <div className="glass-panel p-6 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-sky-100/60 dark:border-white/10 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] pb-4">
           <div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <RefreshCw className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+            <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9] flex items-center gap-2">
+              <RefreshCw className="h-4 w-4 text-[#3563E9]" />
               <span>Synthetic Demonstration Data Management</span>
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-[#687386] dark:text-[#94A3B8]">
               Deterministic generator initializing 250 realistic infrastructure corridors (seed=42)
             </p>
           </div>
@@ -329,15 +328,15 @@ export const DataManagement: React.FC = () => {
         </div>
 
         {demoNotice && (
-          <div className="p-3 bg-sky-50 dark:bg-sky-950/60 border border-sky-200/80 dark:border-sky-800/50 text-sky-800 dark:text-sky-300 rounded-xl text-xs flex items-center gap-2 font-medium">
-            <Check className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+          <div className="p-3 bg-[#ECFDF5] dark:bg-[#19966B]/15 border border-[#A7F3D0] dark:border-[#19966B]/30 text-[#065F46] dark:text-[#34D399] rounded-lg text-xs flex items-center gap-2 font-medium">
+            <Check className="h-4 w-4 text-[#19966B]" />
             <span>{demoNotice}</span>
           </div>
         )}
 
-        <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-white/40 dark:bg-slate-800/40 p-4 rounded-xl border border-sky-100/60 dark:border-white/5">
+        <div className="text-xs text-[#687386] dark:text-[#94A3B8] leading-relaxed bg-[#F9FAFB] dark:bg-[#0E1726] p-4 rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45]">
           <p>
-            <strong>Governance Notice:</strong> All synthetic records are tagged with <span className="font-mono bg-amber-500/10 dark:bg-amber-400/10 text-amber-700 dark:text-amber-300 border border-amber-300/30 px-1.5 py-0.5 rounded-md text-[10px]">SYNTHETIC_DEMO_DATA</span>. Resetting completely clears the database and deterministically regenerates 250 simulated cases, realistic milestone schedules, and associated follow-up actions for reproducible evaluations.
+            <strong>Governance Notice:</strong> All synthetic records are tagged with <span className="font-mono bg-[#FFFBEB] dark:bg-[#E9A23B]/10 text-[#B45309] dark:text-[#FBBF24] border border-[#FDE68A] dark:border-[#E9A23B]/30 px-1.5 py-0.5 rounded text-[10px]">SYNTHETIC_DEMO_DATA</span>. Resetting completely clears the database and deterministically regenerates 250 simulated cases, realistic milestone schedules, and associated follow-up actions for reproducible evaluations.
           </p>
         </div>
       </div>

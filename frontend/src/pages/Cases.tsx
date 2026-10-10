@@ -12,8 +12,7 @@ import {
   ShieldAlert,
   FileCheck2,
   FileX,
-  X,
-  CheckCircle2
+  X
 } from 'lucide-react';
 import { api } from '../services/api';
 import { AcquisitionCase, CaseListResponse, RiskCategory } from '../types';
@@ -177,7 +176,7 @@ export const Cases: React.FC = () => {
       <div className="glass-panel p-4 flex flex-wrap items-center justify-between gap-4">
         {/* Search */}
         <div className="relative flex-1 min-w-[240px] max-w-md">
-          <Search className="h-4 w-4 text-sky-500/70 absolute left-3 top-2.5" />
+          <Search className="h-4 w-4 text-[#687386] absolute left-3 top-2.5" />
           <input
             type="text"
             placeholder="Search by Case ID, Project, District..."
@@ -265,60 +264,60 @@ export const Cases: React.FC = () => {
         <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
           <table className="w-full min-w-[860px] text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-sky-50/50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-300 uppercase font-semibold text-[11px] border-b border-sky-100/60 dark:border-white/10">
+              <tr className="bg-[#F9FAFB] dark:bg-[#0E1726] text-[#687386] dark:text-[#94A3B8] uppercase font-semibold text-[11px] border-b border-[#E1E7EF] dark:border-[#1F2E45]">
                 <th
                   onClick={() => handleSort('case_id')}
-                  className="py-3 px-4 min-w-[120px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[120px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Case ID</span>
-                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
+                    <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
                 <th className="py-3 px-4 min-w-[180px]">Project & Location</th>
                 <th className="py-3 px-4 min-w-[150px]">Stage</th>
                 <th
                   onClick={() => handleSort('land_required_hectares')}
-                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Land (ha)</span>
-                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
+                    <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
                 <th
                   onClick={() => handleSort('delay_days')}
-                  className="py-3 px-4 min-w-[90px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[90px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Delay</span>
-                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
+                    <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
                 <th className="py-3 px-4 min-w-[110px]">Indicators</th>
                 <th
                   onClick={() => handleSort('risk_score')}
-                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-sky-100/40 dark:hover:bg-slate-700/40 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Risk Level</span>
-                    <ArrowUpDown className="h-3 w-3 text-sky-500/70" />
+                    <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
                 <th className="py-3 px-4 min-w-[110px]">Data Source</th>
                 <th className="py-3 px-4 min-w-[70px] text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-sky-100/40 dark:divide-white/5">
+            <tbody className="divide-y divide-[#E1E7EF] dark:divide-[#1F2E45]">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan={9} className="py-12 text-center text-[#687386] dark:text-[#94A3B8]">
                     Loading acquisition cases...
                   </td>
                 </tr>
               ) : data.items.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-500 dark:text-slate-400">
+                  <td colSpan={9} className="py-12 text-center text-[#687386] dark:text-[#94A3B8]">
                     No matching cases found.
                   </td>
                 </tr>
@@ -327,31 +326,31 @@ export const Cases: React.FC = () => {
                   <tr
                     key={c.case_id}
                     onClick={() => navigate(`/cases/${c.case_id}`)}
-                    className="hover:bg-sky-50/40 dark:hover:bg-slate-800/40 transition-colors cursor-pointer group"
+                    className="hover:bg-[#F5F7FA] dark:hover:bg-[#1A2A42]/50 transition-colors cursor-pointer group"
                   >
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600 dark:text-sky-400 whitespace-nowrap">
+                    <td className="py-3 px-4 font-mono font-bold text-[#3563E9] whitespace-nowrap">
                       {c.case_id}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="font-semibold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                      <div className="font-semibold text-[#172033] dark:text-[#F1F5F9] group-hover:text-[#3563E9] transition-colors">
                         {c.project_name}
                       </div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                        {c.district}, {c.state} • <span className="font-medium text-slate-600 dark:text-slate-300">{c.project_type}</span>
+                      <div className="text-[11px] text-[#687386] dark:text-[#94A3B8]">
+                        {c.district}, {c.state} • <span className="font-medium text-[#172033] dark:text-[#F1F5F9]">{c.project_type}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-slate-800 dark:text-slate-200 font-medium">
-                      <span className="px-2 py-0.5 rounded-md bg-sky-50/70 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border border-sky-100 dark:border-white/10">
+                    <td className="py-3 px-4 text-[#172033] dark:text-[#F1F5F9] font-medium">
+                      <span className="px-2 py-0.5 rounded-md bg-[#F5F7FA] dark:bg-[#1E293B] text-[#172033] dark:text-[#F1F5F9] border border-[#E1E7EF] dark:border-[#1F2E45]">
                         {c.current_stage}
                       </span>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-slate-900 dark:text-slate-100 font-mono">
+                      <div className="text-[#172033] dark:text-[#F1F5F9] font-mono">
                         {c.land_acquired_hectares} / {c.land_required_hectares}
                       </div>
-                      <div className="w-16 bg-slate-200/70 dark:bg-slate-700/70 rounded-full h-1 mt-1 overflow-hidden">
+                      <div className="w-16 bg-slate-200 dark:bg-slate-700 rounded-full h-1 mt-1 overflow-hidden">
                         <div
-                          className="bg-emerald-500 h-1 rounded-full"
+                          className="bg-[#19966B] h-1 rounded-full"
                           style={{
                             width: `${Math.min(100, (c.land_acquired_hectares / (c.land_required_hectares || 1)) * 100)}%`
                           }}
@@ -360,31 +359,31 @@ export const Cases: React.FC = () => {
                     </td>
                     <td className="py-3 px-4">
                       {c.delay_days > 0 ? (
-                        <span className="font-semibold text-rose-600 dark:text-rose-400 font-mono">
+                        <span className="font-semibold text-[#DC3545] font-mono">
                           +{c.delay_days}d late
                         </span>
                       ) : (
-                        <span className="text-emerald-600 dark:text-emerald-400 font-medium font-mono">On schedule</span>
+                        <span className="text-[#19966B] font-medium font-mono">On schedule</span>
                       )}
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-1.5">
                         {c.documents_incomplete ? (
-                          <span title="Documentation Incomplete" className="p-1 rounded bg-rose-100/80 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+                          <span title="Documentation Incomplete" className="p-1 rounded bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545]">
                             <FileX className="h-3 w-3" />
                           </span>
                         ) : (
-                          <span title="Documentation Complete" className="p-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-400">
+                          <span title="Documentation Complete" className="p-1 rounded bg-slate-100 dark:bg-slate-800 text-[#687386]">
                             <FileCheck2 className="h-3 w-3" />
                           </span>
                         )}
                         {c.open_dispute_count > 0 && (
-                          <span className="px-1.5 py-0.5 rounded bg-amber-100/80 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-bold text-[10px]">
+                          <span className="px-1.5 py-0.5 rounded bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] dark:text-[#FBBF24] font-bold text-[10px]">
                             {c.open_dispute_count} disp
                           </span>
                         )}
                         {c.compensation_pending_pct !== null && (c.compensation_pending_pct ?? 0) > 30 && (
-                          <span className="px-1.5 py-0.5 rounded bg-sky-100/80 dark:bg-sky-950/60 text-sky-800 dark:text-sky-300 text-[10px] font-mono">
+                          <span className="px-1.5 py-0.5 rounded bg-[#3563E9]/10 text-[#3563E9] text-[10px] font-mono">
                             {c.compensation_pending_pct}% comp
                           </span>
                         )}
@@ -395,11 +394,11 @@ export const Cases: React.FC = () => {
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
                       {c.data_source === 'SYNTHETIC_DEMO_DATA' ? (
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-amber-50/80 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200/70 dark:border-amber-800/50">
+                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] dark:text-[#FBBF24] border border-[#FDE68A] dark:border-[#E9A23B]/30">
                           SYNTHETIC
                         </span>
                       ) : (
-                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-800/50">
+                        <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-[#ECFDF5] dark:bg-[#19966B]/15 text-[#065F46] dark:text-[#34D399] border border-[#A7F3D0] dark:border-[#19966B]/30">
                           VERIFIED
                         </span>
                       )}
@@ -410,7 +409,7 @@ export const Cases: React.FC = () => {
                           e.stopPropagation();
                           navigate(`/cases/${c.case_id}`);
                         }}
-                        className="px-2.5 py-1 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 rounded transition-colors inline-flex items-center gap-1"
+                        className="px-2.5 py-1 text-xs font-semibold text-[#3563E9] hover:text-[#2B52C6] hover:bg-[#3563E9]/10 rounded transition-colors inline-flex items-center gap-1"
                       >
                         <span>View</span>
                         <ExternalLink className="h-3 w-3" />
@@ -424,7 +423,7 @@ export const Cases: React.FC = () => {
         </div>
 
         {/* Pagination Footer */}
-        <div className="p-4 border-t border-sky-100/60 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-400 bg-sky-50/30 dark:bg-slate-800/20">
+        <div className="p-4 border-t border-[#E1E7EF] dark:border-[#1F2E45] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#687386] dark:text-[#94A3B8] bg-[#F9FAFB] dark:bg-[#0E1726]">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 sm:gap-3">
             <span>
               Showing {(data.page - 1) * data.page_size + 1} to{' '}
@@ -453,7 +452,7 @@ export const Cases: React.FC = () => {
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="font-semibold text-slate-800 dark:text-slate-200">
+            <span className="font-semibold text-[#172033] dark:text-[#F1F5F9]">
               Page {data.page} of {data.total_pages}
             </span>
             <button
@@ -469,16 +468,16 @@ export const Cases: React.FC = () => {
 
       {/* New Case Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-xl w-full overflow-hidden shadow-glass-lg modal-content-enter">
-            <div className="p-5 border-b border-sky-100/60 dark:border-white/10 flex items-center justify-between bg-sky-50/40 dark:bg-slate-800/40">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
+          <div className="glass-panel-elevated max-w-xl w-full overflow-hidden shadow-lg modal-content-enter">
+            <div className="p-5 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
               <div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Register Acquisition Parcel</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Record a new infrastructure land acquisition case</p>
+                <h3 className="text-base font-bold text-[#172033] dark:text-[#F1F5F9]">Register Acquisition Parcel</h3>
+                <p className="text-xs text-[#687386] dark:text-[#94A3B8]">Record a new infrastructure land acquisition case</p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 transition-colors"
+                className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -486,14 +485,14 @@ export const Cases: React.FC = () => {
 
             <form onSubmit={handleCreateCase} className="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
               {modalError && (
-                <div className="p-3 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-300 rounded-xl text-xs">
+                <div className="p-3 bg-[#FEF2F2] dark:bg-[#DC3545]/15 border border-[#FECACA] dark:border-[#DC3545]/30 text-[#DC3545] rounded-lg text-xs">
                   {modalError}
                 </div>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Case ID *</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Case ID *</label>
                   <input
                     type="text"
                     required
@@ -504,7 +503,7 @@ export const Cases: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Project Sector</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Project Sector</label>
                   <select
                     value={newCase.project_type}
                     onChange={(e) => setNewCase({ ...newCase, project_type: e.target.value })}
@@ -520,7 +519,7 @@ export const Cases: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Project Name *</label>
+                <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Project Name *</label>
                 <input
                   type="text"
                   required
@@ -532,7 +531,7 @@ export const Cases: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">State</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">State</label>
                   <input
                     type="text"
                     required
@@ -542,7 +541,7 @@ export const Cases: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">District</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">District</label>
                   <input
                     type="text"
                     required
@@ -555,7 +554,7 @@ export const Cases: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Land Required (Hectares)</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Land Required (Hectares)</label>
                   <input
                     type="number"
                     step="0.1"
@@ -567,7 +566,7 @@ export const Cases: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Current Stage</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Current Stage</label>
                   <select
                     value={newCase.current_stage}
                     onChange={(e) => setNewCase({ ...newCase, current_stage: e.target.value })}
@@ -586,7 +585,7 @@ export const Cases: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Planned Stage Date</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Planned Stage Date</label>
                   <input
                     type="date"
                     required
@@ -596,7 +595,7 @@ export const Cases: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Open Disputes Count</label>
+                  <label className="block text-xs font-semibold text-[#172033] dark:text-[#F1F5F9] mb-1">Open Disputes Count</label>
                   <input
                     type="number"
                     min="0"
@@ -613,14 +612,14 @@ export const Cases: React.FC = () => {
                   id="docCheck"
                   checked={newCase.documents_incomplete}
                   onChange={(e) => setNewCase({ ...newCase, documents_incomplete: e.target.checked })}
-                  className="rounded border-sky-300 dark:border-slate-600 text-sky-600 focus:ring-sky-500 bg-white/70 dark:bg-slate-900"
+                  className="rounded border-[#E1E7EF] dark:border-[#1F2E45] text-[#3563E9] focus:ring-[#3563E9] bg-white dark:bg-[#0E1726]"
                 />
-                <label htmlFor="docCheck" className="text-xs text-slate-700 dark:text-slate-300 font-medium cursor-pointer">
+                <label htmlFor="docCheck" className="text-xs text-[#172033] dark:text-[#F1F5F9] font-medium cursor-pointer">
                   Statutory gazette / revenue title documentation is incomplete
                 </label>
               </div>
 
-              <div className="pt-4 border-t border-sky-100/60 dark:border-white/10 flex justify-end gap-3">
+              <div className="pt-4 border-t border-[#E1E7EF] dark:border-[#1F2E45] flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}

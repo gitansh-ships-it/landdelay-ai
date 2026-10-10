@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
-import { MapPin, Filter, AlertCircle, ExternalLink, ShieldAlert } from 'lucide-react';
+import { MapPin, AlertCircle, ExternalLink } from 'lucide-react';
 import { api } from '../services/api';
-import { MapResponse, MapCaseItem } from '../types';
+import { MapResponse } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTheme } from '../context/ThemeContext';
 
@@ -44,10 +44,10 @@ export const GeographicView: React.FC = () => {
 
   const getMarkerColor = (category: string) => {
     switch (category) {
-      case 'HIGH': return '#f43f5e';
-      case 'MEDIUM': return '#f59e0b';
-      case 'LOW': return '#10b981';
-      default: return '#0284c7';
+      case 'HIGH': return '#DC3545';
+      case 'MEDIUM': return '#E9A23B';
+      case 'LOW': return '#19966B';
+      default: return '#3563E9';
     }
   };
 
@@ -56,12 +56,12 @@ export const GeographicView: React.FC = () => {
       {/* Filters & Information Banner */}
       <div className="glass-panel p-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-sky-500/10 dark:bg-sky-400/15 border border-sky-400/20 flex items-center justify-center text-sky-600 dark:text-sky-400 shadow-xs">
+          <div className="h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs">
             <MapPin className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">National Infrastructure Corridor Map</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">National Infrastructure Corridor Map</h3>
+            <p className="text-xs text-[#687386] dark:text-[#94A3B8]">
               Showing {mapData.mapped_count} spatially mapped parcels across regional project alignments
             </p>
           </div>
@@ -82,15 +82,15 @@ export const GeographicView: React.FC = () => {
             className="glass-input text-xs px-3 py-1.5"
           >
             <option value="">All Risk Levels</option>
-            <option value="HIGH">High Risk (Rose)</option>
+            <option value="HIGH">High Risk (Red)</option>
             <option value="MEDIUM">Medium Risk (Amber)</option>
-            <option value="LOW">Low Risk (Emerald)</option>
+            <option value="LOW">Low Risk (Green)</option>
           </select>
 
           {(riskFilter || projectFilter) && (
             <button
               onClick={() => { setRiskFilter(''); setProjectFilter(''); }}
-              className="text-xs text-sky-600 dark:text-sky-400 font-semibold hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+              className="text-xs text-[#3563E9] hover:text-[#2B52C6] font-semibold transition-colors cursor-pointer"
             >
               Reset
             </button>
@@ -100,8 +100,8 @@ export const GeographicView: React.FC = () => {
 
       {/* Coordinate Provenance Notice */}
       {mapData.unmapped_count > 0 && (
-        <div className="bg-amber-500/10 dark:bg-amber-400/10 border border-amber-300/30 rounded-2xl p-4 flex items-start gap-3 text-xs text-amber-800 dark:text-amber-300">
-          <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+        <div className="bg-[#FFFBEB] dark:bg-[#E9A23B]/10 border border-[#FDE68A] dark:border-[#E9A23B]/30 rounded-xl p-4 flex items-start gap-3 text-xs text-[#B45309] dark:text-[#FBBF24]">
+          <AlertCircle className="h-4 w-4 text-[#E9A23B] shrink-0 mt-0.5" />
           <div>
             <span className="font-semibold">Data Integrity Assurance:</span> {mapData.unmapped_count} parcels have no verified GPS coordinates in government records. Coordinates are <strong>never fabricated</strong> for verified public cases. Only verified spatial locations appear on the map.
           </div>
@@ -114,7 +114,7 @@ export const GeographicView: React.FC = () => {
           center={[22.5937, 78.9629]} // Center of India
           zoom={5}
           scrollWheelZoom={true}
-          style={{ height: '100%', width: '100%', borderRadius: '14px' }}
+          style={{ height: '100%', width: '100%', borderRadius: '10px' }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -135,25 +135,25 @@ export const GeographicView: React.FC = () => {
             >
               <Popup>
                 <div className="p-1 space-y-2 text-xs min-w-[200px]">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-1">
-                    <span className="font-mono font-bold text-sky-600">{c.case_id}</span>
+                  <div className="flex items-center justify-between border-b border-[#E1E7EF] pb-1">
+                    <span className="font-mono font-bold text-[#3563E9]">{c.case_id}</span>
                     <RiskBadge category={c.risk_category} score={c.risk_score} size="sm" />
                   </div>
                   <div>
-                    <h5 className="font-bold text-slate-900 text-xs">{c.project_name}</h5>
-                    <p className="text-[11px] text-slate-500">{c.district}, {c.state}</p>
+                    <h5 className="font-bold text-[#172033] text-xs">{c.project_name}</h5>
+                    <p className="text-[11px] text-[#687386]">{c.district}, {c.state}</p>
                   </div>
                   <div className="text-[11px] space-y-0.5">
-                    <div><span className="text-slate-400">Stage: </span><span className="font-semibold text-slate-700">{c.current_stage}</span></div>
-                    <div><span className="text-slate-400">Land Handover: </span><span className="font-semibold text-slate-700">{c.land_acquired_hectares} / {c.land_required_hectares} ha</span></div>
+                    <div><span className="text-[#687386]">Stage: </span><span className="font-semibold text-[#172033]">{c.current_stage}</span></div>
+                    <div><span className="text-[#687386]">Land Handover: </span><span className="font-semibold text-[#172033]">{c.land_acquired_hectares} / {c.land_required_hectares} ha</span></div>
                     {c.delay_days > 0 && (
-                      <div className="text-rose-600 font-semibold">+{c.delay_days} days overdue</div>
+                      <div className="text-[#DC3545] font-semibold">+{c.delay_days} days overdue</div>
                     )}
                   </div>
-                  <div className="pt-2 border-t border-slate-200 flex justify-end">
+                  <div className="pt-2 border-t border-[#E1E7EF] flex justify-end">
                     <button
                       onClick={() => navigate(`/cases/${c.case_id}`)}
-                      className="px-2.5 py-1 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-lg text-[11px] font-semibold flex items-center gap-1 shadow-xs transition-opacity hover:opacity-90"
+                      className="px-2.5 py-1 bg-[#3563E9] hover:bg-[#2B52C6] text-white rounded-md text-[11px] font-semibold flex items-center gap-1 shadow-xs transition-colors cursor-pointer"
                     >
                       <span>View Dossier</span>
                       <ExternalLink className="h-3 w-3" />
@@ -166,21 +166,21 @@ export const GeographicView: React.FC = () => {
         </MapContainer>
 
         {/* Floating Map Legend */}
-        <div className="glass-panel-elevated absolute bottom-3 right-3 sm:bottom-5 sm:right-5 z-[1000] p-3 sm:p-3.5 rounded-xl text-xs space-y-1.5 shadow-glass max-w-[calc(100%-1.5rem)]">
-          <div className="font-bold text-[#18344D] dark:text-[#EDF6FF] text-[11px] uppercase tracking-wider mb-1">
+        <div className="bg-white dark:bg-[#121E31] border border-[#E1E7EF] dark:border-[#1F2E45] absolute bottom-3 right-3 sm:bottom-5 sm:right-5 z-[1000] p-3 sm:p-3.5 rounded-lg text-xs space-y-1.5 shadow-md max-w-[calc(100%-1.5rem)]">
+          <div className="font-bold text-[#172033] dark:text-[#F1F5F9] text-[11px] uppercase tracking-wider mb-1">
             Delay Risk Legend
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-rose-500 border border-white shadow-xs shrink-0" />
-            <span className="text-[#18344D] dark:text-[#A8BED2] font-medium text-[11px]">High Risk (Score &gt;= 70)</span>
+            <span className="h-3 w-3 rounded-full bg-[#DC3545] border border-white shadow-xs shrink-0" />
+            <span className="text-[#172033] dark:text-[#94A3B8] font-medium text-[11px]">High Risk (Score &gt;= 70)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-amber-500 border border-white shadow-xs shrink-0" />
-            <span className="text-[#18344D] dark:text-[#A8BED2] font-medium text-[11px]">Medium Risk (Score 40-69)</span>
+            <span className="h-3 w-3 rounded-full bg-[#E9A23B] border border-white shadow-xs shrink-0" />
+            <span className="text-[#172033] dark:text-[#94A3B8] font-medium text-[11px]">Medium Risk (Score 40-69)</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-emerald-500 border border-white shadow-xs shrink-0" />
-            <span className="text-[#18344D] dark:text-[#A8BED2] font-medium text-[11px]">Low Risk (Score &lt; 40)</span>
+            <span className="h-3 w-3 rounded-full bg-[#19966B] border border-white shadow-xs shrink-0" />
+            <span className="text-[#172033] dark:text-[#94A3B8] font-medium text-[11px]">Low Risk (Score &lt; 40)</span>
           </div>
         </div>
       </div>
