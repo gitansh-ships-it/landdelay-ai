@@ -9,7 +9,6 @@ import {
   Database,
   Cpu,
   Settings,
-  Landmark,
   Scale,
   X,
   ChevronLeft,
@@ -66,13 +65,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {desktopCollapsed ? (
             <>
               {/* Collapsed view on desktop: compact logo + expand chevron */}
-              <div className="hidden lg:flex items-center justify-between w-full px-2">
-                <div
-                  className="h-9 w-9 rounded-lg bg-[#3563E9] flex items-center justify-center text-white shadow-xs shrink-0"
+              <div className="hidden lg:flex items-center justify-between w-full px-1">
+                <img
+                  src="/landdelay-logo.png"
+                  alt="LandDelay AI"
+                  className="h-10 w-10 rounded-xl object-contain shadow-xs shrink-0 drop-shadow-[0_2px_8px_rgba(53,99,233,0.35)]"
                   title="LandDelay AI"
-                >
-                  <Landmark className="h-5 w-5" />
-                </div>
+                />
                 {onToggleDesktopCollapse && (
                   <button
                     onClick={onToggleDesktopCollapse}
@@ -88,14 +87,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {/* Mobile view when desktop is collapsed: full drawer header with close button */}
               <div className="flex lg:hidden items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="h-9 w-9 rounded-lg bg-[#3563E9] flex items-center justify-center text-white shadow-xs shrink-0">
-                    <Landmark className="h-5 w-5" />
-                  </div>
+                  <img
+                    src="/landdelay-logo.png"
+                    alt="LandDelay AI"
+                    className="h-10 w-10 rounded-xl object-contain shadow-xs shrink-0 drop-shadow-[0_2px_8px_rgba(53,99,233,0.35)]"
+                  />
                   <div>
                     <h1 className="font-bold text-base text-white tracking-tight flex items-center gap-1.5">
                       LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#3563E9]/20 text-[#60A5FA] font-mono font-medium border border-[#3563E9]/40">AI</span>
                     </h1>
-                    <p className="text-[10px] text-[#94A3B8] font-medium">Predictive Acquisition Analytics</p>
+                    <p className="text-[10px] text-[#94A3B8] font-medium">Predictive Delay Analytics</p>
                   </div>
                 </div>
                 <button
@@ -111,9 +112,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ) : (
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="h-9 w-9 rounded-lg bg-[#3563E9] flex items-center justify-center text-white shadow-xs shrink-0">
-                  <Landmark className="h-5 w-5" />
-                </div>
+                <img
+                  src="/landdelay-logo.png"
+                  alt="LandDelay AI"
+                  className="h-10 w-10 rounded-xl object-contain shadow-xs shrink-0 drop-shadow-[0_2px_8px_rgba(53,99,233,0.35)]"
+                />
                 <div className="min-w-0">
                   <h1 className="font-bold text-base text-white tracking-tight flex items-center gap-1.5">
                     LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#3563E9]/20 text-[#60A5FA] font-mono font-medium border border-[#3563E9]/40">AI</span>
