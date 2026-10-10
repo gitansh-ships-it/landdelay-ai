@@ -13,6 +13,7 @@ import { api } from '../services/api';
 import { AcquisitionCase, RiskAssessment } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTheme } from '../context/ThemeContext';
+import { createPortal } from 'react-dom';
 
 export const CaseDetail: React.FC = () => {
   const { caseId } = useParams<{ caseId: string }>();
@@ -44,6 +45,27 @@ export const CaseDetail: React.FC = () => {
   });
 
   const [actionSuccess, setActionSuccess] = useState<string | null>(null);
+
+  // Lock background scroll and listen for Escape key when modal is active
+  useEffect(() => {
+    if (isEditOpen || isActionOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setIsEditOpen(false);
+          setIsActionOpen(false);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isEditOpen, isActionOpen]);
 
   const fetchDetail = async () => {
     if (!caseId) return;
@@ -512,9 +534,15 @@ export const CaseDetail: React.FC = () => {
       </div>
 
       {/* Edit Parameters Modal */}
-      {isEditOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-lg modal-content-enter">
+      {isEditOpen && createPortal(
+        <div
+          onClick={() => setIsEditOpen(false)}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030C19]/65 backdrop-blur-xs p-4 modal-backdrop-enter"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="glass-panel-elevated max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl modal-content-enter"
+          >
             <div className="p-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
               <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Update Parcel Monitoring Records</h3>
               <button onClick={() => setIsEditOpen(false)} className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer">
@@ -605,13 +633,20 @@ export const CaseDetail: React.FC = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Create Action Modal */}
-      {isActionOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-lg modal-content-enter">
+      {isActionOpen && createPortal(
+        <div
+          onClick={() => setIsActionOpen(false)}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030C19]/65 backdrop-blur-xs p-4 modal-backdrop-enter"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="glass-panel-elevated max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl modal-content-enter"
+          >
             <div className="p-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
               <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Assign Administrative Directive</h3>
               <button onClick={() => setIsActionOpen(false)} className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer">
@@ -700,7 +735,8 @@ export const CaseDetail: React.FC = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

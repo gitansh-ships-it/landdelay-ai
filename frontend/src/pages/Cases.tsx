@@ -18,6 +18,7 @@ import { api } from '../services/api';
 import { AcquisitionCase, CaseListResponse, RiskCategory } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTheme } from '../context/ThemeContext';
+import { createPortal } from 'react-dom';
 
 export const Cases: React.FC = () => {
   const navigate = useNavigate();
@@ -66,6 +67,26 @@ export const Cases: React.FC = () => {
     data_source: 'SYNTHETIC_DEMO_DATA',
     verification_status: 'DEMO'
   });
+
+  // Lock background scroll and listen for Escape key when modal is active
+  useEffect(() => {
+    if (isModalOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setIsModalOpen(false);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isModalOpen]);
 
   const fetchCases = async () => {
     try {
@@ -467,9 +488,15 @@ export const Cases: React.FC = () => {
       </div>
 
       {/* New Case Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-xl w-full overflow-hidden shadow-lg modal-content-enter">
+      {isModalOpen && createPortal(
+        <div
+          onClick={() => setIsModalOpen(false)}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030C19]/65 backdrop-blur-xs p-4 modal-backdrop-enter"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="glass-panel-elevated max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl modal-content-enter"
+          >
             <div className="p-5 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
               <div>
                 <h3 className="text-base font-bold text-[#172033] dark:text-[#F1F5F9]">Register Acquisition Parcel</h3>
@@ -637,7 +664,8 @@ export const Cases: React.FC = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

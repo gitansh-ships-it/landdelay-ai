@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   Clock,
@@ -57,6 +58,25 @@ export const ActionCenter: React.FC = () => {
   useEffect(() => {
     fetchActions();
   }, [statusFilter, priorityFilter, roleFilter]);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setIsModalOpen(false);
+        }
+      };
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isModalOpen]);
 
   const handleStatusToggle = async (action: ActionItem) => {
     let nextStatus = 'IN_PROGRESS';
@@ -279,9 +299,15 @@ export const ActionCenter: React.FC = () => {
       </div>
 
       {/* Create Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B1320]/70 backdrop-blur-xs p-4 modal-backdrop-enter">
-          <div className="glass-panel-elevated max-w-lg w-full overflow-hidden shadow-lg modal-content-enter">
+      {isModalOpen && createPortal(
+        <div
+          onClick={() => setIsModalOpen(false)}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030C19]/65 backdrop-blur-xs p-4 modal-backdrop-enter"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="glass-panel-elevated max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl modal-content-enter"
+          >
             <div className="p-4 border-b border-[#E1E7EF] dark:border-[#1F2E45] flex items-center justify-between bg-white dark:bg-[#121E31]">
               <h3 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Create Follow-up Action Directive</h3>
               <button onClick={() => setIsModalOpen(false)} className="text-[#687386] hover:text-[#172033] dark:hover:text-white p-1 transition-colors cursor-pointer">
@@ -382,7 +408,8 @@ export const ActionCenter: React.FC = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
