@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import {
   AlertTriangle,
@@ -32,6 +32,17 @@ export const Overview: React.FC = () => {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [charts, setCharts] = useState<DashboardCharts | null>(null);
 
+  // Smooth splash exit transition
+  const [splashVisible, setSplashVisible] = useState(true);
+  const [splashExiting, setSplashExiting] = useState(false);
+  const splashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (splashTimerRef.current) clearTimeout(splashTimerRef.current);
+    };
+  }, []);
+
   // Filters
   const [filters, setFilters] = useState({
     project: '',
@@ -56,6 +67,19 @@ export const Overview: React.FC = () => {
 
       if (summarySettled.status === 'fulfilled') {
         setSummary(summarySettled.value);
+        try {
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (prefersReducedMotion) {
+            setSplashVisible(false);
+          } else {
+            setSplashExiting(true);
+            splashTimerRef.current = setTimeout(() => {
+              setSplashVisible(false);
+            }, 300);
+          }
+        } catch {
+          setSplashVisible(false);
+        }
       } else {
         const msg = (summarySettled.reason as Error)?.message || 'Failed to fetch summary';
         setInitError(msg);
@@ -95,12 +119,13 @@ export const Overview: React.FC = () => {
     padding: '8px 12px'
   };
 
-  if ((loading && !summary) || (initError && !summary)) {
+  if (!summary) {
     return (
       <LoadingScreen
         message="Preparing your workspace..."
         error={initError}
         onRetry={fetchData}
+        exiting={false}
       />
     );
   }
@@ -123,7 +148,16 @@ export const Overview: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <>
+      {splashVisible && (
+        <LoadingScreen
+          message="Preparing your workspace..."
+          error={initError}
+          onRetry={fetchData}
+          exiting={splashExiting}
+        />
+      )}
+      <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* Filters Bar */}
       <div className="glass-panel p-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-[#172033] dark:text-[#F1F5F9] font-semibold text-sm">
@@ -567,5 +601,6 @@ export const Overview: React.FC = () => {
         </>
       )}
     </div>
+    </>
   );
 };

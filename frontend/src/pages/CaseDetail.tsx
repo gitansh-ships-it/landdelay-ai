@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -25,6 +25,17 @@ export const CaseDetail: React.FC = () => {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [caseData, setCaseData] = useState<AcquisitionCase | null>(null);
   const [riskAssessment, setRiskAssessment] = useState<RiskAssessment | null>(null);
+
+  // Smooth splash exit transition
+  const [splashVisible, setSplashVisible] = useState(true);
+  const [splashExiting, setSplashExiting] = useState(false);
+  const splashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (splashTimerRef.current) clearTimeout(splashTimerRef.current);
+    };
+  }, []);
 
   // Quick Edit Modal
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -87,6 +98,19 @@ export const CaseDetail: React.FC = () => {
         open_dispute_count: c.open_dispute_count,
         documents_incomplete: c.documents_incomplete,
       });
+      try {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+          setSplashVisible(false);
+        } else {
+          setSplashExiting(true);
+          splashTimerRef.current = setTimeout(() => {
+            setSplashVisible(false);
+          }, 300);
+        }
+      } catch {
+        setSplashVisible(false);
+      }
     } catch (err: any) {
       console.error('Failed to load case detail:', err);
       setFetchError(err?.message || 'Failed to retrieve case details');
@@ -139,12 +163,13 @@ export const CaseDetail: React.FC = () => {
     setIsActionOpen(true);
   };
 
-  if ((loading || !caseData) && !caseData) {
+  if (!caseData) {
     return (
       <LoadingScreen
         message="Retrieving acquisition parcel dossier..."
         error={fetchError}
         onRetry={fetchDetail}
+        exiting={false}
       />
     );
   }
@@ -154,7 +179,16 @@ export const CaseDetail: React.FC = () => {
     : 0;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16">
+    <>
+      {splashVisible && (
+        <LoadingScreen
+          message="Retrieving acquisition parcel dossier..."
+          error={fetchError}
+          onRetry={fetchDetail}
+          exiting={splashExiting}
+        />
+      )}
+      <div className="space-y-6 max-w-7xl mx-auto pb-16">
       {/* Back button & Title Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -777,5 +811,6 @@ export const CaseDetail: React.FC = () => {
         document.body
       )}
     </div>
+    </>
   );
 };

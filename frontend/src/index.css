@@ -112,6 +112,17 @@
   animation: gentleFadeIn 0.35s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-dot-bounce,
+  .animate-fade-in,
+  .page-enter,
+  .modal-backdrop-enter,
+  .modal-content-enter {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* Enterprise Solid Surface Components */
 @layer components {
   .glass-panel {

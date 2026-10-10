@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark" style="background-color: #0B1320; color-scheme: dark;">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -14,20 +14,266 @@
       (function() {
         try {
           var saved = localStorage.getItem('landdelay_theme');
-          if (saved === 'light') {
-            document.documentElement.classList.remove('dark');
+          var isLight = saved === 'light';
+          var root = document.documentElement;
+          var metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (isLight) {
+            root.classList.remove('dark');
+            root.style.backgroundColor = '#F5F7FA';
+            root.style.colorScheme = 'light';
+            if (metaTheme) metaTheme.setAttribute('content', '#F5F7FA');
           } else {
-            // Default to dark mode for first-time visitors or saved 'dark'
-            document.documentElement.classList.add('dark');
+            root.classList.add('dark');
+            root.style.backgroundColor = '#0B1320';
+            root.style.colorScheme = 'dark';
+            if (metaTheme) metaTheme.setAttribute('content', '#0B1320');
           }
         } catch (e) {
           document.documentElement.classList.add('dark');
+          document.documentElement.style.backgroundColor = '#0B1320';
+          document.documentElement.style.colorScheme = 'dark';
         }
       })();
     </script>
+    <style>
+      /* Critical pre-hydration styles - eliminates white canvas flicker */
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        background-color: #0B1320;
+        color: #F1F5F9;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      html:not(.dark), html:not(.dark) body {
+        background-color: #F5F7FA;
+        color: #172033;
+      }
+
+      /* Pre-mount splash container */
+      .pre-splash-root {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        min-height: 100vh;
+        min-height: 100dvh;
+        background-color: inherit;
+        box-sizing: border-box;
+      }
+
+      .pre-splash-glow {
+        position: absolute;
+        width: 18rem;
+        height: 18rem;
+        border-radius: 9999px;
+        background-color: rgba(53, 99, 233, 0.15);
+        filter: blur(48px);
+        pointer-events: none;
+        transform: translateY(-1rem);
+      }
+
+      html:not(.dark) .pre-splash-glow {
+        background-color: rgba(53, 99, 233, 0.1);
+      }
+
+      .pre-splash-content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 24rem;
+        width: 100%;
+      }
+
+      .pre-splash-logo-card {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 1rem;
+        background-color: rgba(18, 30, 49, 0.8);
+        border: 1px solid rgba(31, 46, 69, 0.8);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        padding: 0.625rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        margin-bottom: 1.25rem;
+        box-sizing: border-box;
+      }
+
+      html:not(.dark) .pre-splash-logo-card {
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(225, 231, 239, 0.8);
+        box-shadow: 0 8px 24px rgba(53, 99, 233, 0.12);
+      }
+
+      .pre-splash-logo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 8px rgba(53, 99, 233, 0.3));
+        user-select: none;
+      }
+
+      .pre-splash-brand-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        margin-bottom: 0.375rem;
+      }
+
+      .pre-splash-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: #F1F5F9;
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      html:not(.dark) .pre-splash-title {
+        color: #172033;
+      }
+
+      .pre-splash-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        line-height: 1;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background-color: rgba(53, 99, 233, 0.15);
+        color: #60A5FA;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-weight: 500;
+        border: 1px solid rgba(53, 99, 233, 0.3);
+        letter-spacing: 0.05em;
+      }
+
+      html:not(.dark) .pre-splash-badge {
+        color: #3563E9;
+      }
+
+      .pre-splash-sub {
+        font-size: 0.75rem;
+        color: #94A3B8;
+        font-weight: 400;
+        margin: 0 0 1.75rem 0;
+      }
+
+      html:not(.dark) .pre-splash-sub {
+        color: #687386;
+      }
+
+      .pre-splash-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        height: 0.75rem;
+        margin-bottom: 0.875rem;
+      }
+
+      .pre-splash-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background-color: #3563E9;
+        animation: preSplashBounce 1.4s infinite ease-in-out both;
+      }
+
+      .pre-splash-dot:nth-child(1) { animation-delay: -0.32s; }
+      .pre-splash-dot:nth-child(2) { animation-delay: -0.16s; }
+
+      @keyframes preSplashBounce {
+        0%, 80%, 100% {
+          opacity: 0.25;
+          transform: scale(0.75);
+        }
+        40% {
+          opacity: 1;
+          transform: scale(1.15);
+        }
+      }
+
+      .pre-splash-msg {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #94A3B8;
+        letter-spacing: 0.025em;
+        margin: 0;
+        animation: preSplashPulse 2s ease-in-out infinite;
+      }
+
+      html:not(.dark) .pre-splash-msg {
+        color: #687386;
+      }
+
+      @keyframes preSplashPulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+
+      .pre-splash-footer {
+        position: absolute;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 11px;
+        color: #64748B;
+        pointer-events: none;
+      }
+
+      html:not(.dark) .pre-splash-footer {
+        color: #94A3B8;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .pre-splash-dot, .pre-splash-msg {
+          animation: none !important;
+        }
+      }
+    </style>
   </head>
-  <body>
-    <div id="root"></div>
+  <body style="background-color: inherit; margin: 0;">
+    <div id="root">
+      <div class="pre-splash-root" role="status" aria-live="polite" data-testid="app-loading-screen">
+        <div class="pre-splash-glow" aria-hidden="true"></div>
+        <div class="pre-splash-content">
+          <div class="pre-splash-logo-card">
+            <img src="/logo.png" alt="LandDelay AI" />
+          </div>
+          <div class="pre-splash-brand-row">
+            <h1 class="pre-splash-title">LandDelay</h1>
+            <span class="pre-splash-badge">AI</span>
+          </div>
+          <p class="pre-splash-sub">Predictive Delay Analytics</p>
+          <div class="pre-splash-dots" aria-hidden="true">
+            <span class="pre-splash-dot"></span>
+            <span class="pre-splash-dot"></span>
+            <span class="pre-splash-dot"></span>
+          </div>
+          <p class="pre-splash-msg">Preparing your workspace...</p>
+        </div>
+        <footer class="pre-splash-footer">
+          Infrastructure Intelligence &bull; Statutory Decision Support
+        </footer>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

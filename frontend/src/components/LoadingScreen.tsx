@@ -1,22 +1,28 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { AlertCircle, RotateCcw } from 'lucide-react';
 
 interface LoadingScreenProps {
   message?: string;
   error?: string | null;
   onRetry?: () => void;
+  exiting?: boolean;
 }
 
 export const LoadingScreen: React.FC<LoadingScreenProps> = ({
   message = 'Preparing your workspace...',
   error = null,
-  onRetry
+  onRetry,
+  exiting = false,
 }) => {
-  return (
+  const content = (
     <div
       role="status"
       aria-live="polite"
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-[#F0F7FF] dark:bg-[#0B1320] transition-colors duration-300 selection:bg-[#3563E9]/20"
+      data-testid="app-loading-screen"
+      className={`fixed inset-0 z-[999] flex flex-col items-center justify-center p-4 bg-[#F5F7FA] dark:bg-[#0B1320] transition-opacity duration-300 ease-out motion-reduce:transition-none motion-reduce:duration-0 selection:bg-[#3563E9]/20 ${
+        exiting ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
       style={{ minHeight: '100dvh' }}
     >
       {/* Soft radial glow behind brand */}
@@ -96,4 +102,10 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
       </footer>
     </div>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(content, document.body);
+  }
+
+  return content;
 };

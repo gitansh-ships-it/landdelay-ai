@@ -25,10 +25,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   useEffect(() => {
     const root = document.documentElement;
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
     if (theme === 'dark') {
       root.classList.add('dark');
+      root.style.backgroundColor = '#0B1320';
+      root.style.colorScheme = 'dark';
+      if (metaTheme) metaTheme.setAttribute('content', '#0B1320');
     } else {
       root.classList.remove('dark');
+      root.style.backgroundColor = '#F5F7FA';
+      root.style.colorScheme = 'light';
+      if (metaTheme) metaTheme.setAttribute('content', '#F5F7FA');
     }
     try {
       localStorage.setItem('landdelay_theme', theme);
