@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   const handleReset = async () => {
     const key = window.prompt(
-      "Admin Authorization Required\n\nEnter Admin Key to authorize database reset (local default: landdelay-admin-secret-2026):"
+      "Admin Authorization Required\n\nEnter configured server ADMIN_RESET_KEY to authorize database reset:"
     );
     if (!key) {
       return;
@@ -120,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             className="p-2 bg-white hover:bg-slate-50 dark:bg-[#121E31] dark:hover:bg-[#1A2A42] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg text-[#687386] dark:text-[#94A3B8] hover:text-[#172033] dark:hover:text-white transition-colors shadow-xs cursor-pointer shrink-0"
-            aria-label="Toggle Theme"
+            aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
             {theme === 'dark' ? (
               <Sun className="h-4 w-4 text-[#E9A23B]" />
@@ -155,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             className="p-1.5 bg-white hover:bg-slate-50 dark:bg-[#121E31] dark:hover:bg-[#1A2A42] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg text-[#687386] dark:text-[#94A3B8] hover:text-[#172033] dark:hover:text-white transition-colors shadow-xs cursor-pointer shrink-0"
-            aria-label="Toggle Theme"
+            aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
             {theme === 'dark' ? (
               <Sun className="h-4 w-4 text-[#E9A23B]" />

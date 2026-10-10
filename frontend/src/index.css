@@ -81,6 +81,37 @@
   animation: modalEnter var(--motion-panel) var(--ease-enter) forwards;
 }
 
+/* Cute & Smooth Loading Screen Animations */
+@keyframes dotPulseScale {
+  0%, 80%, 100% {
+    opacity: 0.25;
+    transform: scale(0.75);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.animate-dot-bounce {
+  animation: dotPulseScale 1.4s infinite ease-in-out both;
+}
+
+@keyframes gentleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: gentleFadeIn 0.35s cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
 /* Enterprise Solid Surface Components */
 @layer components {
   .glass-panel {
@@ -212,6 +243,54 @@
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid #3563E9;
   outline-offset: 2px;
+}
+
+/* Leaflet map pane stacking isolation: ensure tiles and popups never overlay modals or fixed navigation */
+.leaflet-pane {
+  z-index: 10 !important;
+}
+.leaflet-top {
+  z-index: 20 !important;
+}
+.leaflet-bottom {
+  z-index: 15 !important;
+}
+.leaflet-control-attribution {
+  font-size: 10px !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  padding: 1px 5px !important;
+  border-radius: 4px;
+}
+.dark .leaflet-control-attribution {
+  background: rgba(14, 23, 38, 0.75) !important;
+  color: #94A3B8 !important;
+}
+.dark .leaflet-control-attribution a {
+  color: #60A5FA !important;
+}
+
+/* Custom Leaflet Cluster Badge Markers */
+.custom-cluster-icon {
+  background: transparent !important;
+  border: none !important;
+}
+.custom-cluster-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform var(--motion-fast) var(--ease-standard);
+}
+.custom-cluster-badge:hover {
+  transform: scale(1.08);
+}
+.custom-cluster-badge:active {
+  transform: scale(0.95);
 }
 
 /* Reduced motion preference support */

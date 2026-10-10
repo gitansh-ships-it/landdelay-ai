@@ -197,6 +197,7 @@ class ImportService:
             invalid_rows_count=len(errors),
             errors=errors,
             sample_records=valid_records[:5],
+            valid_records=valid_records,
             data_source_detected=data_source_detected
         )
 

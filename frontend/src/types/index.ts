@@ -231,6 +231,7 @@ export interface ImportPreviewResponse {
   invalid_rows_count: number;
   errors: CSVValidationError[];
   sample_records: Record<string, any>[];
+  valid_records?: Record<string, any>[];
   data_source_detected: string;
 }
 

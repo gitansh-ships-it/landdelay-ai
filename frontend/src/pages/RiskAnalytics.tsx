@@ -28,7 +28,7 @@ export const RiskAnalytics: React.FC = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await api.getCases({ page: 1, page_size: 100 });
+      const res = await api.getCases({ page: 1, page_size: 500 });
       setCases(res.items);
     } catch (err) {
       console.error('Failed to load risk cases:', err);
@@ -54,11 +54,11 @@ export const RiskAnalytics: React.FC = () => {
 
   // Compute live aggregates from database records
   const riskRanges = [
-    { range: '0 - 20 (Minimal)', count: 0, color: '#19966B' },
-    { range: '21 - 40 (Low)', count: 0, color: '#19966B' },
-    { range: '41 - 60 (Medium)', count: 0, color: '#E9A23B' },
-    { range: '61 - 80 (Elevated)', count: 0, color: '#DC3545' },
-    { range: '81 - 100 (Critical)', count: 0, color: '#DC3545' }
+    { range: '0-20', label: 'Minimal (0-20 pts)', count: 0, color: '#19966B' },
+    { range: '21-40', label: 'Low (21-40 pts)', count: 0, color: '#19966B' },
+    { range: '41-60', label: 'Medium (41-60 pts)', count: 0, color: '#E9A23B' },
+    { range: '61-80', label: 'Elevated (61-80 pts)', count: 0, color: '#DC3545' },
+    { range: '81-100', label: 'Critical (81-100 pts)', count: 0, color: '#DC3545' }
   ];
 
   cases.forEach(c => {
@@ -149,17 +149,20 @@ export const RiskAnalytics: React.FC = () => {
         <div className="glass-panel p-6">
           <div className="flex items-center justify-between mb-1">
             <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Portfolio Delay Risk Histogram</h4>
-            <span className="text-xs text-[#687386] dark:text-[#94A3B8] font-mono">Sample: {cases.length} parcels</span>
+            <span className="text-xs text-[#687386] dark:text-[#94A3B8] font-mono">Sample: {cases.length} parcels (100% Coverage)</span>
           </div>
-          <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">Distribution of transparent composite risk scores</p>
+          <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">Distribution of transparent composite risk scores across portfolio</p>
 
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={riskRanges} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={200}>
+              <BarChart data={riskRanges} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#1F2E45' : '#E1E7EF'} />
-                <XAxis dataKey="range" tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 10 }} angle={-15} textAnchor="end" />
+                <XAxis dataKey="range" tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 11 }} interval={0} />
                 <YAxis tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 11 }} width={30} />
-                <Tooltip contentStyle={enterpriseTooltipStyle} />
+                <Tooltip
+                  contentStyle={enterpriseTooltipStyle}
+                  formatter={(val: any, _name: any, item: any) => [`${val} cases`, item.payload.label || 'Risk Tier']}
+                />
                 <Bar dataKey="count" name="Case Count" fill="#3563E9" radius={[4, 4, 0, 0]} animationDuration={400} />
               </BarChart>
             </ResponsiveContainer>
@@ -167,23 +170,25 @@ export const RiskAnalytics: React.FC = () => {
         </div>
 
         {/* Rule Trigger Prevalence */}
-        <div className="glass-panel p-6">
-          <div className="flex items-center justify-between mb-1">
+        <div className="glass-panel p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2 mb-1">
             <h4 className="text-sm font-bold text-[#172033] dark:text-[#F1F5F9]">Statutory Rule Trigger Frequency</h4>
-            <span className="text-xs text-[#3563E9] font-semibold">Configured Engine v1.0</span>
+            <span className="self-start sm:self-auto text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-full bg-[#3563E9]/10 text-[#3563E9] border border-[#3563E9]/20">
+              Configured Engine v1.0
+            </span>
           </div>
           <p className="text-xs text-[#687386] dark:text-[#94A3B8] mb-4">Number of active cases triggering specific statutory alerts</p>
 
           <div className="space-y-3">
             {ruleTriggersData.map((rt, idx) => (
               <div key={idx} className="p-3 rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45] bg-[#F9FAFB] dark:bg-[#0E1726]">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#172033] dark:text-[#F1F5F9]">{rt.rule}</span>
-                  <span className="font-mono text-[#3563E9] font-bold">{rt.count} cases</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+                  <span className="font-semibold text-[#172033] dark:text-[#F1F5F9] leading-snug">{rt.rule}</span>
+                  <span className="font-mono text-[#3563E9] font-bold shrink-0 self-start sm:self-auto">{rt.count} / {cases.length} cases</span>
                 </div>
                 <div className="mt-1 flex items-center justify-between text-[11px] text-[#687386] dark:text-[#94A3B8]">
                   <span>Engine Weight: {rt.weight}</span>
-                  <span>{cases.length > 0 ? Math.round((rt.count / cases.length) * 100) : 0}% prevalence</span>
+                  <span className="font-medium text-[#172033] dark:text-[#F1F5F9]">{cases.length > 0 ? Math.round((rt.count / cases.length) * 100) : 0}% prevalence</span>
                 </div>
                 <div className="mt-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
                   <div

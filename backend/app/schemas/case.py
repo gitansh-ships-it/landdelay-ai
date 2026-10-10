@@ -244,6 +244,7 @@ class ImportPreviewResponse(BaseSchema):
     invalid_rows_count: int
     errors: List[CSVValidationError]
     sample_records: List[Dict[str, Any]]
+    valid_records: List[Dict[str, Any]] = []
     data_source_detected: str
 
 class ImportConfirmRequest(BaseSchema):

@@ -8,15 +8,19 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'light',
+  theme: 'dark',
   toggleTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem('landdelay_theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    return 'light'; // Default to serene light mode first
+    try {
+      const saved = localStorage.getItem('landdelay_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+    } catch (_) {
+      // In case localStorage is disabled or restricted
+    }
+    return 'dark'; // Default to Dark Mode for first-time visitors
   });
 
   useEffect(() => {
@@ -26,7 +30,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('landdelay_theme', theme);
+    try {
+      localStorage.setItem('landdelay_theme', theme);
+    } catch (_) {}
   }, [theme]);
 
   const toggleTheme = () => {

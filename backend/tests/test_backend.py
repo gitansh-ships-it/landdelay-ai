@@ -104,6 +104,85 @@ def test_risk_engine_overdue_override():
     assert res.risk_category == "HIGH"
     assert res.risk_score >= 70.0
 
+def test_risk_engine_overdue_boundary_tests():
+    today = date.today()
+
+    # 1. Test 29 days overdue: should NOT trigger the >= 30 days High Risk override
+    c_29 = AcquisitionCase(
+        case_id="TEST-BND-29",
+        project_id="PRJ-BND-01",
+        project_name="Boundary Test Corridor",
+        project_type="Highway",
+        state="Maharashtra",
+        district="Thane",
+        land_required_hectares=10.0,
+        land_acquired_hectares=8.0,
+        current_stage="Survey & Boundary Demarcation",
+        stage_entry_date=today - timedelta(days=35), # Within 90-day benchmark
+        planned_stage_date=today - timedelta(days=29), # 29 days overdue
+        actual_stage_date=None,
+        compensation_pending_pct=0.0,
+        open_dispute_count=0,
+        documents_incomplete=False,
+        data_source="VERIFIED_PUBLIC_DATA",
+        last_updated_at=datetime.utcnow()
+    )
+    res_29 = risk_engine.evaluate(c_29, current_date=today)
+    # 29 days overdue: milestone slippage contributes 35.0 points (< 40.0 MEDIUM threshold -> LOW)
+    assert res_29.risk_score == 35.0
+    assert res_29.risk_category == "LOW"
+    assert not any("Schedule milestone overdue by >= 30 days" in w for w in res_29.rule_warnings)
+
+    # 2. Test 30 days overdue: boundary trigger, MUST trigger High Risk override (>= 70.0)
+    c_30 = AcquisitionCase(
+        case_id="TEST-BND-30",
+        project_id="PRJ-BND-01",
+        project_name="Boundary Test Corridor",
+        project_type="Highway",
+        state="Maharashtra",
+        district="Thane",
+        land_required_hectares=10.0,
+        land_acquired_hectares=8.0,
+        current_stage="Survey & Boundary Demarcation",
+        stage_entry_date=today - timedelta(days=35),
+        planned_stage_date=today - timedelta(days=30), # 30 days overdue
+        actual_stage_date=None,
+        compensation_pending_pct=0.0,
+        open_dispute_count=0,
+        documents_incomplete=False,
+        data_source="VERIFIED_PUBLIC_DATA",
+        last_updated_at=datetime.utcnow()
+    )
+    res_30 = risk_engine.evaluate(c_30, current_date=today)
+    assert res_30.risk_score >= 70.0
+    assert res_30.risk_category == "HIGH"
+    assert any("Schedule milestone overdue by >= 30 days" in w for w in res_30.rule_warnings)
+
+    # 3. Test 31 days overdue: firmly exceeds boundary, MUST trigger High Risk override (>= 70.0)
+    c_31 = AcquisitionCase(
+        case_id="TEST-BND-31",
+        project_id="PRJ-BND-01",
+        project_name="Boundary Test Corridor",
+        project_type="Highway",
+        state="Maharashtra",
+        district="Thane",
+        land_required_hectares=10.0,
+        land_acquired_hectares=8.0,
+        current_stage="Survey & Boundary Demarcation",
+        stage_entry_date=today - timedelta(days=35),
+        planned_stage_date=today - timedelta(days=31), # 31 days overdue
+        actual_stage_date=None,
+        compensation_pending_pct=0.0,
+        open_dispute_count=0,
+        documents_incomplete=False,
+        data_source="VERIFIED_PUBLIC_DATA",
+        last_updated_at=datetime.utcnow()
+    )
+    res_31 = risk_engine.evaluate(c_31, current_date=today)
+    assert res_31.risk_score >= 70.0
+    assert res_31.risk_category == "HIGH"
+    assert any("Schedule milestone overdue by >= 30 days" in w for w in res_31.rule_warnings)
+
 def test_action_items_lifecycle():
     res_cases = client.get("/api/cases?page=1&page_size=1")
     test_case_id = res_cases.json()["items"][0]["case_id"]

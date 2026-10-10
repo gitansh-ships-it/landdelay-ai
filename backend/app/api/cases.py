@@ -16,7 +16,7 @@ router = APIRouter(prefix="/cases", tags=["Acquisition Cases"])
 @router.get("", response_model=CaseListResponse)
 def list_cases(
     page: int = Query(1, ge=1),
-    page_size: int = Query(10, ge=1, le=100),
+    page_size: int = Query(10, ge=1, le=500),
     search: Optional[str] = Query(None),
     project: Optional[str] = Query(None),
     district: Optional[str] = Query(None),

@@ -14,6 +14,7 @@ import { AcquisitionCase, RiskAssessment } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTheme } from '../context/ThemeContext';
 import { createPortal } from 'react-dom';
+import { LoadingScreen } from '../components/LoadingScreen';
 
 export const CaseDetail: React.FC = () => {
   const { caseId } = useParams<{ caseId: string }>();
@@ -21,6 +22,7 @@ export const CaseDetail: React.FC = () => {
   const { theme } = useTheme();
 
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [caseData, setCaseData] = useState<AcquisitionCase | null>(null);
   const [riskAssessment, setRiskAssessment] = useState<RiskAssessment | null>(null);
 
@@ -71,6 +73,7 @@ export const CaseDetail: React.FC = () => {
     if (!caseId) return;
     try {
       setLoading(true);
+      setFetchError(null);
       const [c, r] = await Promise.all([
         api.getCase(caseId),
         api.getCaseRisk(caseId)
@@ -84,8 +87,9 @@ export const CaseDetail: React.FC = () => {
         open_dispute_count: c.open_dispute_count,
         documents_incomplete: c.documents_incomplete,
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to load case detail:', err);
+      setFetchError(err?.message || 'Failed to retrieve case details');
     } finally {
       setLoading(false);
     }
@@ -135,11 +139,13 @@ export const CaseDetail: React.FC = () => {
     setIsActionOpen(true);
   };
 
-  if (loading || !caseData) {
+  if ((loading || !caseData) && !caseData) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 text-[#687386] dark:text-[#94A3B8]">
-        <p className="text-sm">Retrieving acquisition parcel dossier...</p>
-      </div>
+      <LoadingScreen
+        message="Retrieving acquisition parcel dossier..."
+        error={fetchError}
+        onRetry={fetchDetail}
+      />
     );
   }
 
@@ -280,6 +286,38 @@ export const CaseDetail: React.FC = () => {
                 )}
               </div>
               <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">Revenue / SDM court</div>
+            </div>
+
+            <div className="p-3 bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg">
+              <div className="text-[11px] font-medium text-[#687386] dark:text-[#94A3B8]">Title Documentation</div>
+              <div className="text-xs font-bold mt-1">
+                {caseData.documents_incomplete ? (
+                  <span className="text-[#DC3545]">Deficiencies Noted</span>
+                ) : (
+                  <span className="text-[#19966B]">Verified Complete</span>
+                )}
+              </div>
+              <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">Gazette & Revenue Records</div>
+            </div>
+
+            <div className="p-3 bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg">
+              <div className="text-[11px] font-medium text-[#687386] dark:text-[#94A3B8]">Milestone Velocity</div>
+              <div className="text-xs font-bold mt-1 font-mono">
+                {caseData.delay_days > 0 ? (
+                  <span className="text-[#DC3545]">+{caseData.delay_days} days overdue</span>
+                ) : (
+                  <span className="text-[#19966B]">Within Benchmark</span>
+                )}
+              </div>
+              <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">Statutory timeline tracking</div>
+            </div>
+
+            <div className="p-3 bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] rounded-lg">
+              <div className="text-[11px] font-medium text-[#687386] dark:text-[#94A3B8]">Data Provenance</div>
+              <div className="text-xs font-bold text-[#172033] dark:text-[#F1F5F9] mt-1 font-mono">
+                {caseData.verification_status || 'VERIFIED'}
+              </div>
+              <div className="text-[10px] text-[#687386] dark:text-[#94A3B8] mt-0.5">{caseData.data_source}</div>
             </div>
           </div>
         </div>

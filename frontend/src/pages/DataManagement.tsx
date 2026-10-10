@@ -72,10 +72,14 @@ export const DataManagement: React.FC = () => {
   };
 
   const handleConfirmImport = async () => {
-    if (!preview || preview.sample_records.length === 0) return;
+    if (!preview) return;
+    const recordsToIngest = preview.valid_records && preview.valid_records.length > 0
+      ? preview.valid_records
+      : preview.sample_records;
+    if (!recordsToIngest || recordsToIngest.length === 0) return;
     try {
       setIsImporting(true);
-      const res = await api.confirmCSV(importSource, preview.sample_records);
+      const res = await api.confirmCSV(importSource, recordsToIngest);
       setImportResult(res.message);
       setPreview(null);
       setSelectedFile(null);
@@ -94,7 +98,7 @@ export const DataManagement: React.FC = () => {
 
   const handleReseedDemo = async () => {
     const key = window.prompt(
-      "Admin Authorization Required\n\nEnter Admin Key to authorize database reset (local default: landdelay-admin-secret-2026):"
+      "Admin Authorization Required\n\nEnter configured server ADMIN_RESET_KEY to authorize database reset:"
     );
     if (!key) return;
 

@@ -19,17 +19,24 @@ export const Settings: React.FC = () => {
   const [healthStatus, setHealthStatus] = useState<any>(null);
   const [savedNotice, setSavedNotice] = useState<string | null>(null);
 
-  // Local settings state
-  const [config, setConfig] = useState({
-    highRiskThreshold: 70,
-    mediumRiskThreshold: 40,
-    stalenessDays: 45,
-    weightOverdue: 35,
-    weightStageDuration: 20,
-    weightIncompleteDocs: 15,
-    weightCompensationPending: 15,
-    weightDisputes: 10,
-    weightStaleness: 5
+  // Local settings state with localStorage persistence
+  const [config, setConfig] = useState(() => {
+    const defaults = {
+      highRiskThreshold: 70,
+      mediumRiskThreshold: 40,
+      stalenessDays: 45,
+      weightOverdue: 35,
+      weightStageDuration: 20,
+      weightIncompleteDocs: 15,
+      weightCompensationPending: 15,
+      weightDisputes: 10,
+      weightStaleness: 5
+    };
+    try {
+      const saved = localStorage.getItem('landdelay_engine_config');
+      if (saved) return { ...defaults, ...JSON.parse(saved) };
+    } catch (_) {}
+    return defaults;
   });
 
   useEffect(() => {
@@ -40,7 +47,10 @@ export const Settings: React.FC = () => {
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    setSavedNotice('Statutory parameters saved to active application state.');
+    try {
+      localStorage.setItem('landdelay_engine_config', JSON.stringify(config));
+    } catch (_) {}
+    setSavedNotice('Statutory parameters saved to active application state and persisted.');
     setTimeout(() => setSavedNotice(null), 4000);
   };
 
@@ -77,8 +87,8 @@ export const Settings: React.FC = () => {
           <span>System Environment & Service Telemetry</span>
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-          <div className="p-4 rounded-lg bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] shadow-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-xs">
+          <div className="p-3.5 sm:p-4 rounded-lg bg-[#F9FAFB] dark:bg-[#0E1726] border border-[#E1E7EF] dark:border-[#1F2E45] shadow-xs">
             <div className="flex items-center justify-between">
               <span className="text-[#687386] dark:text-[#94A3B8] font-medium">FastAPI Service Status</span>
               <Activity className="h-3.5 w-3.5 text-[#687386]" />

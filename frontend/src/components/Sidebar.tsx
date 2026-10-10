@@ -94,7 +94,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   />
                   <div>
                     <h1 className="font-bold text-base text-white tracking-tight flex items-center gap-1.5">
-                      LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#3563E9]/20 text-[#60A5FA] font-mono font-medium border border-[#3563E9]/40">AI</span>
+                      LandDelay <span className="inline-flex items-center justify-center text-[9px] leading-none px-1 py-0.5 rounded bg-[#3563E9]/15 text-[#60A5FA] font-mono font-medium border border-[#3563E9]/30 tracking-wide">AI</span>
                     </h1>
                     <p className="text-[10px] text-[#94A3B8] font-medium">Predictive Delay Analytics</p>
                   </div>
@@ -119,7 +119,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 />
                 <div className="min-w-0">
                   <h1 className="font-bold text-base text-white tracking-tight flex items-center gap-1.5">
-                    LandDelay <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#3563E9]/20 text-[#60A5FA] font-mono font-medium border border-[#3563E9]/40">AI</span>
+                    LandDelay <span className="inline-flex items-center justify-center text-[9px] leading-none px-1 py-0.5 rounded bg-[#3563E9]/15 text-[#60A5FA] font-mono font-medium border border-[#3563E9]/30 tracking-wide">AI</span>
                   </h1>
                   <p className="text-[10px] text-[#94A3B8] font-medium truncate">Predictive Delay Analytics</p>
                 </div>

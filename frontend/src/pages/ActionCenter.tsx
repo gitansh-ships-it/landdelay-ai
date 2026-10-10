@@ -20,6 +20,7 @@ export const ActionCenter: React.FC = () => {
   const { theme } = useTheme();
 
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [actions, setActions] = useState<ActionItem[]>([]);
 
   // Filters
@@ -41,6 +42,7 @@ export const ActionCenter: React.FC = () => {
   const fetchActions = async () => {
     try {
       setLoading(true);
+      setFetchError(null);
       const params: Record<string, string> = {};
       if (statusFilter) params.status = statusFilter;
       if (priorityFilter) params.priority = priorityFilter;
@@ -48,8 +50,9 @@ export const ActionCenter: React.FC = () => {
 
       const res = await api.getActions(params);
       setActions(res);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to load actions:', err);
+      setFetchError(err?.message || 'Failed to retrieve administrative actions from server');
     } finally {
       setLoading(false);
     }
@@ -78,6 +81,16 @@ export const ActionCenter: React.FC = () => {
     }
   }, [isModalOpen]);
 
+  // User Feedback Toast
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const showFeedback = (type: 'success' | 'error', message: string) => {
+    setFeedback({ type, message });
+    setTimeout(() => {
+      setFeedback(null);
+    }, 3500);
+  };
+
   const handleStatusToggle = async (action: ActionItem) => {
     let nextStatus = 'IN_PROGRESS';
     if (action.status === 'OPEN') nextStatus = 'IN_PROGRESS';
@@ -86,9 +99,10 @@ export const ActionCenter: React.FC = () => {
 
     try {
       await api.updateAction(action.action_id, { status: nextStatus });
+      showFeedback('success', `Directive #${action.action_id} updated to ${nextStatus}`);
       fetchActions();
     } catch (err: any) {
-      alert(`Failed to update status: ${err.message}`);
+      showFeedback('error', `Failed to update status: ${err.message}`);
     }
   };
 
@@ -121,41 +135,41 @@ export const ActionCenter: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
-      {/* Top Bar Summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="glass-card p-5 flex items-center justify-between">
+      {/* Top Bar Summary: compact 3-column row on mobile and desktop */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
+        <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Open Directives</div>
-            <div className="text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{openCount}</div>
+            <div className="text-[10px] sm:text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider truncate">Open Directives</div>
+            <div className="text-lg sm:text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-0.5 sm:mt-1 font-mono">{openCount}</div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs">
+          <div className="hidden sm:flex h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 items-center justify-center text-[#3563E9] shadow-xs shrink-0">
             <Clock className="h-5 w-5" />
           </div>
         </div>
 
-        <div className="glass-card p-5 flex items-center justify-between">
+        <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">In Progress</div>
-            <div className="text-2xl font-bold text-[#E9A23B] mt-1">{inProgressCount}</div>
+            <div className="text-[10px] sm:text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider truncate">In Progress</div>
+            <div className="text-lg sm:text-2xl font-bold text-[#E9A23B] mt-0.5 sm:mt-1 font-mono">{inProgressCount}</div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-[#E9A23B]/10 border border-[#E9A23B]/20 flex items-center justify-center text-[#E9A23B] shadow-xs">
+          <div className="hidden sm:flex h-10 w-10 rounded-lg bg-[#E9A23B]/10 border border-[#E9A23B]/20 items-center justify-center text-[#E9A23B] shadow-xs shrink-0">
             <AlertCircle className="h-5 w-5" />
           </div>
         </div>
 
-        <div className="glass-card p-5 flex items-center justify-between">
+        <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
           <div>
-            <div className="text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Completed / Resolved</div>
-            <div className="text-2xl font-bold text-[#19966B] mt-1">{completedCount}</div>
+            <div className="text-[10px] sm:text-xs font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider truncate">Resolved</div>
+            <div className="text-lg sm:text-2xl font-bold text-[#19966B] mt-0.5 sm:mt-1 font-mono">{completedCount}</div>
           </div>
-          <div className="h-10 w-10 rounded-lg bg-[#19966B]/10 border border-[#19966B]/20 flex items-center justify-center text-[#19966B] shadow-xs">
+          <div className="hidden sm:flex h-10 w-10 rounded-lg bg-[#19966B]/10 border border-[#19966B]/20 items-center justify-center text-[#19966B] shadow-xs shrink-0">
             <CheckCircle2 className="h-5 w-5" />
           </div>
         </div>
       </div>
 
       {/* Filters & Actions Bar */}
-      <div className="glass-panel p-4 flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-panel p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <select
             value={statusFilter}
@@ -211,11 +225,54 @@ export const ActionCenter: React.FC = () => {
         </button>
       </div>
 
+      {/* User Feedback Toast Notification */}
+      {feedback && (
+        <div
+          className={`p-3.5 rounded-xl border text-xs font-semibold flex items-center justify-between shadow-md transition-all ${
+            feedback.type === 'success'
+              ? 'bg-[#ECFDF5] dark:bg-[#19966B]/20 text-[#065F46] dark:text-[#34D399] border-[#A7F3D0] dark:border-[#19966B]/30'
+              : 'bg-[#FEF2F2] dark:bg-[#DC3545]/20 text-[#DC3545] dark:text-[#F87171] border-[#FECACA] dark:border-[#DC3545]/30'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            {feedback.type === 'success' ? (
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-[#19966B]" />
+            ) : (
+              <AlertCircle className="h-4 w-4 shrink-0 text-[#DC3545]" />
+            )}
+            <span>{feedback.message}</span>
+          </div>
+          <button
+            onClick={() => setFeedback(null)}
+            className="text-[11px] underline opacity-80 hover:opacity-100 cursor-pointer"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
+
       {/* Actions List */}
       <div className="space-y-3">
         {loading ? (
           <div className="glass-panel p-12 text-center text-[#687386] dark:text-[#94A3B8]">
-            Loading administrative actions...
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <span className="w-2 h-2 rounded-full bg-[#3563E9] animate-ping" />
+              <span className="text-xs font-medium">Loading administrative directives...</span>
+            </div>
+          </div>
+        ) : fetchError ? (
+          <div className="glass-panel p-8 text-center bg-white dark:bg-[#121E31] border border-[#FECACA] dark:border-[#DC3545]/40 rounded-xl space-y-3">
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#DC3545]">
+              <AlertCircle className="w-4 h-4" />
+              <span>Failed to load administrative actions</span>
+            </div>
+            <p className="text-xs text-[#687386] dark:text-[#94A3B8] max-w-md mx-auto">{fetchError}</p>
+            <button
+              onClick={fetchActions}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3563E9] text-white text-xs font-medium hover:bg-[#2B52C6] transition-colors cursor-pointer"
+            >
+              Retry Request
+            </button>
           </div>
         ) : actions.length === 0 ? (
           <div className="glass-panel p-12 text-center text-[#687386] dark:text-[#94A3B8]">
@@ -225,43 +282,50 @@ export const ActionCenter: React.FC = () => {
           actions.map((act) => (
             <div
               key={act.action_id}
-              className={`p-5 rounded-xl border transition-colors flex flex-wrap items-center justify-between gap-4 ${
+              className={`p-4 sm:p-5 rounded-xl border transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3.5 sm:gap-4 ${
                 act.status === 'COMPLETED'
                   ? 'bg-white/60 dark:bg-[#121E31]/60 border-[#E1E7EF] dark:border-[#1F2E45] opacity-75'
                   : 'glass-card hover:border-[#3563E9]'
               }`}
             >
-              <div className="space-y-1.5 max-w-2xl">
-                <div className="flex items-center gap-2">
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${
+              <div className="space-y-2 flex-1 min-w-0">
+                {/* Meta Header Row: Priority Badge + Case ID + Project Location separated clearly */}
+                <div className="flex flex-wrap items-center gap-2 text-xs">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider shrink-0 ${
                     act.priority === 'HIGH' ? 'bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30' :
                     act.priority === 'MEDIUM' ? 'bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] border border-[#FDE68A] dark:border-[#E9A23B]/30' :
                     'bg-slate-100 dark:bg-slate-800 text-[#687386] dark:text-[#94A3B8] border border-[#E1E7EF] dark:border-[#1F2E45]'
                   }`}>
                     {act.priority} PRIORITY
                   </span>
-                  <span className="font-mono text-xs font-bold text-[#3563E9]">
+
+                  <span className="font-mono text-xs font-bold text-[#3563E9] shrink-0 bg-[#3563E9]/10 px-2 py-0.5 rounded-md border border-[#3563E9]/20">
                     {act.case_id}
                   </span>
+
                   {act.project_name && (
-                    <span className="text-xs text-[#687386] dark:text-[#94A3B8]">
-                      • {act.project_name} ({act.district})
+                    <span className="text-xs text-[#687386] dark:text-[#94A3B8] truncate max-w-full sm:max-w-md">
+                      &bull; {act.project_name} ({act.district})
                     </span>
                   )}
                 </div>
 
-                <h4 className={`text-sm font-bold ${act.status === 'COMPLETED' ? 'line-through text-[#687386] dark:text-[#94A3B8]' : 'text-[#172033] dark:text-[#F1F5F9]'}`}>
-                  {act.title}
-                </h4>
-                <p className="text-xs text-[#687386] dark:text-[#94A3B8] leading-relaxed">{act.description}</p>
+                {/* Directive Title & Description */}
+                <div>
+                  <h4 className={`text-sm font-bold leading-snug ${act.status === 'COMPLETED' ? 'line-through text-[#687386] dark:text-[#94A3B8]' : 'text-[#172033] dark:text-[#F1F5F9]'}`}>
+                    {act.title}
+                  </h4>
+                  <p className="text-xs text-[#687386] dark:text-[#94A3B8] leading-relaxed mt-0.5">{act.description}</p>
+                </div>
 
-                <div className="flex flex-wrap items-center gap-4 text-[11px] text-[#687386] dark:text-[#94A3B8] pt-1">
+                {/* Role and Due Date Tags */}
+                <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] text-[#687386] dark:text-[#94A3B8] pt-0.5">
                   <span className="flex items-center gap-1">
-                    <User className="h-3 w-3 text-[#3563E9]" />
+                    <User className="h-3 w-3 text-[#3563E9] shrink-0" />
                     <span>Role: <strong className="text-[#172033] dark:text-[#F1F5F9] font-semibold">{act.assigned_role}</strong></span>
                   </span>
                   <span className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3 text-[#3563E9]" />
+                    <Calendar className="h-3 w-3 text-[#3563E9] shrink-0" />
                     <span>Target Due: <strong className="text-[#172033] dark:text-[#F1F5F9] font-semibold">{new Date(act.due_date).toLocaleDateString()}</strong></span>
                   </span>
                   {act.completed_at && (
@@ -272,7 +336,8 @@ export const ActionCenter: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              {/* Status Controls and External Dossier Link */}
+              <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#E1E7EF] dark:border-[#1F2E45] shrink-0">
                 <button
                   onClick={() => handleStatusToggle(act)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer ${
@@ -281,13 +346,13 @@ export const ActionCenter: React.FC = () => {
                     'bg-[#ECFDF5] dark:bg-[#19966B]/15 text-[#065F46] dark:text-[#34D399] border-[#A7F3D0] dark:border-[#19966B]/30 hover:bg-emerald-100'
                   }`}
                 >
-                  <CheckCircle2 className="h-3.5 w-3.5" />
-                  <span>Status: {act.status} (Toggle)</span>
+                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+                  <span>Status: {act.status}</span>
                 </button>
 
                 <button
                   onClick={() => navigate(`/cases/${act.case_id}`)}
-                  className="glass-btn-secondary p-1.5 rounded-lg"
+                  className="glass-btn-secondary p-1.5 rounded-lg shrink-0 cursor-pointer"
                   title="Open case dossier"
                 >
                   <ExternalLink className="h-4 w-4" />

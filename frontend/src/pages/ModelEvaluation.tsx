@@ -141,12 +141,37 @@ export const ModelEvaluation: React.FC = () => {
                   Baseline Logistic Regression with L2 regularization vs Decision Tree / Ensemble comparison
                 </p>
               </div>
-              <div className="sm:hidden text-[11px] text-[#3563E9] font-medium flex items-center gap-1 pt-0.5">
-                <span>← Scroll horizontally for full comparison →</span>
-              </div>
             </div>
 
-            <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
+            {/* Mobile Metric Cards View (< sm) */}
+            <div className="sm:hidden p-3.5 space-y-2.5">
+              {[
+                { name: 'Accuracy', base: `${(baseline.accuracy * 100).toFixed(1)}%`, comp: comparison ? `${(comparison.accuracy * 100).toFixed(1)}%` : '—', desc: 'Proportion of all correct predictions' },
+                { name: 'Precision', base: `${(baseline.precision * 100).toFixed(1)}%`, comp: comparison ? `${(comparison.precision * 100).toFixed(1)}%` : '—', desc: 'Minimizes false alarms for project officers' },
+                { name: 'Recall (Delay Coverage)', base: `${(baseline.recall * 100).toFixed(1)}%`, comp: comparison ? `${(comparison.recall * 100).toFixed(1)}%` : '—', desc: 'Catches emerging milestones slipping schedule' },
+                { name: 'F1 Score (Balanced)', base: String(baseline.f1_score.toFixed(3)), comp: comparison ? String(comparison.f1_score.toFixed(3)) : '—', desc: 'Harmonic mean of precision and recall' },
+                { name: 'Brier Score Loss', base: String(baseline.brier_score ?? '—'), comp: comparison ? String(comparison.brier_score) : '—', desc: 'Probability calibration (lower is better)' },
+                { name: 'PR-AUC', base: String(baseline.pr_auc ?? '—'), comp: comparison ? String(comparison.pr_auc) : '—', desc: 'Area under Precision-Recall curve' },
+              ].map((m, idx) => (
+                <div key={idx} className="p-3 rounded-lg border border-[#E1E7EF] dark:border-[#1F2E45] bg-[#F9FAFB] dark:bg-[#0E1726] space-y-1.5">
+                  <div className="text-xs font-bold text-[#172033] dark:text-[#F1F5F9]">{m.name}</div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="p-2 rounded-md bg-white dark:bg-[#121E31] border border-[#3563E9]/20">
+                      <span className="text-[10px] text-[#687386] dark:text-[#94A3B8] block">Logistic Regression</span>
+                      <span className="font-mono font-bold text-[#3563E9] text-sm">{m.base}</span>
+                    </div>
+                    <div className="p-2 rounded-md bg-white dark:bg-[#121E31] border border-[#E1E7EF] dark:border-[#1F2E45]">
+                      <span className="text-[10px] text-[#687386] dark:text-[#94A3B8] block">Tree Ensemble</span>
+                      <span className="font-mono font-bold text-[#172033] dark:text-[#F1F5F9] text-sm">{m.comp}</span>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-[#687386] dark:text-[#94A3B8]">{m.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table (sm and up) */}
+            <div className="hidden sm:block w-full min-w-0 overflow-x-auto overscroll-x-contain">
               <table className="w-full min-w-[720px] text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-[#F9FAFB] dark:bg-[#0E1726] text-[#687386] dark:text-[#94A3B8] uppercase font-semibold text-[11px] border-b border-[#E1E7EF] dark:border-[#1F2E45]">

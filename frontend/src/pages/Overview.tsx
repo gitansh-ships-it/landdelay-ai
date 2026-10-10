@@ -20,6 +20,7 @@ import { api } from '../services/api';
 import { DashboardSummary, DashboardCharts } from '../types';
 import { RiskBadge } from '../components/RiskBadge';
 import { useTheme } from '../context/ThemeContext';
+import { LoadingScreen } from '../components/LoadingScreen';
 
 export const Overview: React.FC = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ export const Overview: React.FC = () => {
   const { refreshTrigger } = useOutletContext<{ refreshTrigger: number }>() || { refreshTrigger: 0 };
 
   const [loading, setLoading] = useState(true);
+  const [initError, setInitError] = useState<string | null>(null);
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [charts, setCharts] = useState<DashboardCharts | null>(null);
 
@@ -41,6 +43,7 @@ export const Overview: React.FC = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
+      setInitError(null);
       const cleanedFilters: Record<string, string> = {};
       Object.entries(filters).forEach(([k, v]) => {
         if (v) cleanedFilters[k] = v;
@@ -53,12 +56,17 @@ export const Overview: React.FC = () => {
 
       if (summarySettled.status === 'fulfilled') {
         setSummary(summarySettled.value);
+      } else {
+        const msg = (summarySettled.reason as Error)?.message || 'Failed to fetch summary';
+        setInitError(msg);
       }
+
       if (chartsSettled.status === 'fulfilled') {
         setCharts(chartsSettled.value);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to load dashboard data:', err);
+      setInitError(err?.message || 'Network connection error');
     } finally {
       setLoading(false);
     }
@@ -87,12 +95,13 @@ export const Overview: React.FC = () => {
     padding: '8px 12px'
   };
 
-  if (loading && !summary) {
+  if ((loading && !summary) || (initError && !summary)) {
     return (
-      <div className="flex flex-col items-center justify-center h-96 gap-3">
-        <RefreshCw className="h-8 w-8 text-[#3563E9] animate-spin" />
-        <p className="text-sm text-[#687386] dark:text-[#94A3B8] font-medium">Computing live acquisition analytics...</p>
-      </div>
+      <LoadingScreen
+        message="Preparing your workspace..."
+        error={initError}
+        onRetry={fetchData}
+      />
     );
   }
 
@@ -200,67 +209,67 @@ export const Overview: React.FC = () => {
         </div>
       ) : (
         <>
-          {/* KPI Cards Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          {/* KPI Cards Row: 2-column compact on mobile, 5-column on desktop */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 sm:gap-4">
             {/* Total Cases */}
-            <div className="glass-card flex items-center justify-between">
+            <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Total Cases</p>
-                <h3 className="text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{kpis.total_cases}</h3>
-                <p className="text-[11px] text-[#3563E9] mt-0.5 font-medium">Active acquisitions</p>
+                <p className="text-[10px] sm:text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Total Cases</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-0.5 sm:mt-1">{kpis.total_cases}</h3>
+                <p className="text-[10px] sm:text-[11px] text-[#3563E9] mt-0.5 font-medium truncate">Active acquisitions</p>
               </div>
-              <div className="h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs">
-                <Building className="h-5 w-5" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs shrink-0">
+                <Building className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
             </div>
 
             {/* High Risk Cases */}
-            <div className="glass-card flex items-center justify-between">
+            <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">High Risk Cases</p>
-                <h3 className="text-2xl font-bold text-[#DC3545] mt-1">{kpis.high_risk_cases}</h3>
-                <p className="text-[11px] text-[#DC3545] mt-0.5 font-medium">
-                  {Math.round((kpis.high_risk_cases / kpis.total_cases) * 100)}% of total volume
+                <p className="text-[10px] sm:text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">High Risk</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#DC3545] mt-0.5 sm:mt-1">{kpis.high_risk_cases}</h3>
+                <p className="text-[10px] sm:text-[11px] text-[#DC3545] mt-0.5 font-medium truncate">
+                  {Math.round((kpis.high_risk_cases / kpis.total_cases) * 100)}% of total
                 </p>
               </div>
-              <div className="h-10 w-10 rounded-lg bg-[#DC3545]/10 border border-[#DC3545]/20 flex items-center justify-center text-[#DC3545] shadow-xs">
-                <AlertTriangle className="h-5 w-5" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-[#DC3545]/10 border border-[#DC3545]/20 flex items-center justify-center text-[#DC3545] shadow-xs shrink-0">
+                <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
             </div>
 
             {/* Overdue Milestones */}
-            <div className="glass-card flex items-center justify-between">
+            <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Overdue Milestones</p>
-                <h3 className="text-2xl font-bold text-[#E9A23B] mt-1">{kpis.overdue_milestones_cases}</h3>
-                <p className="text-[11px] text-[#E9A23B] mt-0.5 font-medium">Deadline slippage</p>
+                <p className="text-[10px] sm:text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Overdue</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#E9A23B] mt-0.5 sm:mt-1">{kpis.overdue_milestones_cases}</h3>
+                <p className="text-[10px] sm:text-[11px] text-[#E9A23B] mt-0.5 font-medium truncate">Deadline slip</p>
               </div>
-              <div className="h-10 w-10 rounded-lg bg-[#E9A23B]/10 border border-[#E9A23B]/20 flex items-center justify-center text-[#E9A23B] shadow-xs">
-                <Clock className="h-5 w-5" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-[#E9A23B]/10 border border-[#E9A23B]/20 flex items-center justify-center text-[#E9A23B] shadow-xs shrink-0">
+                <Clock className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
             </div>
 
             {/* Acquisition Progress */}
-            <div className="glass-card flex items-center justify-between">
+            <div className="glass-card p-3 sm:p-5 flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Acquisition Progress</p>
-                <h3 className="text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{kpis.avg_acquisition_progress_pct}%</h3>
-                <p className="text-[11px] text-[#19966B] mt-0.5 font-medium">Avg land handed over</p>
+                <p className="text-[10px] sm:text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Acquisition</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-0.5 sm:mt-1">{kpis.avg_acquisition_progress_pct}%</h3>
+                <p className="text-[10px] sm:text-[11px] text-[#19966B] mt-0.5 font-medium truncate">Land handed over</p>
               </div>
-              <div className="h-10 w-10 rounded-lg bg-[#19966B]/10 border border-[#19966B]/20 flex items-center justify-center text-[#19966B] shadow-xs">
-                <TrendingUp className="h-5 w-5" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-[#19966B]/10 border border-[#19966B]/20 flex items-center justify-center text-[#19966B] shadow-xs shrink-0">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
             </div>
 
             {/* Pending Actions */}
-            <div className="glass-card flex items-center justify-between sm:col-span-2 lg:col-span-1">
+            <div className="glass-card p-3 sm:p-5 flex items-center justify-between col-span-2 sm:col-span-2 lg:col-span-1">
               <div>
-                <p className="text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Pending Actions</p>
-                <h3 className="text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-1">{kpis.pending_actions_count}</h3>
-                <p className="text-[11px] text-[#687386] dark:text-[#94A3B8] mt-0.5 font-medium">Directives queued</p>
+                <p className="text-[10px] sm:text-[11px] font-semibold text-[#687386] dark:text-[#94A3B8] uppercase tracking-wider">Directives</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-[#172033] dark:text-[#F1F5F9] mt-0.5 sm:mt-1">{kpis.pending_actions_count}</h3>
+                <p className="text-[10px] sm:text-[11px] text-[#687386] dark:text-[#94A3B8] mt-0.5 font-medium truncate">Actions queued</p>
               </div>
-              <div className="h-10 w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs">
-                <ListChecks className="h-5 w-5" />
+              <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-[#3563E9]/10 border border-[#3563E9]/20 flex items-center justify-center text-[#3563E9] shadow-xs shrink-0">
+                <ListChecks className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
             </div>
           </div>
@@ -353,38 +362,44 @@ export const Overview: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <div className="h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={charts?.monthly_progression || []}
-                    margin={{ top: 10, right: 15, left: 0, bottom: 0 }}
-                  >
-                    <defs>
-                      <linearGradient id="gradInitiated" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3563E9" stopOpacity={0.25} />
-                        <stop offset="95%" stopColor="#3563E9" stopOpacity={0.0} />
-                      </linearGradient>
-                      <linearGradient id="gradDelayed" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#DC3545" stopOpacity={0.25} />
-                        <stop offset="95%" stopColor="#DC3545" stopOpacity={0.0} />
-                      </linearGradient>
-                      <linearGradient id="gradCompleted" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#19966B" stopOpacity={0.25} />
-                        <stop offset="95%" stopColor="#19966B" stopOpacity={0.0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#1F2E45' : '#E1E7EF'} />
-                    <XAxis dataKey="month" tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 11 }} />
-                    <YAxis tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 11 }} width={30} />
-                    <RechartsTooltip contentStyle={enterpriseTooltipStyle} />
-                    <Area type="monotone" dataKey="cases_started" name="Initiated" stroke="#3563E9" strokeWidth={2} fill="url(#gradInitiated)" animationDuration={400} />
-                    <Area type="monotone" dataKey="cases_delayed" name="Delayed" stroke="#DC3545" strokeWidth={2} fill="url(#gradDelayed)" animationDuration={400} />
-                    <Area type="monotone" dataKey="cases_completed" name="Completed" stroke="#19966B" strokeWidth={2} fill="url(#gradCompleted)" animationDuration={400} />
-                    <Legend
-                      formatter={(value) => <span className="text-xs text-[#172033] dark:text-[#F1F5F9] font-medium">{value}</span>}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+              <div className="h-64 sm:h-72 w-full min-w-0">
+                {(!charts?.monthly_progression || charts.monthly_progression.length === 0) ? (
+                  <div className="h-full flex flex-col items-center justify-center text-[#687386] dark:text-[#94A3B8] gap-2">
+                    <p className="text-xs font-medium">No milestone progression recorded for the selected filter range.</p>
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={200}>
+                    <AreaChart
+                      data={charts.monthly_progression}
+                      margin={{ top: 10, right: 15, left: 0, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient id="gradInitiated" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3563E9" stopOpacity={0.25} />
+                          <stop offset="95%" stopColor="#3563E9" stopOpacity={0.0} />
+                        </linearGradient>
+                        <linearGradient id="gradDelayed" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#DC3545" stopOpacity={0.25} />
+                          <stop offset="95%" stopColor="#DC3545" stopOpacity={0.0} />
+                        </linearGradient>
+                        <linearGradient id="gradCompleted" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#19966B" stopOpacity={0.25} />
+                          <stop offset="95%" stopColor="#19966B" stopOpacity={0.0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#1F2E45' : '#E1E7EF'} />
+                      <XAxis dataKey="month" tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 11 }} />
+                      <YAxis tick={{ fill: isDark ? '#94A3B8' : '#687386', fontSize: 11 }} width={30} />
+                      <RechartsTooltip contentStyle={enterpriseTooltipStyle} />
+                      <Area type="monotone" dataKey="cases_started" name="Initiated" stroke="#3563E9" strokeWidth={2} fill="url(#gradInitiated)" animationDuration={400} />
+                      <Area type="monotone" dataKey="cases_delayed" name="Delayed" stroke="#DC3545" strokeWidth={2} fill="url(#gradDelayed)" animationDuration={400} />
+                      <Area type="monotone" dataKey="cases_completed" name="Completed" stroke="#19966B" strokeWidth={2} fill="url(#gradCompleted)" animationDuration={400} />
+                      <Legend
+                        formatter={(value) => <span className="text-xs text-[#172033] dark:text-[#F1F5F9] font-medium">{value}</span>}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                )}
               </div>
             </div>
 

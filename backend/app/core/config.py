@@ -44,6 +44,21 @@ class Settings(BaseSettings):
     # Security: In production, supply a random secret via ADMIN_RESET_KEY environment variable
     ADMIN_RESET_KEY: str = os.getenv("ADMIN_RESET_KEY", "landdelay-admin-secret-2026")
 
+    @field_validator("ADMIN_RESET_KEY")
+    @classmethod
+    def validate_admin_reset_key(cls, v: str, info) -> str:
+        env = os.getenv("ENVIRONMENT", "development").lower()
+        if env in ("production", "prod"):
+            if not v or v.strip() in ("landdelay-admin-secret-2026", "secret", "admin", "password", "123456"):
+                raise ValueError(
+                    "Production startup rejected: ADMIN_RESET_KEY must be configured with a strong, non-default secret in production."
+                )
+            if len(v.strip()) < 16:
+                raise ValueError(
+                    "Production startup rejected: ADMIN_RESET_KEY must be at least 16 characters in production."
+                )
+        return v
+
     # Auto-seed controls on startup
     AUTO_SEED_DEMO_DATA: bool = os.getenv("AUTO_SEED_DEMO_DATA", "true").lower() in ("true", "1", "yes")
 

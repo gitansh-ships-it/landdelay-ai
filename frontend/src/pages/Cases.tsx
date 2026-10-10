@@ -26,6 +26,7 @@ export const Cases: React.FC = () => {
   const { refreshTrigger } = useOutletContext<{ refreshTrigger: number }>() || { refreshTrigger: 0 };
 
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [data, setData] = useState<CaseListResponse>({
     items: [],
     total: 0,
@@ -91,6 +92,7 @@ export const Cases: React.FC = () => {
   const fetchCases = async () => {
     try {
       setLoading(true);
+      setFetchError(null);
       const res = await api.getCases({
         page: currentPage,
         page_size: pageSize,
@@ -103,8 +105,9 @@ export const Cases: React.FC = () => {
         sort_order: sortOrder
       });
       setData(res);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to fetch cases:', err);
+      setFetchError(err?.message || 'Failed to retrieve cases from server');
     } finally {
       setLoading(false);
     }
@@ -211,11 +214,11 @@ export const Cases: React.FC = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
           <select
             value={stageFilter}
             onChange={(e) => { setStageFilter(e.target.value); setCurrentPage(1); }}
-            className="glass-input text-xs px-2.5 py-2"
+            className="glass-input text-xs px-2.5 py-2 w-full sm:w-auto"
           >
             <option value="">All Stages</option>
             <option value="Preliminary Notification">Preliminary Notification</option>
@@ -230,7 +233,7 @@ export const Cases: React.FC = () => {
           <select
             value={riskFilter}
             onChange={(e) => { setRiskFilter(e.target.value); setCurrentPage(1); }}
-            className="glass-input text-xs px-2.5 py-2"
+            className="glass-input text-xs px-2.5 py-2 w-full sm:w-auto"
           >
             <option value="">All Risk</option>
             <option value="HIGH">High Risk</option>
@@ -241,7 +244,7 @@ export const Cases: React.FC = () => {
           <select
             value={typeFilter}
             onChange={(e) => { setTypeFilter(e.target.value); setCurrentPage(1); }}
-            className="glass-input text-xs px-2.5 py-2"
+            className="glass-input text-xs px-2.5 py-2 w-full sm:w-auto"
           >
             <option value="">All Sectors</option>
             <option value="Highway">Highway</option>
@@ -254,52 +257,195 @@ export const Cases: React.FC = () => {
           <select
             value={sourceFilter}
             onChange={(e) => { setSourceFilter(e.target.value); setCurrentPage(1); }}
-            className="glass-input text-xs px-2.5 py-2"
+            className="glass-input text-xs px-2.5 py-2 w-full sm:w-auto"
           >
             <option value="">All Sources</option>
             <option value="SYNTHETIC_DEMO_DATA">Synthetic Demo Data</option>
             <option value="VERIFIED_PUBLIC_DATA">Verified Public Data</option>
           </select>
 
-          <button
-            onClick={handleExportCSV}
-            title="Export filtered cases as CSV"
-            className="glass-btn-secondary text-xs px-3 py-2 flex items-center gap-1.5"
-          >
-            <Download className="h-3.5 w-3.5" />
-            <span>Export</span>
-          </button>
+          <div className="col-span-2 sm:col-auto flex items-center gap-2">
+            <button
+              onClick={handleExportCSV}
+              title="Export filtered cases as CSV"
+              className="glass-btn-secondary text-xs px-3 py-2 flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
+            >
+              <Download className="h-3.5 w-3.5" />
+              <span>Export</span>
+            </button>
 
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="glass-btn-primary text-xs px-3 py-2 flex items-center gap-1.5"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            <span>New Case</span>
-          </button>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="glass-btn-primary text-xs px-3 py-2 flex items-center justify-center gap-1.5 flex-1 sm:flex-initial"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              <span>New Case</span>
+            </button>
+
+            {(search || stageFilter || riskFilter || typeFilter || sourceFilter) && (
+              <button
+                onClick={() => {
+                  setSearch('');
+                  setStageFilter('');
+                  setRiskFilter('');
+                  setTypeFilter('');
+                  setSourceFilter('');
+                  setCurrentPage(1);
+                }}
+                className="text-xs text-[#3563E9] hover:underline font-semibold px-2 py-1 cursor-pointer shrink-0"
+              >
+                Reset
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Cases Registry Table */}
+      {/* Cases Registry Container */}
       <div className="w-full min-w-0 glass-panel overflow-hidden">
-        <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
-          <table className="w-full min-w-[860px] text-left border-collapse text-xs">
+        {/* Mobile View: Responsive cards (< sm) */}
+        <div className="sm:hidden divide-y divide-[#E1E7EF] dark:divide-[#1F2E45]">
+          {loading ? (
+            <div className="py-12 text-center text-[#687386] dark:text-[#94A3B8]">
+              <div className="flex items-center justify-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#3563E9] animate-ping" />
+                <span>Loading acquisition cases...</span>
+              </div>
+            </div>
+          ) : fetchError ? (
+            <div className="p-6 text-center space-y-2">
+              <div className="text-xs font-semibold text-[#DC3545]">Failed to load acquisition cases</div>
+              <p className="text-xs text-[#687386] dark:text-[#94A3B8]">{fetchError}</p>
+              <button
+                onClick={fetchCases}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3563E9] text-white text-xs font-medium cursor-pointer"
+              >
+                Retry Query
+              </button>
+            </div>
+          ) : data.items.length === 0 ? (
+            <div className="py-12 text-center text-xs text-[#687386] dark:text-[#94A3B8]">
+              No matching cases found.
+            </div>
+          ) : (
+            data.items.map((c) => (
+              <div
+                key={c.case_id}
+                onClick={() => navigate(`/cases/${c.case_id}`)}
+                className="p-4 space-y-3 hover:bg-[#F5F7FA] dark:hover:bg-[#1A2A42]/50 transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-800"
+              >
+                {/* Header: Case ID + Sector + Risk Badge */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-xs text-[#3563E9]">{c.case_id}</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[#687386] dark:text-[#94A3B8] font-medium">
+                      {c.project_type}
+                    </span>
+                  </div>
+                  <RiskBadge category={c.risk_category} score={c.risk_score} size="sm" />
+                </div>
+
+                {/* Project Title & Location */}
+                <div>
+                  <h4 className="font-bold text-xs text-[#172033] dark:text-[#F1F5F9] leading-snug">
+                    {c.project_name}
+                  </h4>
+                  <p className="text-[11px] text-[#687386] dark:text-[#94A3B8] mt-0.5">
+                    {c.district}, {c.state}
+                  </p>
+                </div>
+
+                {/* Statutory Stage & Delay */}
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="text-[11px] text-[#687386] dark:text-[#94A3B8] shrink-0">Stage:</span>
+                    <span className="inline-flex items-center font-medium text-[#172033] dark:text-[#E2E8F0] text-[11px] px-2.5 py-1 rounded-md bg-[#F1F5F9] dark:bg-[#1E293B] border border-[#E1E7EF] dark:border-[#2D3F58] leading-tight break-words">
+                      {c.current_stage}
+                    </span>
+                  </div>
+                  <div>
+                    {c.delay_days > 0 ? (
+                      <span className="text-[11px] font-semibold text-[#DC3545] font-mono">
+                        +{c.delay_days}d late
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-[#19966B] font-medium font-mono">On schedule</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Land Acquisition Progress Bar */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-[11px] text-[#687386] dark:text-[#94A3B8]">
+                    <span>Land Handover:</span>
+                    <span className="font-mono font-semibold text-[#172033] dark:text-[#F1F5F9]">
+                      {c.land_acquired_hectares} / {c.land_required_hectares} ha ({Math.round((c.land_acquired_hectares / (c.land_required_hectares || 1)) * 100)}%)
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                    <div
+                      className="bg-[#19966B] h-1.5 rounded-full"
+                      style={{
+                        width: `${Math.min(100, (c.land_acquired_hectares / (c.land_required_hectares || 1)) * 100)}%`
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Footer: Indicator tags + View Action */}
+                <div className="pt-1 flex items-center justify-between gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {c.documents_incomplete && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] font-medium">
+                        Docs Missing
+                      </span>
+                    )}
+                    {c.open_dispute_count > 0 && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] dark:text-[#FBBF24] font-medium">
+                        {c.open_dispute_count} Dispute(s)
+                      </span>
+                    )}
+                    {c.compensation_pending_pct !== null && (c.compensation_pending_pct ?? 0) > 30 && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#3563E9]/10 text-[#3563E9] font-mono">
+                        {c.compensation_pending_pct}% Unpaid
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/cases/${c.case_id}`);
+                    }}
+                    className="px-2.5 py-1 text-xs font-semibold text-[#3563E9] hover:text-[#2B52C6] bg-[#3563E9]/10 rounded-md transition-colors inline-flex items-center gap-1 shrink-0"
+                  >
+                    <span>View Dossier</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop & Tablet Table (sm and up) */}
+        <div className="hidden sm:block w-full min-w-0 overflow-x-auto overscroll-x-contain">
+          <table className="w-full min-w-[1040px] text-left border-collapse text-xs">
             <thead>
               <tr className="bg-[#F9FAFB] dark:bg-[#0E1726] text-[#687386] dark:text-[#94A3B8] uppercase font-semibold text-[11px] border-b border-[#E1E7EF] dark:border-[#1F2E45]">
                 <th
                   onClick={() => handleSort('case_id')}
-                  className="py-3 px-4 min-w-[120px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[110px] w-[115px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Case ID</span>
                     <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
-                <th className="py-3 px-4 min-w-[180px]">Project & Location</th>
-                <th className="py-3 px-4 min-w-[150px]">Stage</th>
+                <th className="py-3 px-4 min-w-[200px]">Project & Location</th>
+                <th className="py-3 px-4 min-w-[230px] w-[240px]">Stage</th>
                 <th
                   onClick={() => handleSort('land_required_hectares')}
-                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[105px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Land (ha)</span>
@@ -308,24 +454,24 @@ export const Cases: React.FC = () => {
                 </th>
                 <th
                   onClick={() => handleSort('delay_days')}
-                  className="py-3 px-4 min-w-[90px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[85px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Delay</span>
                     <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
-                <th className="py-3 px-4 min-w-[110px]">Indicators</th>
+                <th className="py-3 px-4 min-w-[95px]">Indicators</th>
                 <th
                   onClick={() => handleSort('risk_score')}
-                  className="py-3 px-4 min-w-[110px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
+                  className="py-3 px-4 min-w-[115px] cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 select-none transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1">
                     <span>Risk Level</span>
                     <ArrowUpDown className="h-3 w-3 text-[#3563E9]" />
                   </div>
                 </th>
-                <th className="py-3 px-4 min-w-[110px]">Data Source</th>
+                <th className="py-3 px-4 min-w-[95px]">Data Source</th>
                 <th className="py-3 px-4 min-w-[70px] text-right">Action</th>
               </tr>
             </thead>
@@ -333,7 +479,25 @@ export const Cases: React.FC = () => {
               {loading ? (
                 <tr>
                   <td colSpan={9} className="py-12 text-center text-[#687386] dark:text-[#94A3B8]">
-                    Loading acquisition cases...
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#3563E9] animate-ping" />
+                      <span>Loading acquisition cases...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : fetchError ? (
+                <tr>
+                  <td colSpan={9} className="py-12 text-center">
+                    <div className="max-w-md mx-auto space-y-2">
+                      <div className="text-xs font-semibold text-[#DC3545]">Failed to load acquisition cases</div>
+                      <p className="text-xs text-[#687386] dark:text-[#94A3B8]">{fetchError}</p>
+                      <button
+                        onClick={fetchCases}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#3563E9] text-white text-xs font-medium hover:bg-[#2B52C6] transition-colors cursor-pointer"
+                      >
+                        Retry Query
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ) : data.items.length === 0 ? (
@@ -349,23 +513,23 @@ export const Cases: React.FC = () => {
                     onClick={() => navigate(`/cases/${c.case_id}`)}
                     className="hover:bg-[#F5F7FA] dark:hover:bg-[#1A2A42]/50 transition-colors cursor-pointer group"
                   >
-                    <td className="py-3 px-4 font-mono font-bold text-[#3563E9] whitespace-nowrap">
+                    <td className="py-3 px-4 font-mono font-bold text-[#3563E9] whitespace-nowrap align-middle">
                       {c.case_id}
                     </td>
-                    <td className="py-3 px-4">
-                      <div className="font-semibold text-[#172033] dark:text-[#F1F5F9] group-hover:text-[#3563E9] transition-colors">
+                    <td className="py-3 px-4 align-middle">
+                      <div className="font-semibold text-[#172033] dark:text-[#F1F5F9] group-hover:text-[#3563E9] transition-colors leading-snug">
                         {c.project_name}
                       </div>
-                      <div className="text-[11px] text-[#687386] dark:text-[#94A3B8]">
+                      <div className="text-[11px] text-[#687386] dark:text-[#94A3B8] mt-0.5">
                         {c.district}, {c.state} • <span className="font-medium text-[#172033] dark:text-[#F1F5F9]">{c.project_type}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-[#172033] dark:text-[#F1F5F9] font-medium">
-                      <span className="px-2 py-0.5 rounded-md bg-[#F5F7FA] dark:bg-[#1E293B] text-[#172033] dark:text-[#F1F5F9] border border-[#E1E7EF] dark:border-[#1F2E45]">
+                    <td className="py-3 px-4 align-middle whitespace-nowrap">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-[#F1F5F9] dark:bg-[#1E293B] text-[#172033] dark:text-[#E2E8F0] border border-[#E1E7EF] dark:border-[#2D3F58] text-[11px] font-medium leading-none tracking-tight shadow-xs">
                         {c.current_stage}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-4 align-middle">
                       <div className="text-[#172033] dark:text-[#F1F5F9] font-mono">
                         {c.land_acquired_hectares} / {c.land_required_hectares}
                       </div>
@@ -378,7 +542,7 @@ export const Cases: React.FC = () => {
                         />
                       </div>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-4 align-middle">
                       {c.delay_days > 0 ? (
                         <span className="font-semibold text-[#DC3545] font-mono">
                           +{c.delay_days}d late
@@ -387,7 +551,7 @@ export const Cases: React.FC = () => {
                         <span className="text-[#19966B] font-medium font-mono">On schedule</span>
                       )}
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="py-3 px-4 align-middle">
                       <div className="flex items-center gap-1.5">
                         {c.documents_incomplete ? (
                           <span title="Documentation Incomplete" className="p-1 rounded bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545]">
@@ -410,10 +574,10 @@ export const Cases: React.FC = () => {
                         )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 whitespace-nowrap">
+                    <td className="py-3 px-4 whitespace-nowrap align-middle">
                       <RiskBadge category={c.risk_category} score={c.risk_score} size="sm" />
                     </td>
-                    <td className="py-3 px-4 whitespace-nowrap">
+                    <td className="py-3 px-4 whitespace-nowrap align-middle">
                       {c.data_source === 'SYNTHETIC_DEMO_DATA' ? (
                         <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-[#FFFBEB] dark:bg-[#E9A23B]/15 text-[#B45309] dark:text-[#FBBF24] border border-[#FDE68A] dark:border-[#E9A23B]/30">
                           SYNTHETIC
@@ -424,7 +588,7 @@ export const Cases: React.FC = () => {
                         </span>
                       )}
                     </td>
-                    <td className="py-3 px-4 text-right whitespace-nowrap">
+                    <td className="py-3 px-4 text-right whitespace-nowrap align-middle">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
