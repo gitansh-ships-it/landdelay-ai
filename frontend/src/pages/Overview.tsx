@@ -448,7 +448,60 @@ export const Overview: React.FC = () => {
               </button>
             </div>
 
-            <div className="w-full min-w-0 overflow-x-auto overscroll-x-contain">
+            {/* Mobile Card List (< sm) */}
+            <div className="sm:hidden divide-y divide-[#E1E7EF] dark:divide-[#1F2E45]">
+              {charts?.recent_alerts?.map((alert) => (
+                <div
+                  key={alert.case_id}
+                  onClick={() => navigate(`/cases/${alert.case_id}`)}
+                  className="p-4 space-y-2.5 hover:bg-[#F5F7FA] dark:hover:bg-[#1A2A42]/40 transition-colors cursor-pointer active:bg-slate-100 dark:active:bg-slate-800"
+                >
+                  {/* Row 1: Case ID, Project Name, and Risk Badge */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-bold text-xs text-[#3563E9]">{alert.case_id}</span>
+                        <span className="text-[11px] text-[#687386] dark:text-[#94A3B8]">• {alert.district}</span>
+                      </div>
+                      <h5 className="font-semibold text-xs text-[#172033] dark:text-[#F1F5F9] mt-0.5 truncate">
+                        {alert.project_name}
+                      </h5>
+                    </div>
+                    <div className="shrink-0">
+                      <RiskBadge category={alert.risk_category} score={alert.risk_score} size="sm" />
+                    </div>
+                  </div>
+
+                  {/* Row 2: Current Stage */}
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="text-[#687386] dark:text-[#94A3B8] font-medium">Stage:</span>
+                    <span className="font-semibold text-[#172033] dark:text-[#F1F5F9] truncate max-w-[220px]">
+                      {alert.current_stage}
+                    </span>
+                  </div>
+
+                  {/* Row 3: Primary Risk Trigger & Details Link */}
+                  <div className="pt-1 flex items-center justify-between gap-2">
+                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30 text-[11px] font-medium leading-tight">
+                      {alert.primary_warning}
+                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/cases/${alert.case_id}`);
+                      }}
+                      className="text-xs text-[#3563E9] hover:text-[#2B52C6] font-semibold flex items-center gap-1 shrink-0 px-2 py-1 rounded hover:bg-[#3563E9]/10 transition-colors"
+                    >
+                      <span>Details</span>
+                      <ArrowRight className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop & Tablet Table (sm and up) */}
+            <div className="hidden sm:block w-full min-w-0 overflow-x-auto overscroll-x-contain">
               <table className="w-full min-w-[680px] text-left border-collapse text-xs">
                 <thead>
                   <tr className="bg-[#F9FAFB] dark:bg-[#0E1726] text-[#687386] dark:text-[#94A3B8] uppercase font-semibold text-[11px] border-b border-[#E1E7EF] dark:border-[#1F2E45]">
@@ -475,7 +528,7 @@ export const Overview: React.FC = () => {
                       </td>
                       <td className="py-3 px-4 text-[#172033] dark:text-[#F1F5F9] font-medium">{alert.current_stage}</td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-md bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30 text-[11px] font-medium">
+                        <span className="inline-block px-2 py-0.5 rounded-md bg-[#FEF2F2] dark:bg-[#DC3545]/15 text-[#DC3545] border border-[#FECACA] dark:border-[#DC3545]/30 text-[11px] font-medium">
                           {alert.primary_warning}
                         </span>
                       </td>

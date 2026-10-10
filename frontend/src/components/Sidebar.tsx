@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               {/* Collapsed view on desktop: compact logo + expand chevron */}
               <div className="hidden lg:flex items-center justify-between w-full px-1">
                 <img
-                  src="/landdelay-logo.png"
+                  src="/landdelay-ai-logo.png"
                   alt="LandDelay AI"
                   className="h-10 w-10 rounded-xl object-contain shadow-xs shrink-0 drop-shadow-[0_2px_8px_rgba(53,99,233,0.35)]"
                   title="LandDelay AI"
@@ -88,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className="flex lg:hidden items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   <img
-                    src="/landdelay-logo.png"
+                    src="/landdelay-ai-logo.png"
                     alt="LandDelay AI"
                     className="h-10 w-10 rounded-xl object-contain shadow-xs shrink-0 drop-shadow-[0_2px_8px_rgba(53,99,233,0.35)]"
                   />
@@ -113,7 +113,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-3 min-w-0">
                 <img
-                  src="/landdelay-logo.png"
+                  src="/landdelay-ai-logo.png"
                   alt="LandDelay AI"
                   className="h-10 w-10 rounded-xl object-contain shadow-xs shrink-0 drop-shadow-[0_2px_8px_rgba(53,99,233,0.35)]"
                 />
